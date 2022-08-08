@@ -1,0 +1,95 @@
+/* 공통 */
+/* 노토 산스 */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+*{
+    margin:0;
+    padding:0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size:15px;
+}
+
+html, body{
+    width:100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-weight:300;
+}
+
+input{
+    outline: 0;
+    box-sizing: border-box;
+    border:0;
+}
+button{
+    cursor:pointer;
+    background:0;
+    border:0;
+    padding:0;
+}
+img{
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+textarea{
+    outline: 0;
+    resize: none;
+}
+ul{
+    list-style: none;
+}
+ol{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color:#121212;
+}
+input::placeholder{
+    color:#C3C4C5;
+}
+select{
+    outline: 0;
+    border:0;
+    box-sizing: border-box;
+}
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+.btn_password{
+    width:22px;
+    height:15px;
+    background-image:url("/img/pt/icon_eye.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:100% auto;
+    text-indent: -9999px;
+}
+input[type=radio]{
+    display:none;
+}
+input[type=checkbox]{
+    display:none;
+}
+input[type=checkbox] + label{
+    display:flex;
+    align-items: center;
+}
+input[type=checkbox] + label:before{
+    content:"";
+    display:block;
+    width:18px;
+    height:18px;
+    border:1px solid #6B6C6E;
+    border-radius:3px;
+    box-sizing: border-box;
+}
+input[type=checkbox]:checked + label:before{
+    background:url("/img/common/checkbox_checked.png") no-repeat center/100% auto;
+    border:0;
+
+}
+
+

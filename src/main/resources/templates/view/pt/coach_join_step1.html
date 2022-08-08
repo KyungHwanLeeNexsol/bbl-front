@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="join">
+        <header>
+            <button class="btn_back">뒤로가기</button>
+            <h2>코치로 회원가입</h2>
+        </header>
+        <div class="inner">
+            <img src="/img/pt/join_step1.png" class="img_join_step">
+
+            <dl>
+                <dt>아이디</dt>
+                <dd>
+                    <input type="text" name="userName">
+                    <button type="button" class="btn_check_id">중복확인</button>
+                    <p class="id_result"></p>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>비밀번호</dt>
+                <dd>
+                    <input type="password" name="password1" placeholder="비밀번호를 입력해주세요.">
+                    <button type="button" class="btn_password" onclick="showPassword(this)">비밀번호 보기</button>
+                    <p class="password_guide">비밀번호는 숫자, 영문자, 특수문자를 포함한 9 ~ 20자로 입력해주세요.</p>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>비밀번호 확인</dt>
+                <dd>
+                    <input type="password" name="password2" placeholder="비밀번호를 한번 더 입력해주세요.">
+                    <button type="button" class="btn_password" onclick="showPassword(this)">비밀번호 보기</button>
+                </dd>
+            </dl>
+            <button type="button" class="btn_next">다음</button>
+        </div><!--.inner-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+           let userName = $("input[name=userName]");
+           let passwordCheck = false;
+            let idReg = new RegExp(/^(?=.*[a-z])(?=.*\d)[a-z\d]{5,20}$/g);
+            let passwordReg =  /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+            let idResult = $("p.id_result");
+            let nextBtn = $("button.btn_next");
+
+            $("button.btn_back").click(function(){
+                history.back();
+            });
+
+            $("button.btn_check_id").click(function(){
+                let regResult = false;
+                idReg.lastIndex = 0;
+
+                idResult.removeClass();
+                idResult.addClass("id_result");
+
+                if(!idReg.test(userName.val())){
+                    idResult.addClass("reg");
+                    return false;
+                }
+
+                if(regResult === true){
+                    // 아이디 정규식 실패
+                    idResult.addClass("failure");
+                    nextBtn.removeClass("active");
+                }else{
+                    // 아이디 중복체크
+                    $.ajax({
+                       url :  "http://43.200.31.249:80/api/trainer/email-check?userName=" + userName.val(),
+                        type : "POST",
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+                        success:function(response){
+                           console.log(response);
+
+                            if(response.flag === true){
+                                idResult.addClass("success");
+
+                                if(passwordCheck === true){
+                                    nextBtn.addClass("active");
+                                }
+
+                            }else if(response.flag === false){
+                                idResult.addClass("overlap");
+                                nextBtn.removeClass("active");
+                            }
+                        },
+                        error:function(error){
+                           console.log(error);
+                            nextBtn.removeClass("active");
+                        }
+                    });
+                }
+            });
+
+            userName.keyup(function(){
+                idResult.removeClass();
+                idResult.addClass("id_result");
+                nextBtn.removeClass("active");
+            });
+
+            $("input[type=password]").keyup(function(){
+                passwordCheck = passwordReg.test($(this).val()) === true && $("input[name=password1]").val() === $("input[name=password2]").val();
+
+                if(idResult.hasClass("success") && passwordCheck === true){
+                    nextBtn.addClass("active");
+                }else{
+                    nextBtn.removeClass("active");
+                }
+            });
+
+            nextBtn.click(function(){
+                if($(this).hasClass("active")){
+                    location.href = "/pt/coach_join_step2?userName="+userName.val()+"&password="+$("input[name=password2]").val();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

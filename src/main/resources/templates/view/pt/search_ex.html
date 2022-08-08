@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="search_ex">
+        <header>
+            <button type="button" class="btn_close">닫기</button>
+            <input type="text" name="search_center_name">
+            <button type="button" class="btn_delete">지우기</button>
+        </header>
+        <div class="ex_category_list">
+            <button data-ex="all">전체</button>
+            <button data-ex="chest">가슴</button>
+            <button data-ex="back">등</button>
+            <button data-ex="leg">하체</button>
+            <button data-ex="shoulder">어깨</button>
+            <button data-ex="arm">팔</button>
+            <button data-ex="abs">복근</button>
+            <button data-ex="aerobic">유산소</button>
+        </div><!--.ex_category_list-->
+
+        <ul>
+            <li>
+                <span>가슴</span>
+                <div>벤치프레스</div>
+                <div>푸쉬업</div>
+                <div>딥스</div>
+                <div>덤벨풀오버</div>
+                <div>체스트 프레스</div>
+                <div>케이블 크로스 오버</div>
+            </li>
+            <li>
+                <span>등</span>
+                <div>랫풀다운</div>
+                <div>비하인드 넥 풀다운</div>
+                <div>운동1</div>
+                <div>운동2</div>
+                <div>운동3</div>
+                <div>운동4</div>
+            </li>
+        </ul>
+    </div><!--.search_ex-->
+
+    <script>
+
+    </script>
+</body>
+
+</html>

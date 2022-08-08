@@ -1,0 +1,153 @@
+<div class="record_box">
+    <h4>인바디 결과</h4>
+    <ul class="record_list inbody_list">
+        <li>
+            <div class="record_list_top">
+                <dl>
+                    <dt>체중</dt>
+                    <dd><b></b></dd>
+                </dl>
+                <span><b>59.3</b>kg</span>
+            </div><!--.record_list_top-->
+            <div class="record_list_bottom">
+                <div class="inbody_graph" data-percent="45">
+                    <div class="graph_gauge">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <div class="end_point"></div>
+                    </div><!--.graph_gauge-->
+                    <div class="graph_back">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div><!--.graph_back-->
+                </div><!--.inbody_graph-->
+                <div class="graph_labels">
+                    <span>표준 이하</span>
+                    <span>표준</span>
+                    <span>표준 이상</span>
+                </div><!--.graph_labels-->
+            </div>
+        </li>
+        <li>
+            <div class="record_list_top">
+                <dl>
+                    <dt>체지방량</dt>
+                    <dd><b></b></dd>
+                </dl>
+                <span><b>13.9</b>kg</span>
+            </div><!--.record_list_top-->
+            <div class="record_list_bottom">
+                <div class="inbody_graph" data-percent="50">
+                    <div class="graph_gauge">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <div class="end_point"></div>
+                    </div><!--.graph_gauge-->
+                    <div class="graph_back">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div><!--.graph_back-->
+                </div><!--.inbody_graph-->
+                <div class="graph_labels">
+                    <span>표준 이하</span>
+                    <span>표준</span>
+                    <span>표준 이상</span>
+                </div><!--.graph_labels-->
+            </div>
+        </li>
+        <li>
+            <div class="record_list_top">
+                <dl>
+                    <dt>체지방률</dt>
+                    <dd><b></b></dd>
+                </dl>
+                <span><b>23.4</b>%</span>
+            </div><!--.record_list_top-->
+            <div class="record_list_bottom">
+                <div class="inbody_graph" data-percent="45">
+                    <div class="graph_gauge">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <div class="end_point"></div>
+                    </div><!--.graph_gauge-->
+                    <div class="graph_back">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div><!--.graph_back-->
+                </div><!--.inbody_graph-->
+                <div class="graph_labels">
+                    <span>표준 이하</span>
+                    <span>표준</span>
+                    <span>표준 이상</span>
+                </div><!--.graph_labels-->
+            </div>
+        </li>
+        <li>
+            <div class="record_list_top">
+                <dl>
+                    <dt>근육량</dt>
+                    <dd><b></b></dd>
+                </dl>
+                <span><b>27.2</b>kg</span>
+            </div><!--.record_list_top-->
+            <div class="record_list_bottom">
+                <div class="inbody_graph" data-percent="40">
+                    <div class="graph_gauge">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <div class="end_point"></div>
+                    </div><!--.graph_gauge-->
+                    <div class="graph_back">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div><!--.graph_back-->
+                </div><!--.inbody_graph-->
+                <div class="graph_labels">
+                    <span>표준 이하</span>
+                    <span>표준</span>
+                    <span>표준 이상</span>
+                </div><!--.graph_labels-->
+            </div>
+        </li>
+    </ul><!--.record_list-->
+</div><!--.record_box-->
+
+<script>
+    $(document).ready(function(){
+        let graph_width = $("div.inbody_graph").width();
+        let end_point_width = $("div.end_point").width();
+
+        $("div.inbody_graph").each(function(index, item){
+            let percent = $(item).data("percent");
+            let gauge_width = (graph_width * percent / 100);
+            let gauge_after_bg = "";
+            let inbody_result = "";
+
+            if(percent <= 33){
+                gauge_after_bg = "#6B6C6E";
+                inbody_result = "표준 이하";
+            }else if(percent > 33 && percent <= 67){
+                gauge_after_bg = "#849EFF";
+                inbody_result = "표준";
+            }else if(percent > 67){
+                gauge_after_bg = "#FF7E7E";
+                inbody_result = "표준 이상";
+            }
+
+            $(item).find("div.graph_gauge").css("clip", "rect(-3.5px, "+ gauge_width +"px, 20px, 0)");
+            $(item).find("div.end_point").css({
+               "background":gauge_after_bg,
+               "left":gauge_width - end_point_width + "px",
+            });
+            $(item).parent().parent().find("dl dd b").text(inbody_result);
+        });
+    });
+</script>

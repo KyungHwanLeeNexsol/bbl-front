@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="notice">
+
+<!--        <header class="main_header">-->
+<!--            <button type="button" class="btn_notification">알림 내역</button>-->
+<!--            <h1 class="logo">-->
+<!--                <a href="/pt"><img src="/img/common/logo.png" alt="BBL"></a>-->
+<!--            </h1>-->
+<!--            <button type="button" class="btn_menu">메뉴</button>-->
+<!--        </header>-->
+        <th:block th:replace="/fragments/pt/header :: header"></th:block>
+        <div class="container">
+            <h3>BBL 공지사항</h3>
+            <div class="inner">
+                <h4>[업데이트 안내] 평가 작성 기능 안내</h4>
+                <span class="notice_date">2022. 04. 15</span>
+                <div class="notice_content">
+                    [코치님 대상 공지]<br>
+                    <br>
+                    안녕하세요, 운동닥터입니다.<br>
+                    <br>
+                    회원의 1회체험 취소 접수 시 처리 절차가 다음과 같이 개선될 예정입니다.<br>
+                    <br>
+                    -기존 : 고객센터에서 코치-회원 확인 후 처리<br>
+                    -변경 : 코치가 앱에서 환불 여부 선택 후 고객센터에서 처리. 취소 접수 후 48시간 이내 선택 없는 경우 시스템 자동 환불.<br>
+                    <br>
+                    ※코치님께 취소접수에 대한 환불여부를 선택하는 알림이 앱 푸시와 문자로 발송됩니다.<br>
+                    <br>
+                    -변경 예정일 : 7/29~8/10 기간 점진적으로 변경<br>
+                    (위 기간동안 사용자 앱 업데이트 여부에 따라 기존/변경 방법이 함께 적용됩니다)<br>
+                    <br>
+                    코치님의 원활한 이용을 위해 앞으로도 계속 노력하겠습니다. 궁금한점 있으시면 언제든 고객센터로 문의 주세요.<br>
+                    <br>
+                    감사합니다.
+                </div><!--.notice_content-->
+                <button class="btn_list">목록으로</button>
+            </div>
+        </div><!--.conatainer-->
+
+    </div><!--.manage_member_schedule-->
+
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="join">
+        <header>
+            <button class="btn_back">뒤로가기</button>
+            <h2>코치로 회원가입</h2>
+        </header>
+        <div class="inner">
+            <img src="/img/pt/join_step2.png" class="img_join_step">
+
+            <dl>
+                <dt>이름(실명)</dt>
+                <dd>
+                    <input type="text" name="ptTrainerName">
+                </dd>
+            </dl>
+            <dl>
+                <dt>코치 예명</dt>
+                <dd>
+                    <input type="text" name="nickName">
+                </dd>
+            </dl>
+            <dl>
+                <dt>휴대폰 번호</dt>
+                <dd>
+                    <input type="number" name="phoneNumber" placeholder="하이픈(-)을 제외하고 입력해주세요.">
+<!--                    <button type="button" class="btn_certification">인증번호 발송</button>-->
+                </dd>
+            </dl>
+
+<!--            <dl>-->
+<!--                <dt>인증 번호</dt>-->
+<!--                <dd>-->
+<!--                    <input type="password" name="certification_number" placeholder="인증번호를 입력해주세요.">-->
+<!--                    <p class="certification_time">인증시간 03:00</p>-->
+<!--                </dd>-->
+<!--            </dl>-->
+            <button type="button" class="btn_next">다음</button>
+        </div><!--.inner-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get('userName');
+            const password = urlParams.get('password');
+
+            let ptTrainerName = $("input[name=ptTrainerName]");
+            let nickName = $("input[name=nickName]");
+            let phoneNumber = $("input[name=phoneNumber]");
+            let elDas = false // 본인인증 여부
+            let nextBtn = $("button.btn_next");
+
+            $("button.btn_back").click(function(){
+                history.back();
+            });
+
+            $("input").keyup(function(){
+                if(ptTrainerName.val() && nickName.val() && phoneNumber.val()){
+                    nextBtn.addClass("active");
+                }else{
+                    nextBtn.removeClass("active");
+                }
+            });
+
+            nextBtn.click(function(){
+               if($(this).hasClass("active")){
+                   location.href = "/pt/coach_join_step3?" +
+                       "id="+id+
+                       "&password="+password +
+                       "&ptTrainerName="+ptTrainerName.val()+
+                       "&nickName="+nickName.val()+
+                       "&phoneNumber="+phoneNumber.val()+
+                       "&elDas="+elDas;
+               }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

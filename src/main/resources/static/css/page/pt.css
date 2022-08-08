@@ -1,0 +1,3659 @@
+/* pt */
+
+/* 공통*/
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance:none;
+    appearance:none;
+    background: url("/img/pt/icon_triangle_gray.png") no-repeat 95% center/15px auto #EDEDEE;
+    border-radius: 5px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select:required:invalid{
+    color:#9FA0A1;
+}
+
+
+#app{
+    width:100%;
+    min-height: 100vh;
+    height:100%;
+    box-sizing: border-box;
+}
+.inner{
+    padding:0 3%;
+    height:100%;
+}
+
+.container{
+    display:flex;
+    flex-direction: column;
+}
+.container > section{
+    border-bottom:10px solid #EDEDEE;
+    background:#fff;
+    padding:20px 0;
+}
+.container > section:last-child{
+    border-bottom:0;
+    margin-bottom:0;
+    padding-bottom:0;
+}
+.container > section h3{
+    font-size:20px;
+    margin-bottom:10px;
+    text-align:left;
+    display:flex;
+    justify-content: space-between;
+}
+.container > section h3 button{
+    color:#053B82;
+}
+.container > div.bottom_button_box{
+    display:flex;
+    justify-content: space-between;
+    margin-top:auto;
+    text-align:center;
+    padding:10px 3%;
+    border-top:1px solid #EDEDEE;
+}
+
+.container > div.bottom_button_box button.btn_save{
+    width:100%;
+    background:#EB004F;
+    color:#fff;
+    border-radius:5px;
+    padding:10px 0;
+}
+
+p.message_gray{
+    font-size:14px;
+    color:#9FA0A1;
+}
+/* custom select */
+div.select-box{
+    position:relative;
+}
+div.select-box div.current-select{
+    background:#fff url("/img/pt/icon_triangle.png") no-repeat 90% center;
+    border-radius:5px;
+    padding:10px 10px;
+    color:#9FA0A1;
+    border:1px solid #3E3F42;
+}
+div.select-box div.current-select.selected{
+    color:#000;
+}
+div.select-box div.select-list{
+    display:none;
+    background:#fff;
+    position:absolute;
+    width:100%;
+    border:1px solid #aaa;
+    border-radius: 5px;
+    z-index: 5;
+    margin-top:5px;
+}
+div.select-box div.select-list > span{
+    display:block;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+
+/* header */
+header{
+    height:8vh;
+    box-sizing: border-box;
+    padding:0px 3%;
+    display:flex;
+    align-items: center;
+    background:#fff;
+}
+
+header h2{
+    font-size:20px;
+    margin-left:30px;
+}
+
+header.main_header{
+    justify-content: space-between;
+    padding:10px 3% 10px 3%;
+    border-bottom:1px solid #EDEDEE;
+}
+header.main_header button.btn_notification{
+    width:19px;
+    height:24px;
+    background:url("/img/pt/icon_notification.png") no-repeat center/100% auto;
+    text-indent: -9999px;
+}
+header.main_header button.btn_menu{
+    width:23px;
+    height:20px;
+    background:url("/img/pt/icon_menu.png") no-repeat center/100% auto;
+    text-indent: -9999px;
+}
+header.main_header h1.logo{
+    width:100px;
+}
+header.main_header h1.logo a{
+    display:block;
+}
+header.main_header h1.logo a img{
+    width:100%;
+    height:auto;
+}
+
+/* 메인 비주얼 */
+#mainVisual{
+    width:100%;
+    height:30vh;
+    position: relative;
+}
+#mainVisual div.agree_waiting_text{
+    width:100%;
+    height:100%;
+    position:absolute;
+    background:rgba(0,0,0,0.5);
+    z-index: 1;
+    color:#fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#mainVisual img{
+    width:100%;
+    height:100%;
+}
+
+/* postBox */
+div.post_box{
+    width:100%;
+    background:#fff;
+    border-top:1px solid #EDEDEE;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px 0;
+    position: fixed;
+    bottom:0;
+    z-index: 200;
+}
+div.post_box button.btn_myLink{
+    display:block;
+    color:#fff;
+    margin:0 auto 30px auto;
+    border-radius:20px;
+    padding:5px 10px 5px 35px;
+    background:url("/img/pt/icon_person_outline.png") no-repeat 10% center #053B82;
+    position: absolute;
+    top:-45px;
+}
+div.post_box div.status{
+    margin-right:50px;
+}
+div.post_box div.status span{
+    color:#053B82;
+    font-weight:bold;
+}
+div.post_box button.btn_post{
+    padding:10px 20px;
+    border-radius:5px;
+    color:#fff;
+    font-size:18px;
+    background:#EB004F;
+}
+
+/* 뒤로가기 버튼 */
+.btn_back{
+    width:12px;
+    height:20px;
+    background-image:url("/img/common/icon_back.png");
+    background-repeat: no-repeat;
+    background-size:100% auto;
+    background-position: center;
+    text-indent: -9999px;
+}
+
+/* 모달창 */
+div.modal_wrap{
+    display:none;
+    width:100%;
+    height:100vh;
+    position:fixed;
+    top:0;
+    background:rgba(0,0,0,0.5);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+}
+div.modal_wrap > .modal{
+    display:none;
+    background:#fff;
+    border-radius:10px;
+    overflow: hidden;
+}
+
+/* login 페이지 */
+.login{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login h1.logo{
+    width:50%;
+    margin-bottom:20px;
+}
+.login h1.logo img{
+    width:100%;
+    height:auto;
+}
+.login div.logo_text{
+    color:#9FA0A1;
+    text-align:center;
+    margin-bottom:30px;
+}
+.login div.logo_text b{
+    display:block;
+    color:#000;
+    margin-top:10px;
+}
+.login div.login_message {
+
+}
+.login div.login_message > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px 30px 30px;
+    background: url("/img/pt/shape_balloon.png") no-repeat center/100% auto;
+    box-sizing: border-box;
+    margin-bottom:10px;
+}
+.login div.login_message > div.center_message{
+    display:none;
+}
+.login div.login_message p{
+    color:#3E3F42;
+    background-repeat: no-repeat;
+
+    padding:10px 0 10px 70px;
+}
+.login div.login_message div.coach_message p{
+    background-image:url("/img/pt/icon_dumbel.png");
+    background-position: left center;
+    background-size:50px auto;
+}
+.login div.login_message div.center_message p{
+    background-image:url("/img/pt/icon_center.png");
+    background-position: 2% center;
+    background-size:40px auto;
+}
+.login div.login_form{
+    width:70%;
+}
+
+.login div.login_form div.login_category{
+    margin-bottom:20px;
+    display: flex;
+    justify-content: space-between;
+}
+.login div.login_form div.login_category > button{
+    display:flex;
+    align-items: center;
+    font-size:16px;
+    color:#000;
+    transition:all 0.2s;
+}
+
+.login div.login_form form{
+    margin-bottom:50px;
+}
+.login div.login_form form input{
+    display:block;
+    background:0;
+    border:0;
+    border-bottom:1px solid #9FA0A1;
+    width:100%;
+    box-sizing: border-box;
+    padding:10px 30px;
+    background-repeat: no-repeat;
+    background-position:left center;
+    background-size:17px auto;
+}
+.login div.login_form form input::placeholder{
+    color: #C3C4C5;
+}
+.login div.login_form form input:focus{
+    border-bottom:1px solid #000;
+}
+.login div.login_form form input[name=userName]{
+    background-image: url("/img/pt/icon_user_gray.png");
+    margin-bottom:10px;
+}
+.login div.login_form form input[name=userName]:focus{
+    background-image: url("/img/pt/icon_user_black.png");
+}
+.login div.login_form form div.password_box{
+    position:relative;
+    margin-bottom:50px;
+}
+.login div.login_form form input[name=password]{
+    background-image: url("/img/pt/icon_lock.png");
+}
+.login div.login_form form input[name=password]:focus{
+    background-image: url("/img/pt/icon_lock_active.png");
+}
+.login div.login_form form div.password_box button.btn_password{
+
+    position:absolute;
+    top:50%;
+    right:0;
+    transform: translateY(-50%);
+}
+.login div.login_form form div.password_box button.btn_password.active{
+    background-image:url("/img/pt/icon_eye_active.png");
+}
+
+.login div.login_form form button.btn_login{
+    width:100%;
+    background:#EB004F;
+    color:#fff;
+    border-radius:5px;
+    padding:12px 0;
+}
+.login div.login_form p{
+    color:#000;
+    text-align: center;
+    margin-bottom:30px;
+}
+.login div.login_form p a{
+    color:#4696FF;
+    margin-left:3px;
+}
+.login div.login_form ul{
+    display:flex;
+    justify-content: center;
+}
+.login div.login_form ul li{
+    margin:0 20px;
+}
+.login div.login_form ul li a{
+    display:block;
+    color:#9FA0A1;
+}
+.login div.copyright{
+    color:#9FA0A1;
+    font-size:10px;
+    position:absolute;
+    bottom:2%;
+}
+
+/* join 페이지 */
+.join{
+
+}
+.join > .inner{
+    display:flex;
+    flex-direction: column;
+    min-height: 92vh;
+}
+.join .img_join_step{
+    display: block;
+    width:95%;
+    margin:0 auto 30px auto;
+}
+.join dl{
+    margin-bottom:20px;
+}
+.join dl dt{
+    color:#6B6C6E;
+    font-weight: 500;
+    margin-bottom:10px;
+}
+.join dl dd{
+    position: relative;
+}
+.join dl dd input{
+    width:100%;
+    border:0;
+    border-bottom:1px solid #9FA0A1;
+    padding:5px 5px;
+    box-sizing: border-box;
+}
+.join dl dd button{
+    position:absolute;
+    top:5px;
+    right:0;
+}
+.join dl dd button.btn_password{
+    top:10px;
+}
+.join dl dd p.id_result{
+    font-size:14px;
+    margin-top:5px;
+}
+.join dl dd p.id_result.reg{}
+.join dl dd p.id_result.reg:after{
+    content:"아이디는 6~20자의 영소문자와 숫자 조합이어야 합니다.";
+}
+.join dl dd p.id_result.success{}
+.join dl dd p.id_result.success:after{
+    content:"사용가능한 아이디입니다.";
+    color:#053B82;
+}
+.join dl dd p.id_result.overlap{}
+.join dl dd p.id_result.overlap:after{
+    content:"이미 사용중인 아이디입니다.";
+    color:#EB004F;
+}
+.join dl dd p.id_result.failure{}
+.join dl dd p.id_result.failure:after{
+    content:"사용할 수 없는 아이디입니다.";
+    color:#EB004F;
+}
+.join dl dd p.password_guide{
+    font-size:14px;
+    color:#C3C4C5;
+    margin-top:5px;
+}
+.join dl dd p.certification_time{
+    text-align: right;
+    color:#9FA0A1;
+    font-size:14px;
+    margin-top:5px;
+}
+.join button.btn_next{
+    width:100%;
+    padding:10px 0;
+    background:#999;
+    color:#fff;
+    border-radius:10px;
+    margin:auto 0 20px 0;
+}
+.join button.btn_next.active{
+    background:#EB004F;
+}
+.join dd.dd_radioBox{
+    display:flex;
+    justify-content: space-between;
+}
+.join dd.dd_radioBox label{
+    display:block;
+    text-align:center;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    box-sizing: border-box;
+    border-radius:5px;
+    padding:7px 0;
+}
+.join dd.dd_radioBox input:checked + label{
+    color:#EB004F;
+    border:1px solid #EB004F;
+}
+.join dd.dd_gender label{
+    width:48%;
+}
+.join dd.dd_exercise label{
+    width:32%;
+}
+.join button.btn_search_center{
+    width:20px;
+    height:20px;
+    background:url("/img/common/icon_search.png") no-repeat center/100% auto;
+    text-indent: -9999px;
+    top:10px;
+}
+
+.search_center{
+    position: fixed;
+    background: #fff;
+    z-index: 100;
+    bottom:-100%;
+    transition: all 0.3s;
+}
+.search_center header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    position:relative;
+}
+.search_center header button.btn_close{
+    width:20px;
+    height: 20px;
+    background:url("/img/common/icon_close.png") no-repeat center;
+    text-indent: -9999px;
+}
+.search_center header input{
+    border:0;
+    background:url("/img/common/icon_search_gray.png") no-repeat 5% center/20px auto #EDEDEE;
+    border-radius:5px;
+    padding:10px 15px 10px 50px;
+    width:85%;
+    box-sizing: border-box;
+}
+.search_center header button.btn_delete{
+    width:15px;
+    height:15px;
+    background:url("/img/common/icon_close_circle.png") no-repeat center;
+    text-indent: -9999px;
+    position:absolute;
+    top:50%;
+    right:5%;
+    transform: translateY(-50%);
+}
+.search_center div.search_result{}
+.search_center div.search_result div.no_result{
+    color:#999;
+    text-align: center;
+    padding:100px 0;
+}
+.search_center div.search_result ul{
+    height:85vh;
+    overflow: auto;
+}
+.search_center div.search_result ul li{
+    background:url("/img/pt/icon_building.png") no-repeat left center;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:20px;
+    padding-left:30px;
+}
+.search_center div.search_result ul li:last-child{
+    margin-bottom:0;
+}
+.search_center div.search_result ul li span{}
+.search_center div.search_result ul li p{
+    color:#9FA0A1;
+    font-size:14px;
+}
+
+div.join_modal{
+    position: absolute;
+    bottom:-50%;
+    background:#fff;
+    border-radius:15px 15px 0 0 !important;
+    border-top:1px solid #B2B2B2;
+    padding:20px 3%;
+    transition: all 0.3s;
+}
+div.join_modal .modal_inner{}
+div.join_modal h3{
+    color:#6B6C6E;
+    background:url("/img/pt/icon_light.png") no-repeat left center;
+    padding-left:25px;
+    margin-bottom:5px;
+}
+div.join_modal p{
+    color: #9FA0A1;
+    font-weight:300;
+    word-break: keep-all;
+    margin-bottom:20px;
+}
+div.join_modal ul{
+    margin-bottom:40px;
+}
+div.join_modal ul li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+}
+div.join_modal ul li:first-child{
+    margin-bottom:20px;
+}
+div.join_modal ul li label{
+    color:#6B6C6E;
+}
+div.join_modal ul li:first-child label{
+    color:#000;
+}
+div.join_modal ul li label:before{
+    margin-right:10px;
+}
+div.join_modal ul li label span{
+    color:#EB004F;
+}
+div.join_modal ul li a{
+    color:#9FA0A1;
+    font-size:14px;
+}
+div.join_modal ul li.notification_box{
+    justify-content: flex-start;
+    padding-left:20px;
+    display:flex;
+}
+div.join_modal ul li.notification_box label{
+    margin-right:20px;
+}
+div.join_modal button.btn_join_agree{
+    width:100%;
+    text-align: center;
+    background:#999999;
+    border-radius: 10px;
+    padding:10px 0;
+    color:#fff;
+}
+div.join_modal button.btn_join_agree.active{
+    background:#EB004F;
+}
+
+/* 회원가입 완료 join_success */
+div.join_success{
+    text-align:center;
+}
+div.join_success div.join_success_box{
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+div.join_success img.img_write{
+    width:100px;
+    height:auto;
+    margin-bottom:100px;
+}
+div.join_success div.join_success_box b{
+    font-size:20px;
+    margin-bottom:30px;
+}
+div.join_success div.join_success_box p{
+    color:#9FA0A1;
+    font-weight:300;
+    margin-bottom:100px;
+}
+div.join_success div.join_success_box button{
+    width:80%;
+    padding:12px 0;
+    background:#EB004F;
+    color:#fff;
+    border-radius: 5px;
+}
+div.join_success img.logo_gray{
+    position:absolute;
+    bottom:5%;
+}
+
+/* 메뉴 */
+.menu{
+    background:#F9F9F9;
+}
+.menu header{
+    border-bottom:1px solid #EDEDEE;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu header div.my_info{
+    display:flex;
+    align-items: center;
+    height:100%;
+    background:url("/img/pt/icon_mypage.png") no-repeat left center;
+    padding-left:40px;
+    color:#9FA0A1;
+}
+.menu header div.my_info b{
+    margin-right:5px;
+    color:#121212;
+}
+
+.menu header button.btn_close{
+    width:18px;
+    height:18px;
+    background:url("/img/common/icon_close.png") no-repeat center;
+    text-indent: -9999px;
+}
+.menu div.profile_state{
+    border:1px solid #EDEDEE;
+    border-radius:10px;
+    background:#fff;
+    margin:20px 0;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    padding:20px 0;
+    box-shadow: #ddd 1px 1px 5px 1px;
+}
+.menu div.profile_state dl{
+    text-align:center;
+}
+.menu div.profile_state dl dt{
+    color:#6B6C6E;
+}
+.menu div.profile_state dl dd{
+    color:#053B82;
+    font-weight:600;
+}
+.menu div.profile_state button.btn_edit{
+    color:#fff;
+    border-radius:30px;
+    padding:10px 10px 10px 40px;
+    background:#EB004F url("/img/pt/icon_person_outline.png") no-repeat 8% center;
+}
+.menu ul{
+    margin-bottom:50px;
+}
+.menu ul li{
+    padding:15px 0;
+    border-bottom:1px solid #EDEDEE;
+}
+.menu ul li:last-child{
+    border-bottom:0;
+}
+.menu button.btn_logout{
+    display:block;
+    margin:0 auto;
+    color:#6B6C6E;
+    border-bottom:1px solid #6B6C6E;
+}
+
+/* 마이페이지 */
+.mypage{}
+.mypage section.mypage_box{}
+.mypage section.mypage_box h3{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+.mypage section.mypage_box h3 button.btn_myinfo{
+    color:#6B6C6E;
+    background:url("/img/pt/icon_edit_myinfo.png") no-repeat right center;
+    padding-right:10px;
+}
+.mypage section.mypage_box div.user_count{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    margin-bottom:20px;
+    font-size:18px;
+}
+.mypage section.mypage_box div.user_count img{
+    width:18px;
+    height:auto;
+    margin-right:10px;
+}
+.mypage section.mypage_box div.user_count span{
+    margin-left:10px;
+    font-size:18px;
+    color:#6B6C6E;
+}
+.mypage section.mypage_box div.user_count span b{
+    color:#053B82;
+    font-size:18px;
+    font-weight: 600;
+    margin-right:5px;
+}
+.mypage section.mypage_box div.my_photo{
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin:0 auto 20px auto;
+}
+.mypage section.mypage_box div.my_photo img{
+    width:100%;
+    height:100%;
+}
+.mypage section.mypage_box div.my_info{
+    text-align:center;
+}
+.mypage section.mypage_box div.my_info dl{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 18px;
+    margin-bottom:15px;
+}
+.mypage section.mypage_box div.my_info dl dt{
+    display:flex;
+    align-items: center;
+    color:#000;
+    font-size:18px;
+    line-height: 18px;
+    border-right:1px solid #9FA0A1;
+    padding-right:10px;
+    margin-right:10px;
+    font-weight: 500;
+}
+.mypage section.mypage_box div.my_info dl dd{
+    color:#9FA0A1;
+}
+.mypage section.mypage_box div.my_info p {
+    color: #EB004F;
+    text-decoration: underline #EB004F;
+}
+
+.mypage div.profile_state{
+    border:1px solid #EDEDEE;
+    border-radius:10px;
+    background:#fff;
+    margin:20px 0;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    padding:20px 0;
+    box-shadow: #ddd 1px 1px 5px 1px;
+}
+.mypage div.profile_state dl{
+    text-align:center;
+}
+.mypage div.profile_state dl dt{
+    color:#6B6C6E;
+}
+.mypage div.profile_state dl dd{
+    color:#053B82;
+    font-weight:600;
+}
+.mypage div.profile_state button.btn_edit{
+    color:#fff;
+    border-radius:30px;
+    padding:10px 10px 10px 40px;
+    background:#EB004F url("/img/pt/icon_person_outline.png") no-repeat 8% center;
+}
+.mypage ul.mypage_menu{
+    display:flex;
+    flex-wrap: wrap;
+    padding:0 3%;
+}
+.mypage ul.mypage_menu li{
+    width:25%;
+    margin-bottom:20px;
+}
+.mypage ul.mypage_menu li a{
+    display:block;
+    width:100%;
+    background-repeat: no-repeat;
+    background-position:center 30px;
+    background-size:35px auto;
+    text-align: center;
+    padding:70px 3% 0 3%;
+    box-sizing: border-box;
+    word-break: keep-all;
+}
+
+.mypage ul.mypage_menu li.member a{
+    background-image: url("/img/pt/icon_member.png");
+}
+.mypage ul.mypage_menu li.schedule a{
+    background-image: url("/img/pt/icon_receipt.png");
+}
+.mypage ul.mypage_menu li.calculate a{
+    background-image: url("/img/pt/icon_wordballoon.png");
+}
+.mypage ul.mypage_menu li.notice a{
+    background-image: url("/img/pt/icon_megaphone.png");
+}
+.mypage ul.mypage_menu li.terms a{
+    background-image: url("/img/pt/icon_information.png");
+}
+
+/* 기본정보 수정 */
+.edit_myinfo{}
+.edit_myinfo .container > section{
+    padding:0;
+}
+.edit_myinfo section.section_info1{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 20px;
+}
+.edit_myinfo section.section_info1 .my_photo{
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right:20px;
+}
+.edit_myinfo section.section_info1 .my_photo img{
+    width:100%;
+    height: 100%;
+}
+.edit_myinfo section.section_info1 .my_info{}
+
+.edit_myinfo section.section_info1 div.my_info dl{
+    display:flex;
+    align-items: center;
+    margin-bottom:15px;
+    border:0;
+    padding:0;
+    line-height: 16px;
+}
+.edit_myinfo section.section_info1 div.my_info dt{
+    display:flex;
+    align-items: center;
+    color:#000;
+    font-size:16px;
+    font-weight: 500;
+    border-right:1px solid #9FA0A1;
+    padding-right:5px;
+    margin-right:5px;
+}
+.edit_myinfo section.section_info1 div.my_info dd{
+    color:#9FA0A1;
+}
+
+.edit_myinfo section.section_info1 div.my_info p {
+    color: #EB004F;
+    text-decoration: underline #EB004F;
+}
+.edit_myinfo section dl{
+    display:flex;
+    justify-content: space-between;
+    padding:15px 3%;
+    border-bottom:1px solid #EDEDEE;
+}
+.edit_myinfo section dl dt{}
+.edit_myinfo section dl dd{
+    color:#6B6C6E;
+}
+.edit_myinfo section dl dd.waiting{
+    color:#053B82;
+    font-weight: 400;
+}
+.edit_myinfo .modal{
+    width:80%;
+}
+.edit_myinfo .modal_inner{
+    padding:20px 20px 30px 20px;
+}
+.edit_myinfo .modal_inner span{
+    display:block;
+    text-align:center;
+    font-size:18px;
+    margin-bottom:20px;
+}
+.edit_myinfo .modal_inner input{
+    width:100%;
+    background:#EDEDEE;
+    border:0;
+    padding:10px 15px;
+    border-radius:5px;
+    box-sizing: border-box;
+}
+.edit_myinfo .modal_inner p{
+    text-align:center;
+    color:#9FA0A1;
+}
+.edit_myinfo .modal .modal_btns{
+    display:flex;
+}
+.edit_myinfo .modal .modal_btns button{
+    width:100%;
+    text-align: center;
+    color:#fff;
+    padding:15px 0;
+}
+.edit_myinfo .modal .modal_btns button.btn_cancel{
+    background:#9FA0A1;
+}
+.edit_myinfo .modal .modal_btns button.btn_change{
+    background:#EB004F;
+}
+
+/* 휴대폰 번호 변경 */
+.edit_form{}
+
+.edit_form dl{
+    margin-bottom:20px;
+}
+.edit_form dl dt{
+    color:#6B6C6E;
+    margin-bottom:5px;
+}
+.edit_form dl dd{
+    position:relative;
+}
+.edit_form dl dd input{
+    width:100%;
+    border:0;
+    border-bottom:1px solid #9FA0A1;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+.edit_form dl dd input:disabled{
+    background:#EDEDEE;
+    border-radius:5px;
+    border:0;
+    color:#9FA0A1;
+}
+.edit_form dl dd button{
+    position:absolute;
+    top:10px;
+    right:0;
+}
+.edit_form dl dd button.btn_find_center{
+    width:18px;
+    height:25px;
+    background:url("/img/common/icon_search.png") no-repeat center/100% auto;
+    text-indent: -9999px;
+}
+.edit_form dl dd button.btn_password{
+    top:20px;
+}
+.edit_form dl dd p{
+    color:#9FA0A1;
+    margin-top:5px;
+}
+.edit_form dl dd p.certification_time{
+    display:none;
+    text-align:right;
+}
+.edit_form button.btn_success{
+    margin-top:auto;
+    margin-bottom:5%;
+    background:#9FA0A1;
+    color:#fff;
+    padding:10px 0;
+    border-radius: 5px;
+}
+.edit_form button.btn_success.active{
+    background:#EB004F;
+}
+
+/* 코치프로필 */
+.coach_profile{
+    padding-bottom:100px;
+}
+.coach_profile > section.center_info{
+    padding:20px 0;
+}
+.coach_profile > section.center_agree_waiting{
+    color:#9FA0A1;
+}
+.coach_profile > section.center_agree_success{
+    display:none;
+}
+section.center_info .inner{
+    text-align:right;
+}
+
+section.center_info div.star_score{
+    display:flex;
+}
+section.center_info div.star_score ul{
+    display:flex;
+    margin-bottom:10px;
+}
+section.center_info div.star_score ul li{
+    width:20px;
+    height:20px;
+    background-image:url("/img/pt/icon_star.png");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    margin-right:5px;
+}
+section.center_info div.star_score ul li.filled{
+    background-image:url("/img/pt/icon_star_filled.png");
+}
+section.center_info div.star_score span{
+    font-size:14px;
+    color:#9FA0A1;
+}
+section.center_info p{
+    display:flex;
+    font-weight:300;
+    text-align:left;
+}
+section.center_info button.btn_address_copy{
+    color:#9FA0A1;
+    border-bottom: 1px solid #9FA0A1;
+    margin-bottom:20px;
+}
+section.center_info ul.center_images{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+section.center_info ul.center_images li{
+    width:49%;
+    height:15vh;
+    border-radius:10px;
+    overflow: hidden;
+    margin-bottom:10px;
+}
+section.center_info ul.center_images li img{
+    width:100%;
+    height:100%;
+}
+section.one_time{
+    padding:20px 0;
+}
+section.one_time div.one_time_box{
+    border:1px solid #EDEDEE;
+    border-radius:10px;
+    box-shadow: #ddd 1px 1px 5px 1px;
+    padding:20px 20px;
+    text-align: center;
+}
+section.one_time div.one_time_box dl.first_fee{
+    display:block;
+}
+section.one_time div.one_time_box dl.first_fee dd{
+    padding:30px 0;
+    color:#9FA0A1;
+}
+section.one_time div.one_time_box dl{
+    margin-bottom: 10px;
+    display:none;
+}
+section.one_time div.one_time_box dl dt{
+    font-size:18px;
+    margin-bottom:10px;
+}
+section.one_time div.one_time_box dl dd{
+    background:#F9F9F9;
+    padding:10px 0;
+    border-radius: 5px;
+}
+section.one_time div.one_time_box dl dd div{
+    margin-bottom:10px;
+}
+section.one_time div.one_time_box dl dd div p{
+    display:inline-block;
+}
+section.one_time div.one_time_box dl dd span{
+    color:#9FA0A1;
+    text-decoration: #9FA0A1 line-through;
+    margin-left:10px;
+}
+section.one_time div.one_time_box dl dd b{
+    font-size:18px;
+}
+section.one_time div.one_time_box dl.no_one_time dd{
+    padding:30px 0;
+    color:#9FA0A1;
+}
+
+section.one_time div.one_time_box button{
+    display:inline-block;
+    padding:7px 20px 7px 45px;
+    color:#fff;
+    border-radius:5px;
+    background:url("/img/pt/icon_pencil_white.png") no-repeat 10% center #9FA0A1;
+}
+section.one_time div.one_time_box button.active{
+    background-color:#EB004F;
+}
+
+section.tabmenu_section{}
+section.tabmenu_section > ul.tab_menu{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom:1px solid #EDEDEE;
+}
+section.tabmenu_section > ul.tab_menu > li{
+    width:33%;
+    color:#6B6C6E;
+    padding:15px 0;
+    text-align:center;
+    font-size: 18px;
+}
+section.tabmenu_section > ul.tab_menu > li.active{
+    font-weight:bold;
+    color:#EB004F;
+    position: relative;
+}
+section.tabmenu_section > ul.tab_menu > li.active:after{
+    content:"";
+    display:block;
+    width:50px;
+    height:2px;
+    background:#EB004F;
+    position: absolute;
+    bottom:0;
+    left:50%;
+    transform: translateX(-50%);
+}
+section.tabmenu_section > div.tab_cont_wrap{
+    padding-top:20px;
+}
+
+section.tabmenu_section div.tab_cont_pager{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:30px;
+    transition: all 0.2s;
+}
+section.tabmenu_section div.tab_cont_pager.fixed{
+    width:100%;
+    background:#fff;
+    position: fixed;
+    top:0;
+    left: 0;
+    padding:10px 0;
+    border-bottom:1px solid #ccc;
+    z-index: 10;
+}
+section.tabmenu_section div.tab_cont_pager > span{
+    width:30%;
+    color:#9FA0A1;
+    text-align:center;
+}
+section.tabmenu_section div.tab_cont_pager > span.active{
+    color:#000;
+    font-weight:bold;
+}
+section.tabmenu_section div.tab_cont_pager > span.active:after{
+    content:"";
+    display:block;
+    width:50px;
+    height:1px;
+    background:#000;
+    margin:0 auto;
+}
+
+section.tabmenu_section div.tab_cont_inner{}
+section.tabmenu_section div.tab_cont_inner > div{
+    padding:20px 3%;
+    border-bottom:10px solid #EDEDEE;
+}
+section.tabmenu_section div.tab_cont_inner > div:last-child{
+    margin-bottom:0;
+    border:0;
+}
+section.tabmenu_section div.tab_cont_inner > div h3{
+    display:flex;
+    justify-content: space-between;
+}
+section.tabmenu_section div.tab_cont_inner > div h3 span{
+    font-size:20px;
+}
+section.tabmenu_section div.tab_cont_inner > div h3 button{
+    border:1px solid #D3D3D4;
+    padding:5px 10px 5px 35px;
+    border-radius:5px;
+    background:url("/img/pt/icon_pencil_red.png") no-repeat 15% center/18px auto;
+}
+
+div.fee_guide{}
+div.fee_guide div.no_fee{
+    background:#EDEDEE;
+    text-align: center;
+    color:#9FA0A1;
+    padding:100px 0;
+}
+div.fee_guide table{
+    display:none;
+    background:#EDEDEE;
+    text-align:center;
+    border-radius:10px;
+    border-left:5vw solid #ededee;
+    border-right:5vw solid #ededee;
+    margin-bottom:10px;
+}
+div.fee_guide table th{
+    padding:15px 0;
+    text-align: left;
+}
+
+div.fee_guide table td{
+    padding:15px 0;
+    border-bottom: 1px solid #D3D3D4;
+}
+div.fee_guide table td:nth-child(1){width:33%;}
+div.fee_guide table td:nth-child(2){width:34%;}
+div.fee_guide table td:nth-child(3){width:33%;}
+div.fee_guide table tr:last-child td{
+    border-bottom:0;
+}
+
+div.trainer_intro{}
+div.trainer_intro ul.trainer_photos{
+    display:flex;
+    flex-wrap: wrap;
+    margin-bottom:20px;
+}
+div.trainer_intro ul.trainer_photos > li{
+    width:30vw;
+    height:30vw;
+    border-radius:5px;
+    overflow: hidden;
+    margin-right:2%;
+}
+div.trainer_intro ul.trainer_photos > li:nth-child(3n){
+    margin-right:0;
+}
+div.trainer_intro ul.trainer_photos > li:nth-child(-n+3){
+    margin-bottom:10px;
+}
+div.trainer_intro ul.trainer_photos > li img{
+    width:100%;
+    height:100%;
+}
+div.trainer_intro ul.trainer_photos > li:first-child{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:#EDEDEE;
+}
+div.trainer_intro ul.trainer_photos > li:first-child img{
+    width:36px;
+    height:auto;
+}
+div.trainer_intro ul.trainer_photos > li:first-child span{
+    color:#9FA0A1;
+}
+div.trainer_intro ul.trainer_photos > li:last-child{
+    position: relative;
+}
+div.trainer_intro ul.trainer_photos > li:last-child div{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    color:#fff;
+    z-index: 1;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+div.trainer_intro > dl{
+    margin-bottom:20px;
+}
+div.trainer_intro > dl > dt{
+    font-weight: bold;
+    color: #9FA0A1;
+    background:url("/img/pt/icon_thumbup.png") no-repeat 0 center/20px auto;
+    padding-left:25px;
+    margin-bottom:5px;
+}
+
+div.trainer_intro > dl > dd{
+    display:flex;
+    word-break: keep-all;
+}
+div.trainer_intro > dl > dd:before{
+    content:"-";
+    display:block;
+    margin-right:3px;
+}
+div.trainer_intro > dl > dd textarea{
+    width:100%;
+    border:0;
+    height: auto;
+    background: #fff;
+}
+
+div.buy_info{}
+div.buy_info ul{
+    margin-bottom:20px;
+}
+div.buy_info ul li{
+    display:flex;
+    margin-bottom:5px;
+}
+div.buy_info ul li:before{
+    content:"-";
+    display:block;
+    margin-right:5px;
+}
+
+/* 센터 이용정보 */
+div.center_guide{}
+div.center_guide ul{}
+div.center_guide ul li{
+    font-size:16px;
+    margin-bottom:15px;
+    background-repeat: no-repeat;
+    background-position:0 center;
+    background-size:25px auto;
+    padding-left:40px;
+    height:28px;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+div.center_guide ul li.parking{background-image:url("/img/pt/icon_parking.png"); background-size:28px auto;}
+div.center_guide ul li.uniform{background-image:url("/img/pt/icon_uniform.png")}
+div.center_guide ul li.locker{background-image:url("/img/pt/icon_locker.png")}
+
+/* 센터 운영시간 */
+div.center_time{}
+div.center_time dl{
+    display:flex;
+    margin-bottom:10px;
+}
+div.center_time dl dt{
+    color:#9FA0A1;
+    font-weight:600;
+    width:20%;
+}
+div.center_time dl dd{}
+
+/* 센터 주소 및 위치*/
+div.center_location{}
+div.center_location b{
+    display:block;
+    margin-bottom:10px;
+}
+div.center_location p{
+    margin-bottom:20px;
+    position: relative;
+}
+div.center_location p button{
+    color:#9FA0A1;
+    position: absolute;
+    bottom:0;
+    right:0;
+}
+div.center_location div.center_map{
+    width:100%;
+    height:80vw;
+    border-radius: 10px;
+    overflow: hidden;
+    border:1px solid #D3D3D4;
+}
+div.center_location div.center_map div.customoverlay{
+    background:#0475F4;
+    border-radius: 20px;
+    padding:7px 10px 7px 10px;
+    position: absolute;
+    left:-20px;
+    top:-45px;
+}
+div.center_location div.center_map div.customoverlay:after{
+    content:"";
+    display:block;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid #0475F4;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position:absolute;
+    left:14px;
+    top:37px;
+}
+div.center_location div.center_map div.customoverlay span{
+    display: flex;
+    color:#fff;
+    height:25px;
+    font-weight: 500;
+}
+div.center_location div.center_map div.customoverlay span:before{
+    content:"";
+    display:block;
+    width:25px;
+    height:25px;
+    background:#fff url("/img/pt/icon_location.png") no-repeat center/20px auto;
+    border-radius: 50%;
+    padding:10px;
+    box-sizing: border-box;
+    margin-right:5px;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 트레이너 평점 및 후기 */
+.review_score{
+    text-align: center;
+}
+.review_score dl{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:10px;
+}
+.review_score dl dt{
+    font-size:20px;
+    margin-right:10px;
+}
+.review_score dl dd{
+    color:#9FA0A1;
+}
+.review_score ul{
+    display:flex;
+    justify-content: center;
+    margin-bottom:20px;
+}
+.review_score ul li{
+    width:25px;
+    height:25px;
+    background-image:url("/img/pt/icon_star.png");
+    background-repeat:no-repeat;
+    background-size:100% auto;
+    margin:0 5px;
+}
+.review_score ul li.filled{
+    background-image:url("/img/pt/icon_star_filled.png");
+}
+
+.review_section{
+
+}
+.review_section:after{
+    content:"";
+    display:block;
+    clear:both;
+}
+.review_section button.btn_orderby{
+    display:block;
+    float:right;
+    color:#9FA0A1;
+    background:url("/img/pt/icon_align.png") no-repeat right center;
+    padding-right:20px;
+}
+.review_section ul.review_list{
+    margin-top:40px;
+}
+.review_section ul.review_list > li{}
+.review_section ul.review_list > li div.review_top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:20px;
+}
+.review_section ul.review_list > li div.review_top .writer_info{
+    display:flex;
+    align-items: center;
+}
+.review_section ul.review_list > li div.review_top .writer_info img{
+    margin-right:5px;
+}
+.review_section ul.review_list > li div.review_top .writer_info span{
+    font-weight:500;
+    margin-right:5px;
+}
+.review_section ul.review_list > li div.review_top .writer_info p{
+    font-size:14px;
+    color:#9FA0A1;
+}
+.review_section ul.review_list > li div.review_top div.review_star{
+    display:flex;
+}
+.review_section ul.review_list > li div.review_top div.review_star span{
+    width:20px;
+    height: 20px;
+    background:url("/img/pt/icon_star.png") no-repeat center/100% auto;
+    margin-left:5px;
+}
+.review_section ul.review_list > li div.review_top div.review_star span.filled{
+    background-image:url("/img/pt/icon_star_filled.png");
+}
+.review_section ul.review_list > li div.review_photos{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:10px;
+}
+.review_section ul.review_list > li div.review_photos img{
+    width:32%;
+}
+.review_section ul.review_list > li div.review_content{
+    word-break: keep-all;
+}
+
+/* 1회 체험가 설정 */
+div.container > section.info_section{
+    padding-top:0;
+}
+div.container section.info_section p{
+    margin-bottom:10px;
+}
+div.container > section.info_section ol{
+    list-style: decimal;
+    padding-left:18px;
+}
+
+div.set_one_time section.one_time_cation dl{
+    margin-bottom:20px;
+}
+div.set_one_time section.one_time_cation dl dt{
+    font-size:20px;
+    font-weight: 500;
+    margin-bottom:10px;
+    text-align:center;
+}
+div.set_one_time section.one_time_cation dl dd{
+    word-break: keep-all;
+}
+div.set_one_time section.one_time_cation dl dd:before{
+    content:"-";
+    display:inline-block;
+    margin-right:5px;
+}
+div.set_one_time section.one_time_cation div.btn_box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.set_one_time section.one_time_cation div.btn_box label{
+    width:48%;
+    padding:10px 0;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    border-radius:5px;
+    text-align: center;
+}
+div.set_one_time section.one_time_cation div.btn_box input:checked + label{
+    color:#EB004F;
+    border:1px solid #EB004F;
+}
+
+div.set_one_time section.select_price{
+    display:none;
+    border-bottom:0;
+}
+div.set_one_time section.select_price h3{
+    font-weight:500;
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:15px;
+}
+div.set_one_time section.select_price h3 button {
+    color: #6B6C6E;
+    text-decoration: underline #6B6C6E;
+}
+div.set_one_time section.select_price dl{
+    display:flex;
+    align-items: center;
+    margin-bottom:20px;
+}
+div.set_one_time section.select_price dl dt{
+    color:#6B6C6E;
+    width:30%;
+    font-weight: 500;
+}
+div.set_one_time section.select_price dl dd{
+    width:70%;
+    text-align: center;
+}
+div.set_one_time section.select_price input{
+    width:80%;
+    border-radius:5px;
+    padding:10px 10px;
+    border:0;
+    background:#EDEDEE;
+}
+div.set_one_time section.select_price p{
+    color:#9FA0A1;
+}
+
+
+/* 요금 안내 */
+.set_fee{}
+.set_fee select{
+    background-color:#fff;
+    border:1px solid #3E3F42;
+    padding:10px 10px;
+    box-sizing: border-box;
+    background-position: 90% center;
+}
+.set_fee .price_section{}
+.set_fee .price_section select{
+    width:45%;
+}
+.set_fee .price_section h3{
+    display:flex;
+    justify-content: space-between;
+}
+.set_fee .price_section h3 button{
+    color:#053B82;
+}
+.set_fee .price_section ul.use_price_list{}
+.set_fee .price_section ul.use_price_list > li{
+    margin-top:15px;
+    border-top:1px dotted #9FA0A1;
+    padding-top:15px;
+}
+.set_fee .price_section ul.use_price_list > li:first-child{
+    margin:0;
+    border:0;
+    padding:0;
+}
+.set_fee .price_section ul.use_price_list > li > div.price_title{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:10px;
+}
+.set_fee .price_section ul.use_price_list > li > div.price_title button{
+    border:1px solid #EB004F;
+    border-radius: 20px;
+    padding:5px 10px;
+}
+.set_fee .price_section ul.use_price_list > li:first-child > div.price_title button{
+    display:none;
+}
+.set_fee .price_section ul.use_price_list > li input{
+    background:#EDEDEE;
+    padding:10px 10px;
+    border:0;
+    border-radius:5px;
+    width:100%;
+    box-sizing: border-box;
+}
+.set_fee .price_section ul.use_price_list > li input.training_name{
+    margin-bottom:10px;
+}
+.set_fee .price_section ul.use_price_list > li > ol{}
+.set_fee .price_section ul.use_price_list > li > ol > li{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:47%;
+    ]]
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.divider_box{
+
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.divider_box input{
+    width:45%;
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.divider_box div.select-box{
+    width:45%;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.divider_box div.select-box div.current-select{
+    background-color:#fff;
+    border:1px solid #3E3F42;
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.divider_box div.select-box div.select-list{
+    background:#fff !important;
+}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.training_price{}
+.set_fee .price_section ul.use_price_list > li > ol > li > div.training_price input{
+    width:60%;
+}
+.fee_info_section{}
+.fee_info_section select {
+    width:100%;
+}
+.fee_info_section h3{
+    justify-content: left !important;
+    align-items: flex-end;
+}
+.fee_info_section h3 span{
+    font-weight: 300;
+    margin-left:5px;
+}
+.fee_info_section dl{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+}
+.fee_info_section dl dt{}
+.fee_info_section dl dd{width:30%;}
+.fee_info_section dl dd.roundTime{
+    position:relative;
+}
+.fee_info_section dl dd.roundTime:after{
+    content:"분";
+    display:block;
+    position: absolute;
+    top:10px;
+    right:10%;
+}
+.fee_info_section dl dd input{
+    width:100%;
+    background: #EDEDEE;
+    padding: 10px 10px;
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.fee_info_section dl dd div.select-box{}
+.fee_info_section dl:last-child{
+    display:block;
+}
+.fee_info_section dl:last-child dt{
+    margin-bottom:5px;
+}
+.fee_info_section dl:last-child dd{
+    width:100%;
+}
+.fee_info_section dl dd textarea{
+    width:100%;
+    min-height: 150px;
+    background:#EDEDEE;
+    border-radius: 5px;
+    border:0;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+
+/* 트레이너 사진 */
+.set_trainer_photo{}
+.set_trainer_photo p.{}
+.set_trainer_photo section.photo_section{
+    border-bottom:0;
+}
+.set_trainer_photo p.photo_text{
+    color:#9FA0A1;
+    margin-bottom:10px;
+}
+.set_trainer_photo ul.photo_list{
+    display:flex;
+    flex-wrap: wrap;
+}
+.set_trainer_photo ul.photo_list > li{
+    float:left;
+    width:32%;
+    padding-bottom:32%;
+    margin-right:2%;
+    margin-bottom:10px;
+    position: relative;
+}
+
+.set_trainer_photo ul.photo_list > li div{
+    width:100%;
+    padding-bottom:100%;
+    overflow: hidden;
+    border-radius: 10px;
+    position: absolute;
+}
+.set_trainer_photo ul.photo_list > li:nth-child(3n){
+    margin-right:0;
+}
+.set_trainer_photo ul.photo_list > li:first-child{
+    margin-bottom:40px;
+}
+.set_trainer_photo ul.photo_list > li:first-child div{
+    background:url("/img/pt/icon_dotted_photo.png") no-repeat center/100% auto;
+}
+.set_trainer_photo ul.photo_list > li img{
+    position: absolute;
+    width:100%;
+    height:100%;
+}
+.set_trainer_photo ul.photo_list > li span{
+    position: absolute;
+    bottom:-20px;
+    width:100%;
+    text-align: center;
+}
+
+.set_trainer_photo input[type=file]{
+    display:none;
+}
+
+/* 트레이너 소개 */
+.set_trainer_info{}
+.set_trainer_info ul.category_list{
+    display:flex;
+    flex-wrap: wrap;
+}
+.set_trainer_info ul.category_list > li{
+    width:32%;
+    margin-right:2%;
+    margin-bottom:10px;
+    text-align:center;
+}
+.set_trainer_info ul.category_list > li:nth-child(3n){
+    margin-right:0;
+}
+.set_trainer_info ul.category_list > li label{
+    width:100%;
+    padding:5px;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    box-sizing: border-box;
+    border-radius: 20px;
+    justify-content: center;
+}
+.set_trainer_info ul.category_list > li input:checked + label{
+    border:1px solid #EB004F;
+    color:#EB004F;
+}
+.set_trainer_info ul.category_list > li label:before{
+    content:"#";
+    display:inline-block;
+    width:auto;
+    height:auto;
+    border:0;
+    background:0;
+}
+.set_trainer_info div.no_qualification{
+    text-align:center;
+    padding:30px 0;
+    color:#9FA0A1;
+}
+.set_trainer_info ul.qualification_list{}
+.set_trainer_info ul.qualification_list li{
+    position:relative;
+    margin-top:20px;
+    padding-top: 20px;
+    border-top:1px dotted #9FA0A1;
+}
+.set_trainer_info ul.qualification_list li:first-child{
+    display:none;
+    margin:0;
+    padding: 0;
+    border:0;
+}
+.set_trainer_info ul.qualification_list li span.qualification_status{
+    position:absolute;
+    top:20px;
+    left:-3%;
+    background:#053B82;
+    color:#fff;
+    padding-left:3%;
+    font-weight:500;
+    border-radius:0 5px 5px 0;
+}
+.set_trainer_info ul.qualification_list li div.qualification_top{
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom:10px;
+}
+.set_trainer_info ul.qualification_list li div.qualification_top > button{
+    border:1px solid #EB004F;
+    color:#EB004F;
+    border-radius: 20px;
+    padding:5px 10px;
+    margin-left:10px;
+}
+.set_trainer_info ul.qualification_list li div.qualification_top > button:last-child{
+    background:#EB004F;
+    color:#fff;
+}
+.set_trainer_info ul.qualification_list li dl{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+}
+.set_trainer_info ul.qualification_list li dl dt{
+    font-size:18px;
+}
+.set_trainer_info ul.qualification_list li dl dd{
+    width:75%;
+}
+.set_trainer_info ul.qualification_list li dl dd input{
+    width:100%;
+    border:0;
+    background:#EDEDEE;
+    border-radius: 5px;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+.set_trainer_info ul.qualification_list li div.qualification_img{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.set_trainer_info ul.qualification_list li div.qualification_img > div.img_box{
+    width:100px;
+    height:100px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.set_trainer_info ul.qualification_list li div.qualification_img input{
+    display:none;
+}
+.set_trainer_info ul.qualification_list li div.qualification_img input+label{
+    display: block;
+    width:100%;
+    height:100%;
+    background:url("/img/pt/icon_dotted_qualification.png") no-repeat center/100% auto;
+}
+.set_trainer_info ul.qualification_list li div.qualification_img > div.img_box img{
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.set_trainer_info ul.qualification_list li div.qualification_img p{
+    width:65%;
+    word-break: keep-all;
+    color:#6B6C6E;
+    font-size:14px;
+}
+.set_trainer_info section.trainer_intro{
+    border-bottom:0;
+}
+.set_trainer_info section.trainer_intro textarea{
+    width:100%;
+    border:0;
+    min-height:200px;
+    background:#EDEDEE;
+    border-radius: 5px;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+.set_trainer_info .modal{
+    width:90%;
+    position: relative;
+    overflow: inherit !important;
+}
+.set_trainer_info .modal button.btn_close_modal{
+    width:30px;
+    height:30px;
+    background:#000 url("/img/common/icon_white_close.png") no-repeat center/16px auto;
+    position:absolute;
+    top:-40px;
+    right:0px;
+    z-index: 50;
+    border-radius: 50%;
+    text-indent: -9999px;
+}
+.set_trainer_info .modal .modal_inner{
+    padding:30px 7%;
+}
+.set_trainer_info .modal h3{
+    margin-bottom:20px;
+    font-size:20px;
+}
+.set_trainer_info .modal ul{}
+.set_trainer_info .modal ul li{
+    padding:10px 0;
+    border-bottom:1px solid #EDEDEE;
+}
+
+/* 구매정보 */
+.set_buy_info{}
+.set_buy_info section.buy_info_section{
+
+}
+.set_buy_info section.buy_info_section{
+    border-bottom:0;
+}
+.set_buy_info section.buy_info_section ul.category_list{}
+.set_buy_info section.buy_info_section ul.category_list li{
+    display:flex;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dotted #9FA0A1;
+}
+.set_buy_info section.buy_info_section ul.category_list li:first-child{
+    margin:0;
+    padding:0;
+    border:0;
+}
+.set_buy_info section.buy_info_section ul.category_list li span{
+    margin-right:20px;
+}
+.set_buy_info section.buy_info_section ul.category_list li span:after{
+    content:")";
+    display: inline-block;
+    margin-left: 3px;
+}
+.set_buy_info section.buy_info_section ul.category_list li textarea{
+    width: 70%;
+    background:#EDEDEE;
+    border-radius: 5px;
+    border:0;
+    height: 100px;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+.set_buy_info section.buy_info_section ul.category_list li button{
+    border:1px solid #EB004F;
+    color:#EB004F;
+    height:30px;
+    border-radius: 20px;
+    padding:0 10px;
+    margin-left:auto;
+}
+.set_buy_info section.buy_info_section ul.category_list li:first-child button{
+    display:none;
+}
+
+
+/* 회원일정 관리 */
+div.manage_member_schedule{}
+div.manage_member_schedule div.manage_tab{
+    margin-top:auto;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-top:1px solid #EDEDEE;
+    padding:10px 0;
+    position: relative;
+}
+div.manage_member_schedule div.manage_tab > button{
+    margin:0 15vw;
+    background-repeat: no-repeat;
+    background-position: center 0;
+    background-size:18px auto;
+    padding-top:20px;
+    color:#6B6C6E;
+}
+div.manage_member_schedule div.manage_tab > button.active{
+    color:#EB004F;
+}
+div.manage_member_schedule div.manage_tab > button.btn_member{
+    background-image: url("/img/pt/icon_person.png");
+}
+div.manage_member_schedule div.manage_tab > button.btn_member.active{
+    background-image: url("/img/pt/icon_person_red.png");
+}
+div.manage_member_schedule div.manage_tab > button.btn_schedule{
+    background-image: url("/img/pt/icon_calendar_gray.png");
+}
+div.manage_member_schedule div.manage_tab > button.btn_schedule.active{
+    background-image: url("/img/pt/icon_calendar_red.png");
+}
+section.manage_section{
+    border-bottom:0;
+}
+
+div.add_schedule_tab{
+    display:none;
+    position:fixed;
+    bottom:80px;
+    right:5%;
+}
+div.add_schedule_tab > button{
+    display:none;
+    border-radius: 50%;
+    background:#EB004F;
+    width:70px;
+    height:70px;
+    color:#fff;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 14px;
+    box-shadow: #bbb 3px 3px 8px 3px;
+    position: absolute;
+    right:0;
+    bottom:0;
+}
+div.add_schedule_tab > button > a{
+    width:100%;
+    height:100%;
+    border-radius: 50%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+}
+div.add_schedule_tab > button.btn_add_exercise{
+    transition: all 0.4s;
+}
+div.add_schedule_tab > button.btn_add_schedule{
+    transition: all 0.2s;
+}
+div.add_schedule_tab > button.btn_add_expand{
+    display:flex;
+}
+div.add_schedule_tab > button.btn_add_expand.active{
+
+}
+div.add_schedule_tab > button.btn_add_expand span{
+    opacity: 1;
+    transition: 0.2s;
+    font-size:14px;
+    margin-top:5px;
+}
+div.add_schedule_tab > button.btn_add_expand img{
+    width:18px;
+    height: auto;
+    transform: rotate(45deg) translateZ(0);
+    transition: 0.3s;
+}
+div.add_schedule_tab.slide > button.btn_add_expand span{
+    display:none;
+}
+div.add_schedule_tab.slide > button.btn_add_expand span{
+    opacity: 0;
+}
+div.add_schedule_tab.slide > button.btn_add_expand img{
+    transform: rotate(0);
+}
+div.add_schedule_tab.active > button{
+    display:flex;
+}
+div.add_schedule_tab.slide > button.btn_add_exercise{
+    bottom:160px;
+}
+div.add_schedule_tab.slide > button.btn_add_schedule{
+    bottom:80px;
+}
+
+/* 회원/일정관리 -> 회원 관리 */
+div.no_member {
+    text-align: center;
+    width: 100%;
+    min-height: 70vh;
+    text-align: center;
+    color:#9FA0A1;
+    background:url("/img/pt/icon_round_wordballoon.png") no-repeat center 50%/100px auto;
+    padding-top:45%;
+    box-sizing: border-box;
+}
+
+ul.member_list{
+    display: none;
+}
+ul.member_list li{
+    background:#F9F9F9;
+    border:1px solid #D3D3D4;
+    border-radius:5px;
+    padding:15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+}
+ul.member_list li:last-child{
+    margin-bottom:0;
+}
+ul.member_list li div.member_left{
+    width:25%;
+    text-align:center;
+}
+ul.member_list li div.member_left img{
+    width:60%;
+}
+ul.member_list li div.member_left span{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size:18px;
+}
+ul.member_list li div.member_left span:before{
+    content:"";
+    display:block;
+    width:25px;
+    height:25px;
+    background-repeat:no-repeat;
+    background-position:center;
+    margin-right:10px;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+ul.member_list li div.member_left span.male:before{
+    background-image: url("/img/pt/icon_male.png");
+}
+ul.member_list li div.member_left span.female:before{
+    background-image: url("/img/pt/icon_female.png");
+}
+ul.member_list li div.member_right{
+    width:70%;
+}
+ul.member_list li div.member_right dl{
+    display:flex;
+    margin-bottom:10px;
+}
+ul.member_list li div.member_right dl dt{
+    margin-right:10px;
+    color:#6B6C6E;
+}
+ul.member_list li div.member_right dl dd{}
+ul.member_list li div.member_right div.member_btns{
+    display:flex;
+    justify-content: space-between;
+}
+ul.member_list li div.member_right div.member_btns button{
+    background:#fff;
+    padding:10px 10px;
+    border-radius: 5px;
+}
+ul.member_list li div.member_right div.member_btns button.btn_record{
+    border:1px solid #053B82;
+    color:#053B82;
+}
+ul.member_list li div.member_right div.member_btns button.btn_add{
+    border:1px solid #EB004F;
+    color:#EB004F;
+}
+
+/* 회원/일정관리 -> 일정 관리 */
+div.schedule_calendar{
+    padding-top:20px;
+}
+div.schedule_calendar div.year-month{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 10%;
+    margin-bottom:20px;
+}
+div.schedule_calendar div.year-month > button{
+    width:12px;
+    height:20px;
+    background:url("/img/pt/icon_calendar_arrow.png") no-repeat center;
+    text-indent: -9999px;
+}
+div.schedule_calendar div.year-month > button.btn_next_month{
+    transform:rotate(180deg);
+}
+div.schedule_calendar div.year-month span{
+    color:#6B6C6E;
+    font-size:18px;
+    font-weight:600;
+}
+div.schedule_calendar div.calendar_wrap{
+
+}
+div.calendar_wrap div.days{
+    display:flex;
+    justify-content: space-between;
+    padding:10px 0;
+    border-bottom:1px solid #EDEDEE;
+}
+div.calendar_wrap div.days > div.day{
+    width:calc(100% / 7);
+    text-align: center;
+    color:#6B6C6E;
+    font-weight: 500;
+}
+div.calendar_wrap div.days > div.day:first-child{
+    color:#EB004F;
+}
+div.calendar_wrap div.days > div.day:last-child {
+    color: #053B82;
+}
+div.calendar_wrap div.date_wrap{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+div.calendar_wrap div.date_wrap > div.date_box{
+    width:calc(100% / 7);
+    border-bottom:1px solid #EDEDEE;
+    text-align: center;
+    min-height: 75px;
+    position: relative;
+}
+
+div.calendar_wrap div.date_wrap > div.date_box div.today_inner{
+    border:2px solid #053B82;
+    border-radius: 10px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+div.calendar_wrap div.date_wrap > div.date_box span.date{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:#6B6C6E;
+    margin-bottom:10px;
+}
+div.calendar_wrap div.date_wrap > div.date_box:nth-child(7n) span.date{
+    color:#053B82;
+}
+div.calendar_wrap div.date_wrap > div.date_box:nth-child(7n + 1) span.date{
+    color:#EB004F;
+}
+div.calendar_wrap div.date_wrap > div.date_box span.date.first{
+    color:#3E3F42;
+}
+div.calendar_wrap div.date_wrap > div.prev_date span.date{
+    color:#ccc !important;
+}
+div.calendar_wrap div.date_wrap > div.next_date span.date{
+    color:#ccc !important;
+}
+div.calendar_wrap div.date_wrap > div.date_box div.today_inner span.date{
+    display: block;
+    width:22px;
+    height: 22px;
+    background:#053B82;
+    color:#fff;
+    border-radius: 50%;
+    margin:0 auto 10px auto;
+}
+
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule{
+    width:20px;
+    height:20px;
+    line-height: 20px;
+    color:#fff;
+    border-radius: 5px;
+    font-size:14px;
+    font-weight: 600;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.one{background:#9C7AFA;}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.two{background:#FF5E00;}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.three{background:#5F7DFA;}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.four{background:#EFB000;}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.five{background:#FF436E }
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.six{background: #229300}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.seven{background: #5023C9}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.eight{background:#863900 }
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.nine{background: #004532}
+div.calendar_wrap div.date_wrap > div.date_box div.date_schedule.ten{background:#002291 }
+
+.manage_member_schedule .modal{
+    position:relative;
+}
+.manage_member_schedule .modal_inner{
+    padding:20px 20px;
+}
+.manage_member_schedule .add_modal{
+    width:90%;
+    overflow: inherit !important;
+}
+.manage_member_schedule .add_modal .btn_close_modal{
+    position:absolute;
+    top:-40px;
+    right:0;
+    width:35px;
+    height:35px;
+    background:rgba(0,0,0,0.6) url("/img/common/icon_close_white.png") no-repeat center/15px auto;
+    border-radius: 50%;
+    text-indent: -9999px;
+}
+.manage_member_schedule .add_modal h3{
+    font-size:20px;
+    margin-bottom:20px;
+}
+.manage_member_schedule .add_modal button{
+    width:100%;
+    display:block;
+    padding:15px 0;
+    border-bottom:1px solid #EDEDEE;
+    text-align: left;
+}
+.manage_member_schedule .no_schedule{
+    text-align:center;
+}
+.manage_member_schedule .no_schedule h4{
+    margin-bottom:15px;
+}
+.manage_member_schedule .no_schedule button{
+    width:100%;
+    padding:10px 0;
+    background:#EB004F;
+    color:#fff;
+}
+
+.manage_member_schedule .schedule_modal{
+    position: absolute;
+    bottom:-50%;
+    width:100%;
+    border-radius: 10px 10px 0 0 !important;
+    background:#F9F9F9 !important;
+    transition: all 0.3s;
+}
+.manage_member_schedule .schedule_modal h3{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.manage_member_schedule .schedule_modal h3 button{
+    background:#fff;
+    border:1px solid #EB004F;
+    color:#EB004F;
+    border-radius: 5px;
+    padding:5px 10px;
+}
+.manage_member_schedule .schedule_modal ul{
+    display:none;
+}
+.manage_member_schedule .schedule_modal ul li{
+    margin-bottom:20px;
+}
+.manage_member_schedule .schedule_modal ul li:first-child{
+    display:none;
+}
+.manage_member_schedule .schedule_modal ul li dl{
+    display:flex;
+    justify-content: space-between;
+    color:#6B6C6E;
+    margin-bottom: 5px;
+}
+.manage_member_schedule .schedule_modal ul li dl dt{
+    font-size:14px;
+}
+.manage_member_schedule .schedule_modal ul li dl dd{
+    font-size:14px;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info{
+    background:#fff;
+    border-radius: 5px;
+    box-shadow: #ccc 1px 1px 3px 1px;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div{
+    padding:10px 10px;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.no_exercise{
+    color:#9FA0A1;
+    text-align: center;
+    padding:30px 0;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_category{
+    display:flex;
+    align-items: center;
+    border-bottom:1px solid #EDEDEE;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_category span{
+    display:block;
+    height:16px;
+    line-height: 1em;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_category span.ex_section{
+    display: flex;
+    align-items: center;
+    color:#6B6C6E;
+    margin-right:10px;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_category span.ex_section:after{
+    content:"";
+    display:block;
+    width:1px;
+    height:16px;
+    background:#6B6C6E;
+    margin-left:10px;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_category span.ex_name{
+    color:#053B82;
+    font-weight: 600;
+}
+.manage_member_schedule .schedule_modal ul li div.exercise_info > div.ex_count{
+    text-align: right;
+}
+.manage_member_schedule .schedule_modal div.no_schedule{
+    color:#9FA0A1;
+    padding:50px 0 150px;
+    background:url("/img/pt/icon_gray_wordballoon.png") no-repeat center 60%/80px auto;
+}
+
+    /* 개인운동/기록 */
+.record_exercise{}
+.record_exercise section.record_top{
+    border-bottom:0;
+    background:#F9F9F9;
+    padding:20px 0;
+}
+.record_exercise section.record_top .inner{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.record_exercise section.record_top p{
+    font-size:18px;
+}
+.record_exercise section.record_top p b{
+    margin-right:5px;
+    font-size:18px;
+}
+.record_exercise section.record_top input{
+    border:0;
+    box-shadow: #ccc 1px 1px 3px 1px;
+    border-radius: 10px;
+    padding:10px 10px;
+    background: 0;
+}
+.record_exercise section.record_cont{}
+.record_exercise ul.record_tab{
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    margin-bottom:20px;
+}
+.record_exercise ul.record_tab > li{
+    width:33%;
+    text-align:center;
+    padding:10px 0;
+    background:#EDEDEE;
+    transition: all 0.2s;
+}
+.record_exercise ul.record_tab > li:nth-child(1){border-radius: 0 20px 0 0;}
+.record_exercise ul.record_tab > li:nth-child(2){border-radius: 20px 20px 0 0;}
+.record_exercise ul.record_tab > li:nth-child(3){border-radius: 20px 0 0 0;}
+.record_exercise ul.record_tab > li.active{
+    background:#EB004F;
+    color:#fff;
+}
+.record_exercise div.record_box{
+    border:1px solid #D3D3D4;
+    background:#F9F9F9;
+    border-radius: 5px;
+    padding:20px 10px;
+    margin-bottom:20px;
+}
+.record_exercise div.record_box h4{
+    font-weight: 400;
+    font-size:18px;
+    color:#6B6C6E;
+    margin-bottom:15px;
+}
+.record_exercise div.record_box h5{
+    margin-bottom:20px;
+    color:#9FA0A1;
+}
+.record_exercise div.record_box h5 b{
+    color:#000;
+}
+.record_exercise div.record_box div.no_exercise{
+    text-align: center;
+    color:#bbb;
+    padding:30px 0;
+}
+.record_exercise div.record_box ul.record_list{}
+.record_exercise div.record_box ul.record_list > li{
+    background:#fff;
+    border-radius: 5px;
+    margin-bottom:10px;
+    box-shadow: #ddd 1px 1px 3px 1px;
+}
+.record_exercise div.record_box ul.record_list > li:last-child{
+    margin-bottom:0;
+}
+.record_exercise div.record_box ul.record_list > li > div{
+    display:flex;
+    padding:10px 10px;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top{
+    justify-content: space-between;
+    border-bottom:1px solid #EDEDEE;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top dl{
+    display:flex;
+    align-items: center;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top dl dt{
+    display:flex;
+    align-items: center;
+    color:#6B6C6E;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top dl dt:after{
+    content:"";
+    display:block;
+    width:1px;
+    height:18px;
+    background:#9FA0A1;
+    margin:0 10px;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top dl dd{
+    color:#9FA0A1;
+}
+.record_exercise div.record_box ul.record_list > li div.record_list_top dl dd b{color:#000; margin-right:5px;}
+.record_exercise div.record_box ul.exercise_list > li div.record_list_top dl dd b{color:#053B82;}
+.record_exercise div.record_box ul.record_list > li div.record_list_bottom{
+    justify-content: flex-end;
+}
+
+ul.inbody_list{}
+ul.inbody_list > li{}
+ul.inbody_list > li div.record_list_top span{
+    color:#9FA0A1;
+}
+ul.inbody_list > li div.record_list_top span b{
+    margin-right:5px;
+    color:#000;
+}
+ul.inbody_list > li div.record_list_bottom{
+    display:block !important;
+}
+ul.inbody_list > li div.inbody_graph{
+    width:100%;
+    position: relative;
+    height:15px;
+    margin-bottom:5px;
+}
+ul.inbody_list > li div.inbody_graph > div{
+    width:100%;
+    position:absolute;
+    display:flex;
+    justify-content: space-between;
+}
+ul.inbody_list > li div.inbody_graph > div > span{
+    display:block;
+    width:33%;
+    height:15px;
+    border-right:1px solid #fff;
+    box-sizing: border-box;
+}
+ul.inbody_list > li div.inbody_graph > div > span:nth-child(2){width:34%;}
+ul.inbody_list > li div.inbody_graph > div > span:nth-child(3){border-right:0;}
+ul.inbody_list > li div.inbody_graph > div.graph_gauge{
+    clip:rect(-3.5px, 0, 20px, 0);
+    transition: all 1s;
+}
+ul.inbody_list > li div.inbody_graph > div.graph_gauge > div.end_point{
+    content:"";
+    display: block;
+    width:4px;
+    height:22px;
+    position:absolute;
+    top:-3.5px;
+    left:0;
+    z-index: 100;
+}
+ul.inbody_list > li div.inbody_graph > div.graph_gauge > span:nth-child(1){background:#6B6C6E;}
+ul.inbody_list > li div.inbody_graph > div.graph_gauge > span:nth-child(2){background:#849EFF;}
+ul.inbody_list > li div.inbody_graph > div.graph_gauge > span:nth-child(3){background:#FF7E7E;}
+
+ul.inbody_list > li div.inbody_graph > div.graph_back > span:nth-child(1){background:rgba(107, 108, 110, 0.3);}
+ul.inbody_list > li div.inbody_graph > div.graph_back > span:nth-child(2){background:rgba(132, 158, 255, 0.3);}
+ul.inbody_list > li div.inbody_graph > div.graph_back > span:nth-child(3){background:rgba(255, 126, 126, 0.3);}
+ul.inbody_list > li div.graph_labels{
+    display:flex;
+    justify-content: space-between;
+}
+ul.inbody_list > li div.graph_labels > span{
+    text-align: center;
+    width:33%;
+    color:#9FA0A1;
+}
+
+/* 운동 등록 */
+section.ex_section{
+    border:0;
+}
+section.ex_section dl{
+    margin-bottom:20px;
+}
+section.ex_section dl dt{
+    color:#6B6C6E;
+    font-weight: 500;
+    margin-bottom:10px;
+}
+section.ex_section dl dd{}
+section.ex_section dl dd input{
+    width:100%;
+    background:#EDEDEE;
+    border-radius: 5px;
+    padding:15px 10px;
+}
+section.ex_section dl dd input::placeholder{
+    color:#9FA0A1;
+}
+section.ex_section dl dd input[name=exerciseName]{
+    background:#EDEDEE url("/img/common/icon_search_gray.png") no-repeat 95% center/20px auto;
+}
+section.ex_section dl dd select{
+    width:100%;
+    border-radius: 5px;
+    padding:15px 10px;
+}
+
+section.ex_section div.ex_detail_box{
+    margin-bottom:30px;
+}
+section.ex_section div.ex_detail_box ul{
+    display:flex;
+    justify-content: space-between;
+}
+section.ex_section div.ex_detail_box ul li{
+    width:19%;
+    text-align:center;
+}
+section.ex_section div.ex_detail_box ul li span{
+    display: block;
+    color:#6B6C6E;
+    margin-bottom:10px;
+    font-weight:500;
+}
+section.ex_section div.ex_detail_box ul li input{
+    width:100%;
+    background:#EDEDEE;
+    border-radius: 5px;
+    padding:10px 0;
+    text-align: center;
+}
+
+.regist_ex_schedule{}
+.regist_ex_schedule .modal{
+    width:90vw;
+    position:relative;
+    overflow: inherit !important;
+}
+.regist_ex_schedule .modal button.btn_close_modal{
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background:#000 url("/img/common/icon_close_white.png") no-repeat center/15px auto;
+    text-indent: -9999px;
+    position:absolute;
+    top:-40px;
+    right:0;
+}
+.regist_ex_schedule .modal button.btn_success{
+    display:block;
+    width:90%;
+    padding:10px 0;
+    margin:0 auto 20px auto;
+    background:#EB004F;
+    border-radius:5px;
+    color:#fff;
+}
+
+.regist_ex_schedule .modal h3{
+    padding:20px 10%;
+    border-bottom:1px solid #EB004F;
+    display:flex;
+}
+.regist_ex_schedule .modal h3 p{
+    color:#ccc;
+}
+.regist_ex_schedule .modal h3 p.active{
+    color:#36373A;
+}
+.regist_ex_schedule .modal h3 span{
+    color:#36373A;
+    margin-right:5px;
+}
+
+.regist_ex_schedule .calendar_box{
+    margin-bottom:20px;
+}
+.regist_ex_schedule .calendar_box .year-month{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:20px 10%;
+    color:#6B6C6E;
+    font-weight: 500;
+}
+.regist_ex_schedule .calendar_box .year-month button{
+    width:11px;
+    height:19px;
+    background:url("/img/pt/icon_calendar_arrow.png") no-repeat center;
+    text-indent: -9999px;
+}
+.regist_ex_schedule .calendar_box .year-month button.btn_next_month{
+    transform:rotate(180deg);
+}
+.regist_ex_schedule .calendar_box .year-month span{
+    font-size:18px;
+}
+.regist_ex_schedule .calendar_box .days{
+    display:flex;
+    justify-content: space-between;
+    padding:0 10%;
+    color:#6B6C6E;
+    font-weight:500;
+    margin-bottom: 10px;
+}
+.regist_ex_schedule .calendar_box .real_calendar{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding:0 5%;
+}
+.regist_ex_schedule .calendar_box .real_calendar > div.date_box{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:calc(100%/7);
+    color:#9FA0A1;
+    height:40px;
+}
+.regist_ex_schedule .calendar_box .real_calendar > div.date_box span{
+    font-size:14px;
+    font-weight:bold;
+}
+.regist_ex_schedule .calendar_box .real_calendar > div.date_box.today span{
+    color:#053B82;
+}
+.regist_ex_schedule .calendar_box .real_calendar > div.date_box.active span{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background:#EB004F;
+    color:#fff;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+}
+
+.regist_ex_schedule div.time_modal{}
+.regist_ex_schedule div.time_modal div.ampm{
+    padding:20px 5%;
+    display: flex;
+    align-items: center;
+}
+.regist_ex_schedule div.time_modal div.ampm > label{
+    border:1px solid #6B6C6E;
+    padding:8px 20px;
+    border-radius: 20px;
+    margin-right:20px;
+}
+.regist_ex_schedule div.time_modal div.ampm > label:before{
+    display:none;
+}
+.regist_ex_schedule div.time_modal div.ampm > input:checked+label{
+    background:#053B82;
+    color:#fff;
+}
+.regist_ex_schedule div.time_modal div.time_input{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding:20px 5%;
+}
+.regist_ex_schedule div.time_modal div.time_input input{
+    width:40%;
+    background:#EDEDEE;
+    border-radius: 5px;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+
+.regist_ex_schedule dd.dd_ex_time{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.regist_ex_schedule dd.dd_ex_time input{
+    width:45%;
+}
+.regist_ex_schedule div.select-box div.current-select{
+    background-position: 95% center;
+}
+
+.regist_ex section.ex_section:first-child{
+    border-bottom:10px solid #EDEDEE;
+}
+.regist_ex div.select-box div.current-select{
+    background-position: 95% center;
+}
+
+div.search_ex{
+    background: #fff;
+    position: fixed;
+    top:100%;
+    z-index: 10;
+    transition: all 0.3s;
+}
+div.search_ex header{
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    height:10vh;
+}
+div.search_ex header button.btn_close{
+    width:18px;
+    height:18px;
+    background:url("/img/common/icon_close.png") no-repeat center;
+    text-indent: -9999px;
+}
+div.search_ex header input{
+    width:90%;
+    background:#EDEDEE;
+    padding:10px 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+div.search_ex div.ex_category_list{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:10px 3%;
+    border-bottom:1px solid #EDEDEE;
+}
+div.search_ex div.ex_category_list button{
+    font-weight: 300;
+}
+div.search_ex div.ex_category_list button.active{
+    font-weight:500;
+}
+div.search_ex ul{
+    height:calc(90vh - 44px);
+    overflow-y: auto;
+}
+div.search_ex ul li{}
+div.search_ex ul li span{
+    display:block;
+    background:#EDEDEE;
+    color:#9FA0A1;
+    padding:10px 3%;
+}
+div.search_ex ul li div{
+    padding:15px 3%;
+    border-bottom:1px solid #EDEDEE;
+}
+
+/* 운동일정 수정*/
+.modify_ex_schdule{}
+.modify_ex_schdule section.modify_ex_section:first-child{
+    border-bottom:
+}
+.modify_ex_schdule button.btn_reset{
+    margin-left:auto;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    border-radius: 5px;
+    padding:5px 3px 5px 25px;
+    background:url("/img/common/icon_reset_gray.png") no-repeat 5px center/18px auto;
+}
+.modify_ex_schdule .modify_btns{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 3%;
+    margin-bottom:20px;
+}
+.modify_ex_schdule .modify_btns > button{
+    width:48%;
+    text-align: center;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    border-radius: 5px;
+    padding:10px 0;
+}
+.modify_ex_schdule .modify_btns > button.active{
+    color:#EB004F;
+    border:1px solid #EB004F;
+}
+
+.modify_ex_schdule div.bottom_button_box button.btn_delete{
+    width:20%;
+    border:1px solid #9FA0A1;
+    color:#6B6C6E;
+    border-radius: 5px;
+}
+.modify_ex_schdule div.bottom_button_box button.btn_send{
+    width:75%;
+    background:#EB004F;
+    padding:10px 0;
+    border-radius: 5px;
+    color:#fff;
+}
+.modify_ex_schdule div.bottom_button_box button.btn_save{
+    width:100%;
+    display:none;
+}
+
+/* 1회 체험 정산관리*/
+div.manage_adjust{}
+div.manage_adjust div.adjust_info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:30px;
+}
+div.manage_adjust div.adjust_info span{
+    font-size:18px;
+    line-height: 1em;
+    background:url("/img/common/icon_gear.png") no-repeat left center;
+    padding-left:30px;
+}
+div.manage_adjust div.adjust_info button.btn_set_adjust{
+    display:flex;
+    align-items: center;
+}
+div.manage_adjust div.adjust_info button.btn_set_adjust:after{
+    content:"";
+    display:block;
+    width:10px;
+    height:22px;
+    background:url("/img/common/icon_back.png") no-repeat right center/100% auto;
+    transform: rotate(180deg);
+    margin-left:5px;
+}
+section.adjust_history_section{
+    border-bottom:0;
+}
+section.adjust_history_section h3 .btn_show_rule{
+    color:#6B6C6E;
+    border-bottom:1px solid #6B6C6E;
+}
+section.adjust_history_section div.history_box{}
+section.adjust_history_section div.history_box div.non_history p{
+    text-align:center;
+    color:#9FA0A1;
+    margin:70px 0;
+}
+section.adjust_history_section button.btn_create_profile{
+    display:block;
+    width:90%;
+    padding:10px 0;
+    border-radius: 5px;
+    background:#EB004F;
+    color:#fff;
+    margin:0 auto;
+}
+section.adjust_history_section div.select-box{
+    display: inline-block;
+    width:135px;
+}
+section.adjust_history_section div.select-box div.current-select{
+    padding:10px 30px 10px 10px;
+    background-position: 90% center;
+    background-color: transparent;
+    border:0;
+}
+section.adjust_history_section div.adjust_price{
+    text-align:center;
+    margin:30px 0;
+    color:#9FA0A1;
+}
+section.adjust_history_section div.adjust_price b{
+    font-size:22px;
+    color:#053B82;
+    margin-left:5px;
+}
+section.adjust_history_section ul.history_user_list{}
+section.adjust_history_section ul.history_user_list > li{
+    margin-bottom:30px;
+}
+section.adjust_history_section ul.history_user_list > li span{
+    display:block;
+    color:#6B6C6E;
+    margin-bottom:5px;
+}
+section.adjust_history_section ul.history_user_list > li dl{
+    display:flex;
+    align-items: center;
+    background:#F9F9F9;
+    border:1px solid #D3D3D4;
+    border-radius: 5px;
+    padding:10px 10px;
+    margin-bottom:10px;
+}
+section.adjust_history_section ul.history_user_list > li dl dt{
+    display:flex;
+    width:40px;
+    height:40px;
+}
+section.adjust_history_section ul.history_user_list > li dl dd{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:calc(100% - 40px);
+    font-weight: 300;
+    padding-left:10px;
+    box-sizing: border-box;
+}
+section.adjust_history_section ul.history_user_list > li dl dd button.btn_confirm_pay{
+    background:#fff;
+    color:#EB004F;
+    border:1px solid #D3D3D4;
+    padding:8px 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 2px 1px #ddd;
+}
+section.adjust_history_section ul.history_user_list > li dl dd p{
+    color:#9FA0A1;
+    padding-right:20px;
+}
+    /* 정산 정보 설정 */
+div.set_adjust{}
+div.set_adjust div.adjust_btns{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+div.set_adjust div.adjust_btns button{
+    width:48%;
+    text-align: center;
+    padding:10px 0;
+    border:1px solid #9FA0A1;
+    color:#9FA0A1;
+    border-radius: 5px;
+}
+div.set_adjust div.adjust_btns button.active{
+    color:#EB004F;
+    border:1px solid #EB004F
+}
+div.set_adjust section.info_section ol{
+    list-style: "-";
+    padding-left:5px;
+}
+div.set_adjust section.info_section ol li{
+    padding-left:3px;
+}
+div.set_adjust section.adjust_info_section{}
+div.set_adjust section.adjust_info_section h3 button{
+    color:#6B6C6E;
+    border-bottom:1px solid #6B6C6E;
+}
+div.set_adjust dl{
+    margin-bottom:20px;
+}
+div.set_adjust dl dt{
+    color:#6B6C6E;
+    font-weight:500;
+    margin-bottom:5px;
+}
+div.set_adjust dl dd{
+    display:flex;
+}
+div.set_adjust dl dd div.img_box {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:100px;
+    height:100px;
+    margin-right:30px;
+    background:url("/img/pt/shape_dotted_border.png") no-repeat center/100% auto;
+}
+div.set_adjust dl dd div.img_box img{
+    width:50%;
+}
+div.set_adjust dl dd input[type=text]{
+    width:100%;
+    border-bottom:1px solid #9FA0A1;
+    padding:10px 10px;
+}
+div.set_adjust dl dd input[type=file]{
+    display:none;
+}
+div.set_adjust dl dd input[type=file]+label{
+    display:flex;
+    align-items: center;
+    color:#6B6C6E;
+}
+div.set_adjust section.account_info{
+    border-bottom:0;
+}
+
+/* 알림 */
+div.notification{}
+div.notification button.btn_set_notification{
+    margin-left:auto;
+    width:20px;
+    height:22px;
+    background:url("/img/common/icon_gear_gray.png") no-repeat center/100% auto;
+    text-indent: -9999px;
+}
+div.notification div.notification_menu{
+    display:flex;
+    border-bottom:1px solid #EDEDEE;
+}
+div.notification div.notification_menu > button{
+    width:50%;
+    padding:10px 0;
+    color:#6B6C6E;
+    position:relative;
+}
+div.notification div.notification_menu > button:after{
+    content:"";
+    display: inline-block;
+    width:30px;
+    height:3px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform: translateX(-50%);
+}
+div.notification div.notification_menu > button.active{
+    color:#EB004F;
+    font-weight:600;
+}
+div.notification div.notification_menu > button.active:after{
+    background:#6B6C6E;
+}
+div.notification div.no_notification{
+    text-align:center;
+    padding:150px 0;
+    color:#9FA0A1;
+    background:url("/img/pt/icon_gray_wordballoon.png") no-repeat center bottom/80px auto;
+}
+div.notification ul.notification_list{}
+div.notification ul.notification_list > li{
+    display:flex;
+    align-items: center;
+    border-bottom:1px solid #EDEDEE;
+    padding:15px 3%;
+}
+div.notification ul.notification_list > li span.notification_icon {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 3px 1px #ccc;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50% auto;
+    margin-right: 10px;
+}
+div.notification ul.notification_list > li span.gift{
+    background-image:url("/img/pt/icon_red_gift.png");
+}
+div.notification ul.notification_list > li span.gift.read{
+    background-image:url("/img/pt/icon_gray_gift.png");
+}
+div.notification ul.notification_list > li span.notice{
+    background-image:url("/img/pt/icon_red_megaphone.png");
+}
+div.notification ul.notification_list > li span.notice.read{
+    background-image:url("/img/pt/icon_gray_megaphone.png");
+}
+div.notification ul.notification_list > li span.schedule{
+    background-image:url("/img/pt/icon_calendar_red.png");
+}
+div.notification ul.notification_list > li span.schedule.read{
+    background-image:url("/img/pt/icon_calendar_gray.png");
+}
+div.notification ul.notification_list > li span.hand{
+    background-image:url("/img/pt/icon_hand_red.png");
+}
+div.notification ul.notification_list > li span.hand.read{
+    background-image:url("/img/pt/icon_hand_gray.png");
+}
+div.notification ul.notification_list > li span.hand.read{
+    background-image:url("/img/pt/icon_hand_gray.png");
+}
+div.notification ul.notification_list > li dl{
+    width:calc(100% - 60px);
+}
+div.notification ul.notification_list > li dl dt{
+    display:flex;
+    justify-content: space-between;
+    font-weight:500;
+}
+div.notification ul.notification_list > li dl dt div.notification_time{
+    color:#9FA0A1;
+    font-weight:400;
+}
+div.notification ul.notification_list > li dl dd{}
+
+/* 설정 */
+div.settings{}
+div.settings div.settings_menu{}
+div.settings div.settings_menu ul{}
+div.settings div.settings_menu ul > li{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:15px 3%;
+    border-bottom:1px solid #EDEDEE;
+}
+div.settings div.settings_menu ul > li:first-child{
+    color:#9FA0A1;
+    padding:15px 3% 15px 50px;
+    font-size:18px;
+    background-color:#EDEDEE;
+    background-repeat: no-repeat;
+    background-position: 3% center;
+    background-size:30px auto;
+}
+div.settings div.settings_menu ul.service > li:first-child{background-image:url("/img/pt/icon_information_gray.png");}
+div.settings div.settings_menu ul.notification > li:first-child{background-image:url("/img/pt/icon_notification_outline.png");}
+div.settings div.settings_menu ul.marketing > li:first-child{background-image:url("/img/pt/icon_at_outline.png");}
+div.settings div.settings_menu ul.account > li:first-child{background-image:url("/img/pt/icon_person_outline_gray.png");}
+div.settings div.settings_menu ul > li:last-child{
+    border-bottom:0;
+}
+div.settings div.settings_menu ul > li > a{
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.settings div.settings_menu ul > li > a p{
+    color:#6B6C6El;
+    font-size:14px;
+}
+div.settings div.settings_menu ul > li input + label{
+    width:40px;
+    height:22px;
+    background:#6B6C6E;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.3s;
+}
+div.settings div.settings_menu ul > li input + label:before{
+    border:0;
+    position: absolute;
+    top:3px;
+    left:3px;
+    border-radius: 50%;
+    background:#fff;
+    width:16px;
+    height:16px;
+    transition: all 0.3s;
+}
+div.settings div.settings_menu ul > li input:checked + label{
+    background:#EB004F;
+}
+div.settings div.settings_menu ul > li input:checked + label:before{
+    left:21px;
+}
+
+/* 문의 및 답변 */
+div.qna{}
+div.qna ul.qna_list{}
+div.qna ul.qna_list > li{
+    padding:10px 0 0 ;
+    border-bottom:1px solid #EDEDEE;
+}
+div.qna ul.qna_list > li span.qna_writer{
+    display:block;
+    color:#9FA0A1;
+    margin-bottom:5px;
+    padding:0 3%;
+}
+div.qna ul.qna_list > li div.qna_info{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:10px;
+    padding:0 3%;
+}
+div.qna ul.qna_list > li div.qna_info p{}
+div.qna ul.qna_list > li span.qna_date{
+    color:#9FA0A1;
+    font-size:14px;
+}
+div.qna ul.qna_list > li div.qna_answer{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background:url("/img/pt/icon_answer.png") no-repeat 3% 18px #F9F9F9;
+    border-top:1px solid #EDEDEE;
+    padding:15px 3% 15px 30px;
+}
+div.qna button.btn_question{
+    position: fixed;
+    bottom:20px;
+    right:20px;
+    width:80px;
+    height:80px;
+    background:url("/img/pt/icon_chatbubbles.png") no-repeat center 30% #EB004F;
+    border-radius: 50%;
+    color:#fff;
+    font-weight:500;
+    padding-top:30px;
+    box-sizing: border-box;
+}
+
+/* 문의하기 */
+div.inquiry{}
+div.inquiry dl{
+    margin-bottom:20px;
+}
+div.inquiry dl dt{
+    color:#6B6C6E;
+    font-weight:500;
+    margin-bottom:5px;
+}
+div.inquiry dl dd{}
+div.inquiry dl dd input{
+    background:#EDEDEE;
+    border-radius: 5px;
+    width:100%;
+    padding:10px 10px;
+    box-sizing: border-box;
+}
+div.inquiry dl dd input::placeholder{
+    color:#9FA0A1;
+}
+div.inquiry dl dd textarea{
+    background:#EDEDEE;
+    border-radius: 5px;
+    width:100%;
+    padding:10px 10px;
+    box-sizing: border-box;
+    border:0;
+    min-height: 300px;
+}
+div.inquiry dl dd textarea::placeholder{
+    color:#9FA0A1;
+}
+
+/* 공지사항 */
+div.notice{}
+div.notice h3{
+    font-size:18px;
+    padding:20px 3%;
+}
+div.notice ul{}
+div.notice ul li{
+    border-bottom:1px solid #EDEDEE;
+}
+div.notice ul li:nth-child(odd){
+    background:#F9F9F9;
+}
+div.notice ul li a{
+    display:flex;
+    justify-content: space-between;
+    padding:15px 3%;
+}
+div.notice ul li a p{
+    width:80%;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+}
+div.notice ul li a span{
+    width:20%;
+    text-align:right;
+    color:#9FA0A1;
+}
+
+/* 공지사항 상세 */
+div.notice h4{
+    border-bottom:2px solid #9FA0A1;
+    padding-bottom:5px;
+    margin-bottom:5px;
+}
+div.notice span.notice_date{
+    display:block;
+    text-align: right;
+    color:#9FA0A1;
+    margin-bottom:20px;
+}
+div.notice div.notice_content{
+    word-break: keep-all;
+}
+div.notice button.btn_list{
+    position: fixed;
+    bottom:5%;
+    right:3%;
+    border:1px solid #D3D3D4;
+    border-radius: 10px;
+    padding:7px 20px 7px 35px;
+    color:#EB004F;
+    font-weight:600;
+    background:url("/img/pt/icon_arrow_red.png") no-repeat 17% center/7px auto;
+    box-shadow: 1px 1px 3px 1px #ccc;
+}
+
+/* 약관 및 정책 */
+div.terms ul li{
+    background:#fff !important;
+}
+
+/* 게시판 상세보기 */
+.article_detail{}
+.article_detail h3{
+    font-size:16px;
+    margin-top:30px;
+    border-bottom:2px solid #9FA0A1;
+    padding-bottom:5px;
+    margin-bottom:5px;
+}
+.article_detail span.write_date{
+    display:block;
+    text-align: right;
+    color:#9FA0A1;
+    margin-bottom:30px;
+}
+
+/* 회원 탈퇴 */
+div.resign_user{}
+div.resign_user h3{
+    font-size:18px;
+    margin-bottom:20px;
+}
+div.resign_user ol{
+    list-style: "-";
+    margin-bottom:10px;
+}
+div.resign_user ol li{
+    padding-left:5px;
+    margin-bottom:5px;
+    word-break: keep-all;
+}
+div.resign_user p{
+    color:#9FA0A1;
+    margin-bottom:20px;
+}
+div.resign_user div.resign_reason{
+    margin-bottom:10px;
+}
+div.resign_user label{
+    display:flex;
+    align-items: center;
+    margin-bottom:20px;
+}
+div.resign_user label:before{
+    content:"";
+    display:block;
+    width:20px;
+    height:20px;
+    background-image:url("/img/pt/icon_dotted_circle.png");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:100% auto;
+    margin-right:10px;
+}
+div.resign_user input:checked + label:before{
+    background-image:url("/img/pt/icon_check_circle.png");
+}
+div.resign_user label.resign_agree:before{
+    border:0;
+}
+div.resign_user div.resign_reason textarea{
+    width:100%;
+    background:#EDEDEE;
+    border-radius: 5px;
+    border:0;
+    padding:10px 10px;
+    min-height: 150px;
+    box-sizing: border-box;
+}
+div.resign_user div.resign_reason textarea::placeholder{
+    color:#9FA0A1;
+
+}
+div.resign_user div.resign_modal{
+    text-align:center;
+}
+div.resign_user div.resign_modal div.modal_inner{
+    padding:30px 50px;
+}
+div.resign_user div.resign_modal h3{}
+div.resign_user div.resign_modal div.modal_btns{
+    display:flex;
+}
+div.resign_user div.resign_modal div.modal_btns > button{
+    width:50%;
+    padding:12px 0;
+    box-sizing: border-box;
+    color:#fff;
+    border:0;
+}
+div.resign_user div.resign_modal div.modal_btns > button.btn_cancel{
+    background:#9FA0A1;
+}
+div.resign_user div.resign_modal div.modal_btns > button.btn_resign{
+    background:#EB004F;
+}

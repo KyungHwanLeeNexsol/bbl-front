@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="notice">
+
+<!--        <header class="main_header">-->
+<!--            <button type="button" class="btn_notification">알림 내역</button>-->
+<!--            <h1 class="logo">-->
+<!--                <a href="/pt"><img src="/img/common/logo.png" alt="BBL"></a>-->
+<!--            </h1>-->
+<!--            <button type="button" class="btn_menu">메뉴</button>-->
+<!--        </header>-->
+        <header>
+            <button class="btn_back" onclick="history.back();">뒤로가기</button>
+            <h2>BBL 공지사항</h2>
+        </header>
+
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="#">
+                        <p>[공지] 1회체험 취소절차 변경</p>
+                        <span>22.04.15</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <p>[운영시간] 2022년 3월 대체공휴일 관련 BBL ㅇㄴ러ㅣㅏ</p>
+                        <span>22.03.28</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <p>[운영시간] 고객센터 서버 점검 안내</p>
+                        <span>22.02.11</span>
+                    </a>
+                </li>
+            </ul>
+        </div><!--.conatainer-->
+
+    </div><!--.manage_member_schedule-->
+
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+</body>
+
+</html>

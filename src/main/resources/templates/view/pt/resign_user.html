@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="resign_user">
+        <div class="modal_wrap">
+            <div class="modal resign_modal">
+                <div class="modal_inner">
+                    <h3>회원탈퇴</h3>
+                    <p>정말 BBL을 탈퇴하시겠습니까?</p>
+                </div><!--.modal_inner-->
+                <div class="modal_btns">
+                    <button type="button" class="btn_cancel">취소</button>
+                    <button type="button" class="btn_resign">회원탈퇴</button>
+                </div>
+            </div><!--add_modal-->
+        </div><!--.modal-wrap-->
+
+        <header>
+            <button class="btn_back" onclick="history.back();">뒤로가기</button>
+            <h2>회원 탈퇴</h2>
+        </header>
+        <div class="container">
+            <div class="inner">
+                <h3>BBL을 탈퇴하실 때..</h3>
+                <ol>
+                    <li>현재까지 저장된 모든 기록이 삭제되며, 해당 계정으로 로그인이 불가능합니다.</li>
+                    <li>작성한 게시글(시술후기, 톡톡, 평가 등)이 모두 삭제되며 복구할 수 없습니다.</li>
+                    <li>중요한 정보가 있는지 탈퇴 전에 다시 한 번 확인 부탁드립니다.</li>
+                    <li>회원탈퇴 후에는 모든 기록이 삭제되므로, 재가입을 해도 이전 기록과 연동되지 않습니다.</li>
+                </ol>
+                <p>* 회원탈퇴 관련하여 추가로 궁금하신 점이 있으시면 고객센터에 문의바랍니다.</p>
+                <h3>탈퇴하시는 이유가 무엇인가요?</h3>
+                <div class="resign_reason">
+                    <input type="radio" name="deletedReason" id="resign_reason1" value="1"><Label for="resign_reason1">필요한 정보를 다 얻어서 떠나고 싶어요.</Label>
+                    <input type="radio" name="deletedReason" id="resign_reason2" value="2"><Label for="resign_reason2">얻고 싶은 정보가 부족해요.</Label>
+                    <input type="radio" name="deletedReason" id="resign_reason3" value="3"><Label for="resign_reason3">이미 다른 계정이 있어요.</Label>
+                    <input type="radio" name="deletedReason" id="resign_reason4" value="4"><Label for="resign_reason4">탈퇴 후 재가입 하고 싶어요.</Label>
+                    <input type="radio" name="deletedReason" id="resign_reason5" value="5"><Label for="resign_reason5">기타 사유</Label>
+                    <textarea name="reasonDetail" placeholder="탈퇴 사유를 자세히 적어주세요."></textarea>
+                </div><!--.resign_reason-->
+                <input type="checkbox" name="resign_agree" id="resign_agree"><label for="resign_agree" class="resign_agree">안내사항을 모두 확인하였으며, 이에 동의합니다.</label>
+            </div><!--.inner-->
+            <div class="bottom_button_box">
+                <button class="btn_save">BBL 탈퇴하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.resign_user-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.bottom_button_box > button").click(function(){
+                if($("input[name=deletedReason]:checked").length >= 1){
+                    if($("input[name=deletedReason]:checked").val() === '5' && $("textarea[name=reasonDetail]").val().trim() === ''){
+                        alert("탈퇴 사유를 작성해주세요.");
+                    }else{
+                        $("div.modal_wrap").css("display","flex");
+                        $("div.modal_wrap div.modal").css("display","block");
+                    }
+                }else{
+                    alert("탈퇴 사유를 선택해주세요");
+                }
+            });
+
+            $("div.modal button.btn_cancel").click(function(){
+                $("div.modal_wrap").css("display","none");
+                $("div.modal_wrap div.modal").css("display","none");
+            });
+
+            $("div.modal button.btn_resign").click(function(){
+                const data = {
+                    "deletedReason": $("input[name=deletedReason]:checked").val(),
+                    "id": "",
+                    "idx": 0,
+                    "lastAccess": "",
+                    "reasonDetail": $("textarea[name=reasonDetail]").val(),
+                    "userIdx": 1
+                };
+
+
+
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/select-information",
+                    type : "post",
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        data['id'] = response.infos.id;
+                        data['lastAccess'] = response.infos.last_access;
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+
+
+                console.log(data);
+
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/account-withdrawal",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    contentType: "application/json",
+                    data:JSON.stringify(data),
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true){
+                            alert("그동안 BBL을 이용해주셔서 감사합니다.");
+                            location.href="/pt/login";
+                        }else{
+                            alert("회원탈퇴 실패");
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                        alert("회원탈퇴 실패");
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

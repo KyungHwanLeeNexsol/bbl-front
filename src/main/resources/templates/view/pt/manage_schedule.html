@@ -1,0 +1,233 @@
+<div class="schedule_calendar">
+    <div class="year-month">
+        <button type="button" class="btn_prev_month">이전</button>
+        <span></span>
+        <button type="button" class="btn_next_month">다음</button>
+    </div><!--.year-month-->
+    <div class="calendar_wrap">
+        <div class="days">
+            <div class="day">일</div>
+            <div class="day">월</div>
+            <div class="day">화</div>
+            <div class="day">수</div>
+            <div class="day">목</div>
+            <div class="day">금</div>
+            <div class="day">토</div>
+        </div><!--.days-->
+        <div class="date_wrap">
+
+        </div><!--.dates-->
+    </div><!--.calendar_wrap-->
+</div><!--.schedule_calendar-->
+
+
+<script>
+    $(document).ready(function(){
+        calendarInit();
+    });
+
+    function calendarInit() {
+        let date = new Date(); // 현재 날짜(로컬 기준) 가져오기
+        let utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000); // uct 표준시 도출
+        let kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
+        let today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
+
+        let thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // 현재 달
+        let currentYear = thisMonth.getFullYear(); // 현재년도
+        let currentMonth = thisMonth.getMonth() + 1; // 현재달
+
+        // 정수의 난수 구하기
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+        }
+
+        function renderCalender(newDate) {
+            currentYear = newDate.getFullYear(); // 현재년도
+            currentMonth = newDate.getMonth() + 1; // 현재달
+
+            $("div.year-month > span").text(currentYear + "년 " + currentMonth + "월");
+
+            // 이전 달의 마지막 날 날짜와 요일 구하기
+            let startDay = new Date(currentYear, currentMonth - 1, 0);
+            let prevDate = startDay.getDate();
+            let prevDay = startDay.getDay();
+
+            // 이번 달의 마지막날 날짜와 요일 구하기
+            let endDay = new Date(currentYear, currentMonth, 0);
+            let nextDate = endDay.getDate();
+            let nextDay = endDay.getDay();
+
+            let calendar = $("div.date_wrap");
+            calendar.html("");
+
+            // 지난달 날짜 렌더링
+            for (let i = prevDate - prevDay; i <= (prevDay !== 6 ? prevDate : 0); i++) {
+                calendar.html(calendar.html() + '<div class="date_box prev_date"><span class="date">' + i + '</span></div>');
+            }
+
+            // 이번달 날짜 렌더링
+            for (let i = 1; i <= nextDate; i++) {
+                calendar.html(calendar.html() + '<div class="date_box current_date">' + (i === date.getDate() ? '<div class="today_inner">' : "") + '<span class="' + (i === 1 ? "first " : "") + 'date '+ i +'">' + i + '</span><div class="date_schedule"></div>' + (i === date.getDate() ? '</div>' : "") + '</div>');
+            }
+
+            // 다음달 날짜 렌더링
+            for (let i = 1; i <= (nextDay === 6 ? 0 : 6 - nextDay); i++) {
+                calendar.html(calendar.html() + '<div class="date_box next_date"><span class="date">' + i + '</span></div>');
+            }
+
+            // 임의로 스케줄 그리기
+/*            for(let i = 0; i < getRandomInt(1, nextDate + 1); i++){
+                let randomDate = getRandomInt(1, nextDate + 1);
+                let randomPtCount = getRandomInt(1, 11);
+                let schedule_class = "";
+
+                switch (randomPtCount){
+                    case 1 :
+                        schedule_class = "one";
+                        break;
+                    case 2 :
+                        schedule_class = "two";
+                        break;
+                    case 3 :
+                        schedule_class = "three";
+                        break;
+                    case 4 :
+                        schedule_class = "four";
+                        break;
+                    case 5 :
+                        schedule_class = "five";
+                        break;
+                    case 6 :
+                        schedule_class = "six";
+                        break;
+                    case 7 :
+                        schedule_class = "seven";
+                        break;
+                    case 8 :
+                        schedule_class = "eight";
+                        break;
+                    case 9 :
+                        schedule_class = "nine";
+                        break;
+                    case 10 :
+                        schedule_class = "ten";
+                        break;
+                }
+
+                $("span." + randomDate).siblings("div").text(randomPtCount);
+                $("span." + randomDate).siblings("div").addClass(schedule_class);
+            }*/
+
+        }
+
+
+        renderCalender(thisMonth);
+
+        // 일정 조회
+        function getSchedule(date){
+            let currentYear = date.getFullYear();
+            let currentMonth = date.getMonth() + 1;
+
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/schedule-count?year="+ currentYear +"&month=" + currentMonth,
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.data.length > 0){
+
+                        for(let schedule of response.data){
+                            let schedule_class = "";
+                            let scheduleDate = new Date(schedule.lesson_date).getDate();
+
+                            switch (schedule.count){
+                                case 1 :
+                                    schedule_class = "one";
+                                    break;
+                                case 2 :
+                                    schedule_class = "two";
+                                    break;
+                                case 3 :
+                                    schedule_class = "three";
+                                    break;
+                                case 4 :
+                                    schedule_class = "four";
+                                    break;
+                                case 5 :
+                                    schedule_class = "five";
+                                    break;
+                                case 6 :
+                                    schedule_class = "six";
+                                    break;
+                                case 7 :
+                                    schedule_class = "seven";
+                                    break;
+                                case 8 :
+                                    schedule_class = "eight";
+                                    break;
+                                case 9 :
+                                    schedule_class = "nine";
+                                    break;
+                                case 10 :
+                                    schedule_class = "ten";
+                                    break;
+                            }
+
+                            $("span." + scheduleDate).siblings("div").text(schedule.count);
+                            $("span." + scheduleDate).siblings("div").addClass(schedule_class);
+                        }
+                    }
+
+                    $("div.date_box").click(function(event){
+                        if($(this).hasClass("current_date") /*&& Number($(this).find("div.date_schedule").text()) > 0*/){
+                            let clickDate = currentYear + "년 " + currentMonth + "월 " + $(this).find("span.date").text() + "일";
+                            $("div.schedule_modal h3 span").text(clickDate);
+                            $("div.modal_wrap").css("display","flex");
+                            $("div.schedule_modal").css("display","block");
+                            $("div.schedule_modal div.scheduled_exercise").load("/pt/scheduled_exercise");
+
+                            event.stopImmediatePropagation();
+
+                            setTimeout(function(){
+                                $("div.schedule_modal").css("bottom", 0);
+                            }, 50);
+                        }
+                    });
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+        }
+
+        getSchedule(thisMonth);
+
+        $("button.btn_prev_month").on('click', function () {
+            thisMonth = new Date(currentYear, currentMonth - 2, 1);
+            renderCalender(thisMonth);
+            getSchedule(thisMonth);
+        });
+
+        $("button.btn_next_month").on('click', function () {
+            thisMonth = new Date(currentYear, currentMonth, 1);
+            renderCalender(thisMonth);
+            getSchedule(thisMonth);
+        });
+
+        $(document).click(function(event){
+            if($("div.modal_wrap").css("display") === "flex" && event.target === $("div.modal_wrap")[0]){
+                $("div.modal_wrap").css("display", "none");
+                $("div.schedule_modal").css("bottom", "-50%");
+            }
+        });
+    }
+
+
+
+</script>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="set_adjust">
+        <header>
+            <button class="btn_back" onclick="history.back();">뒤로가기</button>
+            <h2>정산 정보 설정</h2>
+        </header>
+        <div class="container">
+            <section class="info_section">
+                <div class="inner">
+                    <div class="adjust_btns">
+                        <button type="button" class="active" data-page="individual">본인(개인)</button>
+                        <button type="button" data-page="business">본인(사업자)</button>
+                    </div><!--.modify_btns-->
+                    <ol>
+                        <li>수익금 정산과 수수료에 대한 세금계산서 발행을 위해, 정확한 정보를 입력해주세요.</li>
+                        <li>월별 매출액에 대해 플랫폼 수수료를 제외하고 다음달 15일 일괄 정산 입금됩니다.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="adjust_info_section">
+                <div class="inner">
+                    <h3>결제금 정산받을 대상 <button>정산 정책 보기</button></h3>
+                    <dl>
+                        <dt>이름(실명)</dt>
+                        <dd>
+                            <input type="text" name="name">
+                        </dd>
+                    </dl>
+                    <dl class="dl_upload">
+                        <dt>신분증</dt>
+                        <dd>
+                            <div class="img_box">
+                                <img src="/img/pt/icon_qualification.png">
+                            </div>
+                            <input type="file" name="adjust_img" id="adjust_img">
+                            <label for="adjust_img">
+                                * 필수 *<br/>
+                                신분증 사진을 업로드해주세요.<br/>
+                                주민번호 전체가 나와야합니다.
+                            </label>
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+
+            <section class="account_info">
+                <div class="inner">
+                    <h3>입금받으실 계좌</h3>
+                    <dl>
+                        <dt>은행명</dt>
+                        <dd>
+                            <input type="text" name="bank_name" placeholder="은행명을 선택해주세요.">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>예금주</dt>
+                        <dd>
+                            <input type="text" name="account_owner" placeholder="입금받으실 예금주를 입력해주세요.">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>계좌번호</dt>
+                        <dd>
+                            <input type="text" name="account_number" placeholder="입금받으실 계좌번호를 입력해주세요.('-'없이 입력)">
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+
+            <div class="bottom_button_box">
+                <button class="btn_save">저장</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.adjust_btns button").click(function(){
+                let page = $(this).data("page");
+                if(page === "individual"){
+                    $("dl.dl_upload dt").text("신분증");
+                }else{
+                    $("dl.dl_upload dt").text("사업자등록증");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

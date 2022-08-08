@@ -1,0 +1,30 @@
+<section class="ex_section modify_schedule_section">
+    <div class="inner">
+        <dl>
+            <dt>회원명</dt>
+            <dd>
+                <select name=member_name>
+                    <option value="" selected disabled>회원 선택</option>
+                    <option value="홍길동">홍길동</option>
+                    <option value="홍길동1">홍길동1</option>
+                    <option value="홍길동2">홍길동2</option>
+                    <option value="홍길동3">홍길동3</option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt>일정 날짜</dt>
+            <dd>
+                <input type="text" name="schedule_date" readonly placeholder="날짜를 선택해주세요.">
+            </dd>
+        </dl>
+        <dl>
+            <dt>운동 시각</dt>
+            <dd class="dd_ex_time">
+                <input type="text" name="start_ex_time" class="input_time" readonly placeholder="시각을 선택해주세요.">
+                ~
+                <input type="text" name="end_ex_time" class="input_time" readonly placeholder="시각을 선택해주세요.">
+            </dd>
+        </dl>
+    </div><!--.inner-->
+</section><!--.ex_schedule_section-->

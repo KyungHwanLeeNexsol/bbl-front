@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+        <th:block th:replace="/fragments/pt/head :: head"></th:block>
+<body>
+        <div id="app">
+                <!--헤더-->
+                <th:block th:replace="/fragments/pt/header :: header"></th:block>
+                <!--메인비주얼-->
+                <th:block th:replace="/fragments/pt/mainVisual :: mainVisual"></th:block>
+                <!--컨텐츠-->
+                <th:block layout:fragment="content"></th:block>
+                <!--post-box-->
+                <th:block th:replace="/fragments/pt/postBox :: postBox"></th:block>
+        </div><!--#app-->
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="manage_member_schedule">
+        <div class="modal_wrap">
+            <div class="modal add_modal">
+                <button class="btn_close_modal">닫기</button>
+                <div class="modal_inner">
+                    <h3>운동/일정 추가</h3>
+                    <button type="button" class="btn_add_schedule" onclick="location.href='/pt/regist_ex_schedule'">일정 추가</button>
+                    <button type="button" class="btn_regist_exercise">운동 등록</button>
+                </div><!--.modal_inner-->
+            </div><!--add_modal-->
+
+            <div class="modal no_schedule">
+                <div class="modal_inner">
+                    <h4>안내</h4>
+                    <p>홍길동 회원님과의 운동일정이 없습니다.<br>
+                    먼저, 운동일정을 추가해주세요.</p>
+                </div><!--.modal_inner-->
+                <button class="btn_confirm">확인</button>
+            </div><!--add_modal-->
+
+            <div class="schedule_modal modal">
+                <div class="modal_inner">
+                    <h3><span></span> <button onclick="location.href='/pt/modify_ex_schedule'">수정하기</button></h3>
+                    <div class="scheduled_exercise"></div><!--.scheduled_exercise-->
+                </div><!--.modal_inner-->
+            </div><!--.schedule_modal-->
+        </div><!--.modal-wrap-->
+
+<!--        <header class="main_header">-->
+<!--            <button type="button" class="btn_notification">알림 내역</button>-->
+<!--            <h1 class="logo">-->
+<!--                <a href="/pt"><img src="/img/common/logo.png" alt="BBL"></a>-->
+<!--            </h1>-->
+<!--            <button type="button" class="btn_menu">메뉴</button>-->
+<!--        </header>-->
+        <th:block th:replace="/fragments/pt/header :: header"></th:block>
+        <div class="container">
+                <section class="manage_section">
+                    <div class="inner">
+                        <h3>회원/일정 관리</h3>
+                        <div class="manage_cont">
+
+                        </div><!--.manage_cont-->
+                    </div>
+                </section><!--.manage_section-->
+            <div class="manage_tab">
+                <button type="button" class="btn_member active">회원</button>
+                <button type="button" class="btn_schedule">일정</button>
+            </div><!--.manage_tab-->
+        </div><!--.conatainer-->
+
+        <div class="add_schedule_tab">
+            <button type="button" class="btn_add_exercise"><a href="/pt/regist_ex">운동<br> 등록</a></button>
+            <button type="button" class="btn_add_schedule"><a href="/pt/regist_ex_schedule">일정<br> 등록</a></button>
+            <button type="button" class="btn_add_expand">
+                <img src="/img/common/icon_close_white.png">
+                <span>추가하기</span>
+            </button>
+        </div><!--.add_schedule_tab-->
+
+    </div><!--.manage_member_schedule-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.manage_cont").load("/pt/manage_member");
+
+            $("div.manage_tab > button").click(function(){
+               $(this).siblings().removeClass("active");
+               $(this).addClass("active");
+
+               if($(this).hasClass("btn_member")){
+                   $("div.manage_cont").load("/pt/manage_member");
+                   $("div.add_schedule_tab").css("display","none");
+               }else if($(this).hasClass("btn_schedule")){
+                   $("div.manage_cont").load("/pt/manage_schedule");
+                   $("div.add_schedule_tab").css("display","block");
+               }
+            });
+
+            $("button.btn_add_expand").click(function (){
+                let addScheduleTab = $("div.add_schedule_tab");
+                if(addScheduleTab.hasClass("active")){
+                    addScheduleTab.removeClass("slide");
+                    setTimeout(function(){
+                        addScheduleTab.removeClass("active");
+                    },200);
+                }else{
+                    addScheduleTab.addClass("active");
+                    setTimeout(function(){
+                        addScheduleTab.addClass("slide");
+                    },100);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

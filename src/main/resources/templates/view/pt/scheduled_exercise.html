@@ -1,0 +1,134 @@
+<ul>
+    <li>
+        <dl>
+            <dt></dt>
+            <dd></dd>
+        </dl>
+        <div class="exercise_info">
+            <div class="ex_category">
+                <span class="ex_section"></span>
+                <span class="ex_name"></span>
+            </div><!--.ex_category-->
+            <div class="ex_count">
+                <p></p>
+            </div><!--.ex_count-->
+        </div><!--.exercise_info-->
+    </li>
+</ul>
+
+<div class="no_schedule">
+    스케줄이 없습니다.
+</div>
+
+<script>
+    $(document).ready(function(){
+        let dateArr = $("div.schedule_modal h3 span").text().split(" ");
+        let year = dateArr[0].replace(/[^0-9]/g, "");
+        let month = dateArr[1].replace(/[^0-9]/g, "");
+        let day = dateArr[2].replace(/[^0-9]/g, "");
+
+        let data = {
+            "date": year + "-" + (month.length === 1 ? "0" + month : month) + "-" + (day.length === 1 ? "0" + day : day)
+        };
+
+
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-pt-contents",
+            type : "post",
+            cache: false,
+            async: false,
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.result === true && response.data.length > 0){
+                    $("div.schedule_modal ul").css("display","block");
+                    $("div.no_schedule").css("display","none");
+
+                    for(let schedule of response.data){
+                        let cloneLi = $("div.schedule_modal ul li:first-child").clone(true);
+                        $(cloneLi).find("dl dt").text(schedule.user_name + " 회원님");
+                        let start_time = (schedule.start_ampm === 0 ? "오전 " : "오후 ") + (schedule.lesson_start_time.toString().length === 1 ? "0" + schedule.lesson_start_time : schedule.lesson_start_time) + " : " + (schedule.lesson_start_minute.toString().length === 1 ? "0" + schedule.lesson_start_minute : schedule.lesson_start_minute);
+                        let end_time = (schedule.end_ampm === 0 ? "오전 " : "오후 ") + (schedule.lesson_end_time.toString().length === 1 ? "0" + schedule.lesson_end_time : schedule.lesson_end_time) + " : " + (schedule.lesson_end_minute.toString().length === 1 ? "0" + schedule.lesson_end_minute : schedule.lesson_end_minute);
+                        $(cloneLi).find("dl dd").text(start_time + " ~ " + end_time);
+
+                        if(schedule.exercise_name !== undefined){
+                            // 운동이 등록 되있으면
+                            let exerciseType = "";
+                            switch (schedule.exercise_type){
+                                case 1 :
+                                    exerciseType = "가슴";
+                                    break;
+                                case 2 :
+                                    exerciseType = "등";
+                                    break;
+                                case 3 :
+                                    exerciseType = "하체";
+                                    break;
+                                case 4 :
+                                    exerciseType = "어깨";
+                                    break;
+                                case 5 :
+                                    exerciseType = "팔";
+                                    break;
+                                case 6 :
+                                    exerciseType = "복근";
+                                    break;
+                                case 7 :
+                                    exerciseType = "유산소";
+                                    break;
+                            }
+
+                            $(cloneLi).find("span.ex_section").text(exerciseType);
+                            $(cloneLi).find("span.ex_name").text(schedule.exercise_name);
+
+                            let exCount = "";
+                            for(let i = 0; i < schedule.exercise_details.split(",").length; i++){
+                                let unit = "";
+
+                                switch (i){
+                                    case 0:
+                                        unit = "kg";
+                                        break;
+                                    case 1:
+                                        unit = "km";
+                                        break;
+                                    case 2:
+                                        unit = "시간";
+                                        break;
+                                    case 3:
+                                        unit = "회";
+                                        break;
+                                    case 4:
+                                        unit = "세트";
+                                        break;
+                                }
+
+                                if(Number(schedule.exercise_details.split(",")[i]) > 0){
+                                    if(i === 0 || i === 1){
+                                        exCount = schedule.exercise_details.split(",")[i] + unit;
+                                    }else{
+                                        exCount += " × " + schedule.exercise_details.split(",")[i] + unit;
+                                    }
+                                }
+                            }
+
+                            $(cloneLi).find("div.ex_count p").text(exCount);
+                        }else{
+                            // 운동이 등록 안되있으면
+                            $(cloneLi).find("div.exercise_info").html("<div class='no_exercise'>회원님과 함께 할 운동을 기록해주세요.</div>");
+                        }
+
+                        $("div.schedule_modal ul").append(cloneLi);
+                    }
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+<div id="app" class="edit_myinfo">
+    <div id="app" class="search_center">
+        <header>
+            <button type="button" class="btn_close">닫기</button>
+            <input type="text" name="search_center_name" placeholder="센터 명칭 검색">
+            <button type="button" class="btn_delete">지우기</button>
+        </header>
+        <div class="search_result">
+            <div class="inner">
+                <div class="no_result">
+                    검색 결과가 없습니다.
+                </div>
+                <ul>
+                    <!--                        <li>-->
+                    <!--                            <input type="hidden" name="centerNum" value="1">-->
+                    <!--                            <span>바디체인지클럽</span>-->
+                    <!--                            <p>부산시 해운대구</p>-->
+                    <!--                        </li>-->
+                    <!--                        <li>-->
+                    <!--                            <input type="hidden" name="centerNum" value="2">-->
+                    <!--                            <span>킹콩짐</span>-->
+                    <!--                            <p>부산시 진구</p>-->
+                    <!--                        </li>-->
+                </ul>
+            </div>
+        </div><!--.search_result-->
+    </div><!--.search_center-->
+
+    <header>
+        <button class="btn_back" onclick="history.back()">뒤로가기</button>
+        <h2>소속센터 변경</h2>
+    </header>
+    <div class="inner">
+        <div class="container edit_form">
+            <dl>
+                <dt>현재 소속</dt>
+                <dd>
+                    <input type="text" name="now_center" value="현재 소속" disabled>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>소속 센터</dt>
+                <dd class="dd_search_center">
+                    <input type="text" name="change_center" readonly>
+                    <input type="hidden" name="affilatedCenter">
+                    <button type="button" class="btn_find_center">센터찾기</button>
+                </dd>
+            </dl>
+
+            <button type="button" class="btn_success">센터에 승인요청</button>
+        </div><!--.container-->
+    </div><!--.inner-->
+</div><!--.edit_myinfo-->
+
+<script>
+    function clickCenter(){
+        $.fn.clickSearchCenter();
+    }
+
+    $(document).ready(function(){
+
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.result === true){
+                    $("input[name=now_center]").val(response.infos.store_name);
+                }else{
+                    $("input[name=now_center]").val("정보없음");
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 소속 센터 검색창 띄우기
+        $("dd.dd_search_center").click(function(){
+            $("div.search_center").css("bottom", "0");
+            $("div.search_center ul li").remove();
+            $("input[name=search_center_name]").val("");
+            $("div.no_result").css("display","block");
+        });
+
+        // 센터 명칭 검색
+        $("input[name=search_center_name]").keypress(function(event){
+            if(event.keyCode === 13){
+                // 엔터키 눌렀을때
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/store-list?storeName="+$("input[name=search_center_name]").val(),
+                    type : "POST",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+                    // headers:{
+                    //     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8;",
+                    //     "token":token,
+                    // },
+                    success:function(response){
+                        // console.log(response.infos);
+                        if(response.infos.length === 0){
+                            $("div.no_result").css("display","block");
+                            $("div.search_result ul li").remove();
+                        }else{
+                            $("div.no_result").css("display","none");
+                            $("div.search_result ul li").remove();
+                            for(let store of response.infos){
+                                console.log(store);
+                                let addTag = "" +
+                                    "<li onclick='clickCenter()'>"
+                                    + "<input type='hidden' name='centerNum' value='" + store.store_idx + "'>"
+                                    + "<span>" + store.store_name + "</span>"
+                                    + "<p>" + store.address + "</p>"
+                                    + "</li>";
+                                $("div.search_result ul").prepend(addTag);
+                            }
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+
+        // 검색된 센터 클릭시
+        $.fn.clickSearchCenter = function(){
+            $("div.search_result ul > li").click(function(){
+                $("input[name=change_center]").val($(this).find("span").text());
+                $("input[name=affilatedCenter]").val($(this).find("input").val());
+                $("div.search_center").css("bottom", "-100%");
+
+                $("button.btn_success").addClass("active");
+            });
+        }
+
+        // 센터 검색창 닫기
+        $("div.search_center button.btn_close").click(function(){
+            $("div.search_center").css("bottom", "-100%");
+            $("div.search_center input").val("");
+        });
+
+        $("button.btn_success").click(function(){
+            $("div.modal_wrap").css("display", "flex");
+        });
+
+        $("button.btn_success").click(function(){
+            if($(this).hasClass("active") && $("input[name=affilatedCenter]").val() !== ""){
+                const data = {
+                    "affilatedCenter": $("input[name=affilatedCenter]").val(),
+                    "approvalStatus" : "승인대기",
+                    "notice" : "센터승인"
+                };
+
+                console.log(data);
+
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/center-approved",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    headers:{
+                        "Content-Type":"application/json",
+                        "token":token
+                    },
+                    // contentType: "application/json",
+                    data:JSON.stringify(data),
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true){
+                            alert("센터 승인요청 되었습니다.");
+                            location.href="/pt/edit_myinfo";
+                        }else{
+                            alert("센터 승인요청 실패");
+                            location.reload();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                        alert("센터 승인요청 실패");
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>

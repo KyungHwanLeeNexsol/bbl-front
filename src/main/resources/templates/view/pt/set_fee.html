@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="set_fee">
+        <header>
+            <button class="btn_back" onclick="location.href='/pt/coach_profile'">뒤로가기</button>
+            <h2>요금 안내</h2>
+        </header>
+        <div class="container">
+            <section class="info_section fee_info">
+                <div class="inner">
+                    <p>코치님의 레슨 가격을 알려주세요.</p>
+                    <ol>
+                        <li>가격이 낮을수록 더 많은 회원이 상담을 신청합니다.</li>
+                        <li>부가세 포함 금액 기준으로 작성해주세요.</li>
+                        <li>다양한 가격대를 입력해주세요. (ex. 10회, 20회, 30회 …)</li>
+                    </ol>
+                </div>
+            </section><!--.fee_info-->
+            <section class="price_section">
+                <input type="hidden" name="feeInformationIdx">
+                <div class="inner">
+                    <h3>이용가격<button class="btn_add_price" onclick="jsChangeDivider()">+ 항목추가</button></h3>
+                    <ul class="use_price_list">
+                        <li>
+                            <div class="price_title"><span>1) 이용가격 구분</span> <button class="btn_delete_fee" onclick="delete_fee(this)">- 삭제</button></div>
+                            <input type="text" name="training_name" class="training_name" placeholder="제목 입력 ex)P.T 이용가격">
+                            <ol>
+                                <li>
+                                    <div class="divider_box">
+                                        <input type="number" name="training_count" placeholder="숫자">
+                                        <select name="training_divider">
+                                            <option value="count">회</option>
+                                            <option value="month">개월</option>
+                                        </select>
+                                    </div>
+                                    <div class="training_price">
+                                        <span class="divider">회당</span><input type="text" name="training_price" placeholder="금액 입력" onkeyup="setOnlyNumber(this)">원
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="divider_box">
+                                        <input type="number" name="training_count" placeholder="숫자">
+                                    </div>
+                                    <div class="training_price">
+                                        <span class="divider">회당</span><input type="text" name="training_price" placeholder="금액 입력" onkeyup="setOnlyNumber(this)">원
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="divider_box">
+                                        <input type="number" name="training_count" placeholder="숫자">
+                                    </div>
+                                    <div class="training_price">
+                                        <span class="divider">회당</span><input type="text" name="training_price" placeholder="금액 입력" onkeyup="setOnlyNumber(this)">원
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="divider_box">
+                                        <input type="number" name="training_count" placeholder="숫자">
+                                    </div>
+                                    <div class="training_price">
+                                        <span class="divider">회당</span><input type="text" name="training_price" placeholder="금액 입력" onkeyup="setOnlyNumber(this)">원
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul><!--.use_price_list-->
+                </div>
+            </section><!--.training_price-->
+            <section class="fee_info_section">
+                <div class="inner">
+                    <h3>추가 정보 <span>(1회 이용시간, 센터 회원권, 참고사항)</span></h3>
+                    <dl>
+                        <dt>레슨 1회 이용시간</dt>
+                        <dd class="roundTime">
+                            <input type="number" name="roundTime" placeholder="시간 입력">
+                    </dl>
+                    <dl>
+                        <dt>센터 회원권을 별도로 결제해야 하나요?</dt>
+                        <dd>
+                            <select name="separatePaymentYN">
+                                <option value="미결제">아니요</option>
+                                <option value="결제">예</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>가격 참고 사항</dt>
+                        <dd>
+                            <textarea name="notice" placeholder="이 외의 가격 참고 사항을 알려주세요 (100자 이내)"></textarea>
+                        </dd>
+                    </dl>
+                </div><!--.inner-->
+            </section><!--.select_price-->
+            <div class="bottom_button_box">
+                <button class="btn_save">저장하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        function jsChangeDivider(){
+            $.fn.changeDivider();
+        }
+
+        function delete_fee(btn){
+            $.fn.deleteFee(btn);
+        }
+
+        $(document).ready(function(){
+            $("select[name=training_divider]").next().find('span').click(function(){
+                let thisOl = $(this).parent().parent().parent().parent().parent();
+
+                if($(this).text() === "회"){
+                    $(thisOl).find("span.divider").text("회당");
+                }else{
+                    $(thisOl).find("span.divider").text("월당");
+                }
+            });
+
+            $.fn.changeDivider = function(){
+                $("select[name=training_divider]").next().find('span').click(function(){
+                    let thisOl = $(this).parent().parent().parent().parent().parent();
+
+                    if($(this).text() === "회"){
+                        $(thisOl).find("span.divider").text("회당");
+                    }else{
+                        $(thisOl).find("span.divider").text("월당");
+                    }
+
+                    $(this).parent().parent().prev().children().eq($(this).index()).prop("selected", true);
+                });
+            }
+
+            $.fn.usePriceClone = function(){
+                let newPriceLi = $("ul.use_price_list > li").last().clone();
+                $(newPriceLi).find("input").val("");
+                $(newPriceLi).find("div.price_title > span").text(($("ul.use_price_list > li").length + 1) + ") 이용가격 구분");
+
+                newPriceLi.appendTo($("ul.use_price_list"));
+                $("select[name=training_divider]").changeDivider();
+
+                let currentSelect = newPriceLi.find("div.current-select");
+                let selectList = newPriceLi.find("div.select-list");
+
+                currentSelect.click(function () {
+                    if (selectList.css("display") === "block") {
+                        selectList.css("display", "none");
+                    } else {
+                        $("div.selcet-list").css("display", "none");
+                        selectList.css("display", "block");
+                    }
+                });
+
+                if (newPriceLi.find("select option:selected")) {
+                    currentSelect.addClass("selected");
+                    currentSelect.text((newPriceLi.find("select option:selected").text()));
+                }
+
+                selectList.children().click(function () {
+                    currentSelect.addClass("selected");
+                    currentSelect.text(($(this).text()));
+                    selectList.css("display", "none");
+                });
+            }
+
+            $.fn.deleteFee = function(btn){
+                $(btn).parent().parent().remove();
+            }
+
+            $("button.btn_add_price").click(function(){
+                $.fn.usePriceClone();
+            });
+
+            // 요금 정보 조회
+            let existFeeInfo = false;
+
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/fee-information-select",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.infos.length !== 0) {
+                        existFeeInfo = true;
+                        let use_price_list_length = response.infos.length / 4;
+                        $("input[name=feeInformationIdx]").val(response.infos[0].pt_fee_information_idx);
+
+                        for(let i = 0; i < use_price_list_length - 1; i++){
+                            $.fn.usePriceClone();
+                        }
+
+                        let i = 0;
+                        let liCount = 0;
+
+                        for (let fee of response.infos) {
+                            if (i === 0) {
+                                $("input[name=training_name]:eq(" + liCount + ")").val(fee.title);
+                                if(fee.round === "개월"){
+                                    $("select[name=training_divider] option:eq(1)").prop("selected", true);
+                                    $("div.training_divider-select:eq(" + liCount + ") > div.current-select").text("개월");
+                                }
+                                $("ul.use_price_list > li:eq(" + liCount + ")").find("span.divider").text("월당");
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_count]:eq(" + i + ")").val(fee.roundList);
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_price]:eq(" + i + ")").val(fee.amount);
+                                i++;
+                            }else if(i === 3){
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_count]:eq(" + i + ")").val(fee.roundList);
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_price]:eq(" + i + ")").val(fee.amount);
+                                i = 0;
+                                liCount++;
+                            }else{
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_count]:eq(" + i + ")").val(fee.roundList);
+                                $("ul.use_price_list > li:eq(" + liCount + ") input[name=training_price]:eq(" + i + ")").val(fee.amount);
+                                i++;
+                            }
+                        }
+
+                        $("input[name=roundTime]").val(response.infos[0].round_time);
+                        if (response.infos[0].separate_paymentYN === "결제") {
+                            $("select[name=separatePaymentYN] option:eq(1)").prop("selected", true);
+                            $("div.separatePaymentYN-select div.current-select").text("예");
+                        }
+                        $("textarea[name=notice]").val(response.infos[0].notice);
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            // 요금 저장하기
+            $("button.btn_save").click(function(){
+                let inputCheck = true;
+
+                $("input").not("input[name=feeInformationIdx]").each(function(index, item){
+                    if($(item).val() === ""){
+                        inputCheck = false;
+                        return false;
+                    }
+                });
+
+                if(inputCheck === false){
+                    alert("빈 칸을 모두 채워주세요.");
+                    return false;
+                }
+
+                const data = {
+                    "ptFeeInformtaionForms": {
+                        "idx":0,
+                        "notice": $("textarea[name=notice]").val(),
+                        "roundTime": $("input[name=roundTime]").val(),
+                        "separatePaymentYN": $("select[name=separatePaymentYN]").val()
+                    },
+                    "ptUsePriceFormList": []
+                };
+
+                $("ul.use_price_list > li").each(function(index1, item1){
+                    let trainingList = {
+                        "ptUsePriceDetailForm" : [],
+                        "round" : $(item1).find("select[name=training_divider]").val() === "count" ? "회" : "개월",
+                        "title" : $(item1).find("input[name=training_name]").val()
+                    };
+
+                    $(item1).find("ol > li").each(function(index2, item2){
+                        let feeList = {
+                            "amount" : $(item2).find("input[name=training_price]").val().replace(/,/g, ""),
+                            "round" : $(item2).find("input[name=training_count]").val()
+                        };
+
+                        trainingList["ptUsePriceDetailForm"].push(feeList);
+                    });
+
+                    data["ptUsePriceFormList"].push(trainingList);
+                });
+
+
+
+
+                let url = "http://43.200.31.249:80/api/trainer/fee-information";
+
+                if(existFeeInfo){
+                    url = "http://43.200.31.249:80/api/store/feeuInfoUpdate";
+                    data['ptFeeInformtaionForms']['feeInformationIdx'] = Number($("input[name=feeInformationIdx]").val());
+                }
+
+                console.log(data);
+
+
+                $.ajax({
+                    url : url,
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    headers:{
+                        "token":token
+                    },
+                    contentType: "application/json",
+                    data:JSON.stringify(data),
+                    success:function(response){
+                        console.log(response);
+                        alert("요금이 저장되었습니다.");
+                        location.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

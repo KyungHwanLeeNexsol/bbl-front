@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="set_trainer_info">
+        <div class="modal_wrap">
+            <div class="modal">
+                <button class="btn_close_modal">닫기</button>
+                <div class="modal_inner">
+                    <h3>자격사항 추가하기</h3>
+                    <ul>
+                        <li data-qualification="학력">학력 추가</li>
+                        <li data-qualification="자격증">자격증 추가</li>
+                        <li data-qualification="근무경력">근무경력 추가</li>
+                        <li data-qualification="수상경력">수상경력 추가</li>
+                    </ul>
+                </div><!--.modal_inner-->
+            </div><!--modal-->
+        </div><!--.modal-wrap-->
+
+        <header>
+            <button class="btn_back" onclick="location.href='/pt/coach_profile';">뒤로가기</button>
+            <h2>트레이너 소개</h2>
+        </header>
+        <div class="container">
+            <section class="info_section trainer_info">
+                <div class="inner">
+                    <p>코치님의 자격증, 수상 및 근무 경력 등을 보여주고 자신을 소개해주세요.</p>
+                    <ol>
+                        <li>증명서 또는 관련 사진이 확인된 후 게시됩니다.</li>
+                        <li>항목 작성 후 게시요청 해주세요.</li>
+                        <li>승인 또는 반려 결과에 대해 앱 알림으로 결과를 알려드리며, 필요 시 코치님께 직접 연락 드립니다.</li>
+                        <li>코치 페이지에는 항목 형식에 따라 자동 순서대로 보여집니다.</li>
+                        <li>트레이너로서 목표, 레슨 방향성 또는 신념, 좋은 트레이닝을 위한 노력들, 마음가짐 등 자세한 이야기를 담아주세요.</li>
+                    </ol>
+                </div>
+            </section><!--.photo_info-->
+            <section class="category_section">
+                <div class="inner">
+                    <h3>전문분야 선택</h3>
+                    <ul class="category_list">
+                        <li><input type="checkbox" name="category" value="기능개선" id="기능개선"><label for="기능개선">기능개선</label></li>
+                        <li><input type="checkbox" name="category" value="바른체형" id="바른체형"><label for="바른체형">바른체형</label></li>
+                        <li><input type="checkbox" name="category" value="다이어트" id="다이어트"><label for="다이어트">다이어트</label></li>
+                        <li><input type="checkbox" name="category" value="하체라인" id="하체라인"><label for="하체라인">하체라인</label></li>
+                        <li><input type="checkbox" name="category" value="벌크업" id="벌크업"><label for="벌크업">벌크업</label></li>
+                        <li><input type="checkbox" name="category" value="기초체력" id="기초체력"><label for="기초체력">기초체력</label></li>
+                        <li><input type="checkbox" name="category" value="근력향상" id="근력향상"><label for="근력향상">근력향상</label></li>
+                        <li><input type="checkbox" name="category" value="대회준비" id="대회준비"><label for="대회준비">대회준비</label></li>
+                        <li><input type="checkbox" name="category" value="산후케어" id="산후케어"><label for="산후케어">산후케어</label></li>
+                        <li><input type="checkbox" name="category" value="바디프로필" id="바디프로필"><label for="바디프로필">바디프로필</label></li>
+                    </ul>
+                </div>
+            </section><!--.training_price-->
+
+            <section class="qualification_section">
+                <div class="inner">
+                    <h3>자격사항 <button class="btn_add">+ 항목추가</button></h3>
+                    <div class="no_qualification">자격증, 수상 및 근무 경력 등을 추가해주세요.</div>
+                    <ul class="qualification_list">
+                        <li>
+                            <span class="qualification_status">작성중</span>
+                            <div class="qualification_top">
+                                <button class="btn_remove_qualification" onclick="removeQualification(this)">- 삭제</button>
+                                <button class="btn_add_qualification" onclick="addQualification(this)">게시요청</button>
+                            </div><!--.qualification_top-->
+                            <dl>
+                                <dt></dt>
+                                <dd><input type="text" name="licenseName" placeholder="내용을 입력해주세요."></dd>
+                            </dl>
+                            <div class="qualification_img">
+                                <div class="img_box">
+                                    <input type="file" name="image" accept=".jpg,.jpeg,.png,.bmp" id="image1" onchange="changeImage(this)">
+                                    <label for="image1"></label>
+                                </div>
+                                <p>* 필수 *<br/>
+                                    증명서 / 사진을 업로드해주세요.<br/>
+                                    사진이 없을 경우, 프로필에 등록할 수 없습니다.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="trainer_intro">
+                <div class="inner">
+                    <h3>소 개</h3>
+                    <textarea name="introduction"></textarea>
+                </div>
+            </section><!--.trainer_intro-->
+
+            <div class="bottom_button_box">
+                <button class="btn_save">저장하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        function clickImage(img){
+            $.fn.jQueryClickImage(img);
+        }
+
+        function changeImage(input){
+            $.fn.jQueryChangeImage(input);
+        }
+
+        function addQualification(btn){
+            $.fn.jQueryAddQualification(btn);
+        }
+
+        function removeQualification(btn){
+            $.fn.jQueryRemoveQualification(btn);
+        }
+
+        $(document).ready(function(){
+            let formData = new FormData();
+
+            // 자격사항 조회
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/qualitification-list",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.data !== null){
+                        let i = 0;
+                        for(let licenseKey in response.data){
+                            for(let licenseItem of response.data[licenseKey]){
+                                console.log(licenseItem);
+
+                                if(licenseItem !== null){
+                                    i++
+                                }
+
+                                if(i === 1){
+                                    $("div.no_qualification").css("display","none");
+                                    $("ul.qualification_list li:last-child").css("display", "block");
+
+                                }else{
+                                    $("ul.qualification_list").append($("ul.qualification_list li:last-child").clone());
+                                }
+
+                                $("ul.qualification_list li:last-child").find("span.qualification_status").text(licenseItem.approval_status === "승인대기" ? "검토중" : "게시중");
+                                $("ul.qualification_list li:last-child").find("button.btn_add_qualification").css("display", "none");
+                                $("ul.qualification_list li:last-child").find("dl dt").text(licenseKey);
+
+                                let licenseName = "";
+                                switch (licenseKey){
+                                    case "학력" :
+                                        licenseName = "name";
+                                        break;
+                                    case "자격증" :
+                                        licenseName = "license_name";
+                                        break;
+                                    case "근무경력" :
+                                        licenseName = "role";
+                                        break;
+                                    case "수상경력" :
+                                        licenseName = "participation";
+                                        break;
+                                    default :
+                                        break;
+                                }
+
+                                $("ul.qualification_list li:last-child").find("input[name=licenseName]").val(licenseItem[licenseName]);
+                                $("ul.qualification_list li:last-child").find("div.img_box input[name=image]").attr("id", "image" + $("ul.qualification_list li").length);
+                                $("ul.qualification_list li:last-child").find("div.img_box label").attr("for", "image" + $("ul.qualification_list li").length);
+                                $("ul.qualification_list li:last-child").find("div.img_box img").remove();
+                                $("ul.qualification_list li:last-child").find("div.img_box").append("<img src='" + licenseItem.image_path + "'>");
+                            }
+                        }
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            // 자격사항 게시요청
+            $.fn.jQueryAddQualification = function(btn){
+                let $li = $(btn).parent().parent();
+
+                console.log();
+
+                if($($li).find("input[name=licenseName]").val() === ""){
+                    alert("자격사항의 내용을 입력해주세요.");
+                    return false;
+                }
+
+                if($($li).find("input[name=image]")[0].files.length === 0){
+                    alert("자격사항의 이미지를 업로드해주세요.");
+                    return false;
+                }
+
+                let apiMethod = "";
+                let data = {};
+
+                switch ($li.find("dt").text()){
+                    case "학력":
+                        apiMethod = "education-save";
+                        data = {
+                            "endYear": "2025",
+                            "idx": 0,
+                            "name": $($li).find("input[name=licenseName]").val(),
+                            "startYear": "2022"
+                        };
+                        formData.append('pTtrainersEducation ', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+                        break;
+                    case "자격증":
+                        apiMethod = "qualitification-save";
+                        data = {
+                            "idx": 0,
+                            "issuedDate": "20220101",
+                            "issuedOrganization": "",
+                            "licenseName": $($li).find("input[name=licenseName]").val(),
+                        };
+                        formData.append('pTtrainersQualitificationFormList', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+                        break;
+                    case "근무경력":
+                        apiMethod = "work-experience-save";
+                        data = {
+                            "endDate": "2022-03-31",
+                            "idx": 0,
+                            "organization": "",
+                            "role": $($li).find("input[name=licenseName]").val(),
+                            "startDate": "2022-01-01",
+                        };
+                        formData.append('ptTrainerWorkExperienceFormList', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+                        break;
+                    case "수상경력":
+                        apiMethod = "award-winning-save";
+                        data = {
+                            "awardWinning": "1등",
+                            "competition": "",
+                            "idx": 0,
+                            "participation": $($li).find("input[name=licenseName]").val(),
+                            "year": "2022"
+                        };
+                        formData.append('pTtrainersAwardWinningFormsList', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+                        break;
+                }
+
+
+                $.ajax({
+                    type:"post",
+                    url:'http://43.200.31.249:80/api/trainer/' + apiMethod,
+                    enctype: "multipart/form-data",
+                    processData:false,
+                    contentType:false,
+                    cache:false,
+                    data:formData,
+                    dataType:'json',
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true) {
+                            alert("자격사항을 게시요청하였습니다.");
+                            location.reload(true);
+                        }else{
+                            alert("자격사항을 게시요청하는데 실패하였습니다.");
+                        }
+
+                    },
+                    error:function(e){
+                        console.log("error : " + JSON.stringify(e));
+                        alert("자격사항을 게시요청하는데 실패하였습니다.");
+                    }
+                });
+            }
+
+            // 이미지 클릭
+            $.fn.jQueryClickImage = function(img){
+                $(img).prev().click();
+            }
+
+            // 이미지 변경
+            $.fn.jQueryChangeImage = function(input){
+                let uploadFile = $(input)[0].files[0];
+                let uploadType = uploadFile['type'].split('/')[0];
+
+                if(uploadType !== "image"){
+                    alert("이미지 파일(jpg, jpeg, png)만 업로드 할 수 있습니다.");
+                    return false;
+                }
+
+                let blobURL = window.URL.createObjectURL(uploadFile);
+
+                $(input).parent().find("img").remove();
+                $(input).parent().append("<img src='" + blobURL + "'>");
+
+                formData.delete("request");
+                formData.append("request", uploadFile);
+
+                $(input).parent().find("img").click(function(){
+                    $(input).click();
+                });
+            }
+
+            // 자격사항 삭제
+            $.fn.jQueryRemoveQualification = function(btn){
+                let $li = $(btn).parent().parent();
+                if($li.hasClass("non_upload")){
+                    if($li.index() === 0){
+                        $li.css("display","none");
+                        $("div.no_qualification").css("display","block");
+                    }else{
+                        $li.remove();
+                    }
+                }else{
+                    let question = confirm("정말 삭제하시겠습니까?");
+                    if(question){
+
+                    }
+                }
+            }
+
+            $("button.btn_add").click(function(){
+                $("div.modal_wrap").css("display","flex");
+                $("div.modal").css("display","block");
+            });
+
+            $("button.btn_close_modal").click(function(){
+                $("div.modal_wrap").css("display","none");
+            });
+
+            $(".modal ul li").click(function(){
+                $("div.modal_wrap").css("display","none");
+
+                let addQualification = $(this).data("qualification");
+                if($("div.no_qualification").css("display") === "block"){
+                    $("ul.qualification_list > li:last-child").css("display","block");
+                    $("div.no_qualification").css("display","none");
+                }else{
+                    let cloneLi = $("ul.qualification_list li:last-child").clone();
+                    $("ul.qualification_list").append(cloneLi);
+                }
+                $("ul.qualification_list > li:last-child").addClass("non_upload");
+                $("ul.qualification_list > li:last-child dt").text(addQualification);
+                $("ul.qualification_list > li:last-child input").val("");
+                $("ul.qualification_list > li:last-child input[name=image]").attr("id", 'image' + $("ul.qualification_list > li").length);
+                $("ul.qualification_list > li:last-child label").attr("for", 'image' + $("ul.qualification_list > li").length);
+                $("ul.qualification_list > li:last-child img").remove();
+                $("ul.qualification_list > li:last-child span.qualification_status").text("작성중");
+                $("ul.qualification_list > li:last-child button.btn_add_qualification").css("display","block");
+            });
+
+            // 트레이너 소개 조회
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/select-detail-information",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.infos.trainerDetailInformation !== null){
+                        $(response.infos.trainerDetailInformation.specialty.split(",")).each(function(index, item){
+                            $("ul.category_list li input#" + item.replace("#", "")).prop("checked", true);
+                        });
+                    }
+                    $("textarea[name=introduction]").val(response.infos.trainerDetailInformation.introduction);
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            // 트레이너 소개 저장
+            $("button.btn_save").click(function(){
+                if($("ul.category_list li input:checked").length === 0){
+                    alert("전문분야를 1개 이상 선택해주세요.");
+                    return false;
+                }
+                if($("textarea[name=introduction]").val() === ""){
+                    alert("소개를 입력해주세요.");
+                    return false;
+                }
+
+                let specialty = "";
+                $("ul.category_list li input:checked").each(function(index, item){
+                    specialty += "#" + $(item).val() + ",";
+                });
+                specialty = specialty.slice(0, -1);
+
+                const data = {
+                    "awardWinning": "0",
+                    "introduction": $("textarea[name=introduction]").val(),
+                    "specialty": specialty,
+                    "qualification": "0",
+                    "workExperience": "0"
+                }
+
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/profile-register",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    contentType: "application/json",
+                    data:JSON.stringify(data),
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true){
+                            alert("트레이너 소개가 저장되었습니다.");
+                            location.reload(true);
+                        }else{
+                            alert("트레이너 소개를 저장하는데 실패하였습니다.");
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                        alert("트레이너 소개를 저장하는데 실패하였습니다.");
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="settings">
+        <header>
+            <button class="btn_back" onclick="history.back()">뒤로가기</button>
+            <h2>설정</h2>
+        </header>
+        <div class="container">
+            <div class="settings_menu">
+                <ul class="service">
+                    <li>서비스 안내</li>
+                    <li onclick="location.href='/pt/qna'">문의 및 답변</li>
+                    <li onclick="location.href='/pt/notice'">공지사항</li>
+                    <li>버전정보 <p>V 3.103.1 (387)</p></li>
+                    <li onclick="location.href='/pt/terms'">BBL 약관 및 정책</li>
+                </ul>
+                <ul class="notification">
+                    <li>알림 설정</li>
+                    <li>일반 알림 <input type="checkbox" name="normal_notification" id="normal_notification"><label for="normal_notification"></label></li>
+                    <li>회원 알림 <input type="checkbox" name="member_notification" id="member_notification"><label for="member_notification"></label></li>
+                </ul>
+                <ul class="marketing">
+                    <li>마케팅 정보 수신</li>
+                    <li>SNS 마케팅 동의 <input type="checkbox" name="agree_sns_marketing" id="agree_sns_marketing"><label for="agree_sns_marketing"></label></li>
+                    <li>SNS 마케팅 동의 <input type="checkbox" name="agree_email_marketing" id="agree_email_marketing"><label for="agree_email_marketing"></label></li>
+                </ul>
+                <ul class="account">
+                    <li>계정관리</li>
+                    <li onclick="location.href='/pt/resign_user'">회원탈퇴</li>
+                </ul>
+            </div><!--.settings_menu-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.notification_menu > button").click(function(){
+                $("div.notification_menu > button").removeClass("active");
+                $(this).addClass("active");
+               if($(this).hasClass("btn_exercise")){
+
+               }
+            });
+        });
+    </script>
+</body>
+
+</html>

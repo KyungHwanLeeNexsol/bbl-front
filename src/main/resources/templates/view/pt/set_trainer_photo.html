@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="set_trainer_photo">
+        <header>
+            <button class="btn_back" onclick="history.back();">뒤로가기</button>
+            <h2>트레이너 사진</h2>
+        </header>
+        <div class="container">
+            <section class="info_section photo_info">
+                <div class="inner">
+                    <p>코치님 및 레슨 방식을 잘 보여주는 사진을 올려주세요.</p>
+                    <ol>
+                        <li>맨 첫장이 대표사진(프로필)으로 설정됩니다.</li>
+                        <li>최소 3장의 사진이 있어야 페이지 게시가 가능합니다.</li>
+                        <li>업로드 된 사진을 짧게  터치하여 삭제할 수 있습니다.</li>
+                    </ol>
+                </div>
+            </section><!--.photo_info-->
+            <section class="photo_section">
+                <div class="inner">
+                    <h3>사진 첨부<button class="btn_add_photo">+ 사진추가</button></h3>
+                    <p class="photo_text">사진을 첨부해주세요. (최대 15장)</p>
+
+                    <ul class="photo_list">
+                        <li class="add_photo" onclick="deletePhoto(this)">
+                            <span>대표사진</span>
+                        </li>
+                    </ul>
+
+                    <input type="file" name="trainer_img" accept=".jpg,.jpeg,.png,.bmp">
+                </div>
+            </section><!--.training_price-->
+
+            <div class="bottom_button_box">
+                <button class="btn_save">저장하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        function deletePhoto(li){
+            $.fn.jQueryDeletePhoto(li);
+        }
+
+        $(document).ready(function(){
+            let formData = new FormData();
+            let $file = $("input[type=file]");
+            let photoList = $("ul.photo_list");
+
+            $("button.btn_add_photo").click(function(){
+                $file.click();
+            });
+
+            $file.change(function(){
+                let uploadFile = $file[0].files[0];
+                let uploadType = uploadFile['type'].split('/')[0];
+
+                if(uploadType !== "image"){
+                    alert("이미지 파일(jpg, jpeg, png)만 업로드 할 수 있습니다.");
+                    return false;
+                }
+
+                let blobURL = window.URL.createObjectURL(uploadFile);
+
+                if(photoList.find("li:first-child > div > img").length === 0){
+                    photoList.find("li").append("<div><img src='" + blobURL + "'></div>");
+                    photoList.find("li").addClass("not-saved");
+                }else{
+                    photoList.append("<li class='not-saved' onclick='deletePhoto(this)'><div><img src='" + blobURL + "'></div></li>");
+                }
+
+                formData.append("request", uploadFile);
+            });
+
+            // 사진 조회
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/select-detail-information",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.infos.imageList.length > 0){
+                        $(response.infos.imageList).each(function(index, item){
+                            if(index === 0){
+                                $("ul.photo_list li:eq(0)").append("<input type='hidden' value='" + $(item)[0]['iseq'] + "'><div><img src='" + $(item)[0]['image_path'] +"'></div>");
+                            }else{
+                                $("ul.photo_list").append("<li onclick='deletePhoto(this)'><input type='hidden' value='" + $(item)[0]['iseq'] + "'><div><img src='" + $(item)[0]['image_path'] + "'></div></li>");
+                            }
+                        });
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+
+            // 사진 저장
+            $("button.btn_save").click(function(){
+                $("ul.photo_list ")
+
+                $.ajax({
+                    type:"post",
+                    url:'http://43.200.31.249:80/api/trainer/profile-save',
+                    enctype: "multipart/form-data",
+                    processData:false,
+                    contentType:false,
+                    cache:false,
+                    data:formData,
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true) {
+                            alert("사진을 저장하였습니다.");
+                        }else{
+                            alert("사진을 저장하는데 실패하였습니다.");
+                        }
+                        location.reload(true);
+                    },
+                    error:function(e){
+                        console.log("error : " + JSON.stringify(e));
+                        alert("사진을 저장하는데 실패하였습니다.");
+                        location.reload(true);
+                    }
+                });
+            });
+
+            // 사진 제거
+            $.fn.jQueryDeletePhoto = function(li){
+                let question = confirm("해당 사진을 삭제하시겠습니까?");
+
+                if(question){
+                    if($(li).find("input").length > 0){
+                        const data = {
+                            "awardWinningIseq": 0,
+                            "idx": 0,
+                            "imageType": "프로필",
+                            "iseq": $(li).find("input").val(),
+                            "qualitificationIseq": 0,
+                            "workExprienceIseq": 0
+                        };
+
+                        $.ajax({
+                            url:'http://43.200.31.249:80/api/trainer/delete-qualifications',
+                            type : "POST",
+                            cache: false,
+                            async: false,
+                            contentType: "application/json",
+                            data:JSON.stringify(data),
+                            headers:{
+                                "token":token
+                            },
+                            success:function(response){
+                                console.log(response);
+                                alert("사진이 삭제되었습니다.");
+                                location.reload(true);
+                            },
+                            error:function(e){
+                                console.log("error : " + JSON.stringify(e));
+                                alert("사진을 삭제하는데 실패하였습니다.");
+                                location.reload(true);
+                            }
+                        });
+                    }else{
+                        let formDataIndex = $(li).index() - $("ul.photo_list li").not('.not-saved').length;
+
+                        let originalFormData = formData.getAll('request');
+
+                        originalFormData.splice(formDataIndex, 1);
+
+                        formData = new FormData();
+
+                        $(originalFormData).each(function(index, item){
+                            formData.append('request', item);
+                        });
+
+                        $(li).remove();
+                    }
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>

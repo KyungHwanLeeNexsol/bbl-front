@@ -1,0 +1,74 @@
+<section class="ex_section modify_ex_section">
+    <div class="inner">
+        <dl>
+            <dt>회원명</dt>
+            <dd>
+                <select name="member_name">
+                    <option value="" selected disabled>회원 선택</option>
+                    <option value="홍길동">홍길동</option>
+                    <option value="홍길동1">홍길동1</option>
+                    <option value="홍길동2">홍길동2</option>
+                    <option value="홍길동3">홍길동3</option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt>회원 일정선택</dt>
+            <dd>
+                <select name="schedule_date">
+                    <option value="" selected disabled>일정 선택</option>
+                    <option value="날짜1">날짜1</option>
+                    <option value="날짜2">날짜2</option>
+                    <option value="날짜3">날짜3</option>
+                    <option value="날짜4">날짜4</option>
+                </select>
+            </dd>
+        </dl>
+    </div><!--.inner-->
+</section><!--.ex_section-->
+
+<section class="ex_section modify_ex_section">
+    <div class="inner">
+        <dl>
+            <dt>운동 종목</dt>
+            <dd>
+                <select name="ex_category">
+                    <option value="" selected disabled>회원 선택</option>
+                    <option value="pt">P.T & 헬스</option>
+                    <option value="pilates">필라테스 & 요가</option>
+                    <option value="etc">기타</option>
+                </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>운동 선택</dt>
+            <dd>
+                <input type="text" name="ex-name" readonly placeholder="운동을 선택해주세요.">
+            </dd>
+        </dl>
+
+        <div class="ex_detail_box">
+            <ul>
+                <li>
+                    <span>kg / km</span>
+                    <input type="number" name="ex_kg/km">
+                </li>
+                <li>
+                    <span>시간</span>
+                    <input type="number" name="ex_time">
+                </li>
+                <li>
+                    <span>횟수</span>
+                    <input type="number" name="ex_count">
+                </li>
+                <li>
+                    <span>세트 수</span>
+                    <input type="number" name="ex_set">
+                </li>
+            </ul>
+        </div><!--.ex_detail_box-->
+
+        <p class="message_gray">* 회원에게 알림이 전송되지만, 승인받을 필요는 없습니다.</p>
+    </div><!--.inner-->
+</section><!--.ex_section-->

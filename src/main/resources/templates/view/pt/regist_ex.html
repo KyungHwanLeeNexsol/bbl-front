@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="search_ex">
+        <header>
+            <button type="button" class="btn_close">닫기</button>
+            <input type="text" name="search_ex_name" placeholder="운동이름을 검색해주세요.">
+        </header>
+        <div class="ex_category_list">
+            <button data-ex="all" class="active">전체</button>
+            <button data-ex="chest">가슴</button>
+            <button data-ex="back">등</button>
+            <button data-ex="leg">하체</button>
+            <button data-ex="shoulder">어깨</button>
+            <button data-ex="arm">팔</button>
+            <button data-ex="abs">복근</button>
+            <button data-ex="aerobic">유산소</button>
+        </div><!--.ex_category_list-->
+
+        <ul>
+            <li class="chest">
+                <span>가슴</span>
+                <div>벤치프레스</div>
+                <div>푸쉬업</div>
+                <div>딥스</div>
+                <div>덤벨풀오버</div>
+                <div>체스트 프레스</div>
+                <div>케이블 크로스 오버</div>
+                <div>덤벨 플라이</div>
+                <div>백덱 플라이</div>
+                <div>인클라인 크로스오버</div>
+            </li>
+            <li class="back">
+                <span>등</span>
+                <div>랫풀다운</div>
+                <div>비하인드 넥 풀다운</div>
+                <div>백익스텐션</div>
+                <div>덤벨 풀 오버</div>
+                <div>풀업</div>
+                <div>바벨 로우</div>
+                <div>덤벨 로우</div>
+                <div>데드리프트</div>
+                <div>티 바 로우</div>
+                <div>암 풀 다운</div>
+                <div>시티드 로우</div>
+                <div>시티드 케이블 로우</div>
+            </li>
+            <li class="leg">
+                <span>하체</span>
+                <div>스쿼트</div>
+                <div>런지</div>
+                <div>레그 프레스</div>
+                <div>레그 익스텐션</div>
+                <div>레그 컬</div>
+                <div>카프 레이즈</div>
+                <div>힙 쓰러스트</div>
+                <div>힙 어덕션</div>
+                <div>힙 어브덕션</div>
+            </li>
+            <li class="shoulder">
+                <span>어깨</span>
+                <div>바벨 숄더프레스</div>
+                <div>덤벨 숄더프레스</div>
+                <div>비하인드 넥 프레스</div>
+                <div>프론트 레이즈</div>
+                <div>사이드 레터럴 레이즈</div>
+                <div>벤트 오버 레터럴 레이즈</div>
+                <div>업라이트 로우</div>
+                <div>아놀드 프레스</div>
+                <div>리버스 팩덱 플라이</div>
+                <div>케이블 원암 사이드 레터럴 레이즈</div>
+                <div>페이스풀</div>
+                <div>케이블 리버스 플라이</div>
+                <div>밀리터리프레스</div>
+            </li>
+            <li class="arm">
+                <span>팔</span>
+                <div>덤벨 컬</div>
+                <div>EZ바 컬</div>
+                <div>인클라인 시티드 덤벨컬</div>
+                <div>스트레이트바 컬</div>
+                <div>케이블 컬</div>
+                <div>해머 컬</div>
+                <div>프리쳐 컬</div>
+                <div>케이블 푸쉬 다운</div>
+                <div>덤벨 킥백</div>
+                <div>오버헤드 트라이셉스 익스텐션</div>
+                <div>라잉 트라이셉스 익스텐션</div>
+            </li>
+            <li class="abs">
+                <span>복근</span>
+                <div>플랭크</div>
+                <div>크런치</div>
+                <div>바이시클</div>
+                <div>레그레이즈</div>
+                <div>니업</div>
+                <div>사이드밴드</div>
+            </li>
+            <li class="aerobic">
+                <span>유산소</span>
+                <div>트레드밀</div>
+                <div>자전거</div>
+                <div>일립티컬</div>
+                <div>스텝퍼</div>
+            </li>
+        </ul>
+    </div><!--.search_ex-->
+
+    <div id="app" class="regist_ex">
+        <header>
+            <button class="btn_back" onclick="history.back()">뒤로가기</button>
+            <h2>운동 등록</h2>
+        </header>
+        <div class="container">
+            <section class="ex_section modify_ex_section">
+                <div class="inner">
+                    <dl>
+                        <dt>회원명</dt>
+                        <dd class="userList">
+                            <select name="userIdx" required>
+                                <option value="" disabled selected hidden>회원 선택</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>회원 일정선택</dt>
+                        <dd>
+                            <select name="date" required>
+                                <option value="" selected disabled hidden>일정 선택</option>
+                            </select>
+                        </dd>
+                    </dl>
+                </div><!--.inner-->
+            </section><!--.ex_section-->
+
+            <section class="ex_section modify_ex_section">
+                <div class="inner">
+                    <dl>
+                        <dt>운동 종목</dt>
+                        <dd>
+                            <select name="exerciseCategory" required>
+                                <option value="" selected disabled hidden>종목 선택</option>
+                                <option value="1">P.T & 헬스</option>
+                                <option value="2">필라테스 & 요가</option>
+                                <option value="3">기타</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>운동 선택</dt>
+                        <dd>
+                            <input type="hidden" name="exerciseType">
+                            <input type="text" name="exerciseName" readonly placeholder="운동을 선택해주세요.">
+                        </dd>
+                    </dl>
+
+                    <div class="ex_detail_box">
+                        <ul>
+                            <li>
+                                <span>kg</span>
+                                <input type="number" name="ex_kg">
+                            </li>
+                            <li>
+                                <span>km</span>
+                                <input type="number" name="ex_km">
+                            </li>
+                            <li>
+                                <span>시간</span>
+                                <input type="number" name="ex_time">
+                            </li>
+                            <li>
+                                <span>횟수</span>
+                                <input type="number" name="ex_count">
+                            </li>
+                            <li>
+                                <span>세트 수</span>
+                                <input type="number" name="ex_set">
+                            </li>
+                        </ul>
+                    </div><!--.ex_detail_box-->
+
+                    <p class="message_gray">* 회원에게 알림이 전송되지만, 승인받을 필요는 없습니다.</p>
+                </div><!--.inner-->
+            </section><!--.ex_section-->
+            <div class="bottom_button_box">
+                <button class="btn_save">운동정보 저장하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            const url = new URL(window.location.href);
+            const urlParams = url.searchParams;
+            const user_idx = urlParams.get('user_idx');
+
+            // 회원 조회
+            $.ajax({
+                url : "http://43.200.31.249:80/api/trainer/userlist",
+                type : "POST",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                contentType: "application/json",
+                success:function(response){
+                    $("select[name=userIdx] option").not(":eq(0)").remove();
+
+                    let userArr = [];
+                    if(response.infos.length > 0){
+                        for(let user of response.infos){
+                            userArr.push({
+                                "userIdx" : user.user_idx,
+                                "userName" : user.user_name
+                            });
+                        }
+                        const userUniqueArr = userArr.filter((user, idx, arr)=>{
+                            return arr.findIndex((item) => item.user_idx === user.user_idx) === idx
+                        });
+                        console.log(userUniqueArr);
+
+                        for(let user of userUniqueArr){
+                            $("select[name=userIdx]").append("<option value='" + user.userIdx + "'>" + user.userName + "</option>");
+                        }
+
+                        if(user_idx !== null) {
+                            $("select[name=userIdx]").val(user_idx).prop("selected", true);
+
+                            $.ajax({
+                                url :  "http://43.200.31.249:80/api/trainer/confirm-select-Schedule",
+                                type : "post",
+                                cache: false,
+                                async: false,
+                                data:JSON.stringify({"userIdx" : user_idx}),
+                                contentType:"application/json",
+                                headers:{
+                                    "token":token
+                                },
+                                success:function(response){
+                                    console.log(response);
+                                    if(response.result === true && response.data.length > 0){
+                                        for(let schedule of response.data){
+                                            let date = new Date(schedule.lesson_date);
+                                            let dateString = date.getFullYear() + "-" + ((date.getMonth() + 1).toString().length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1))  + "-" + (date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate());
+                                            $("select[name=schedule_date]").append("<option name='" + dateString +"'>" + dateString + "</option>");
+                                        }
+                                    }else{
+                                        $("select[name=schedule_date] option").not(":eq(0)").remove();
+                                    }
+                                },
+                                error:function(error){
+                                    console.log(error);
+                                }
+                            });
+                        }
+                    }else{
+                        $("dd.userList").append("<div class='no_user'>등록된 회원이 없습니다.</div>");
+                        $("dd.userList select").css("display","none");
+                    }
+                },
+
+                error:function(error){
+                    console.log(error);
+                },
+            });
+
+            // 운동선택 input 클릭시 운동선택창 열기
+            $("input[name=exerciseName]").click(function(){
+                $("div.search_ex").css("top",0);
+                $("input[name=search_ex_name]").val("");
+            });
+
+            // 운동 category 메뉴 선택
+            $("div.ex_category_list > button").click(function(){
+                $(this).siblings().removeClass("active");
+                $(this).addClass("active");
+                let categoryTop = $("div.search_ex ul li." + $(this).data('ex')).offset().top;
+                let headerHeight = $("div.search_ex header").height();
+                let categoryHeight = $("div.ex_category_list").height();
+
+                $("div.search_ex ul").animate({scrollTop : categoryTop - headerHeight - categoryHeight}, 500);
+            });
+
+            // 운동선택창 닫기
+            $("div.search_ex .btn_close").click(function(){
+                $("div.search_ex").css("top", "100%");
+            });
+
+            // 운동선택시
+            $("div.search_ex ul > li >div").click(function(){
+                $("div.search_ex").css("top", "100%");
+                $("input[name=exerciseType]").val(($(this).parent().index() + 1));
+                $("input[name=exerciseName]").val($(this).text());
+            });
+
+            // 회원 select 선택시
+            $("select[name=userIdx]").change(function(){
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/confirm-select-Schedule",
+                    type : "post",
+                    cache: false,
+                    async: false,
+                    data:JSON.stringify({"userIdx" : $(this).val()}),
+                    contentType:"application/json",
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true && response.data.length > 0){
+                            for(let schedule of response.data){
+                                let date = new Date(schedule.lesson_date);
+                                let dateString = date.getFullYear() + "-" + ((date.getMonth() + 1).toString().length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1))  + "-" + (date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate());
+                                $("select[name=date]").append("<option name='" + dateString +"'>" + dateString + "</option>");
+                            }
+                        }else{
+                            $("select[name=date] option").not(":eq(0)").remove();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            });
+
+            // 운동정보 저장하기
+            $("button.btn_save").click(function(){
+                if($("select[name=userIdx]").val() === null){
+                    alert("회원을 선택해주세요..");
+                    return false;
+                }
+                if($("select[name=date]").val() === null){
+                    alert("회원 일정을 선택해주세요.");
+                    return false;
+                }
+                if($("select[name=exerciseCategory]").val() === null){
+                    alert("운동 종목을 선택해주세요.");
+                    return false;
+                }
+                if($("input[name=exerciseName]").val() === ""){
+                    alert("운동을 선택해주세요.");
+                    return false;
+                }
+
+                let exDetail = $("input[name=ex_kg]").text() + "," + $("input[name=ex_km]").text() + "," + $("input[name=ex_time]").text() + "," + $("input[name=ex_count]").text() + "," + $("input[name=ex_set]").text();
+
+                let data = {
+                    "date": $("select[name=date]").val(),
+                    "exerciseCategory": $("select[name=exerciseCategory]").val(),
+                    "exerciseCount": "1",
+                    "exerciseDetails": exDetail,
+                    "exerciseName": $("input[name=exerciseName]").val(),
+                    "exerciseType": $("input[name=exerciseType]").val(),
+                    "recordedBy": "1",
+                    "userIdx": $("select[name=userIdx]").val()
+                };
+
+                // 운동 등록
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/record-save",
+                    type : "post",
+                    cache: false,
+                    async: false,
+                    data:JSON.stringify(data),
+                    contentType:"application/json",
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

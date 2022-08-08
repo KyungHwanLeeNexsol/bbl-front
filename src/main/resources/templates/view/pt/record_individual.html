@@ -1,0 +1,132 @@
+<div class="record_box">
+    <h4>회원 개인운동</h4>
+</div><!--.record_box-->
+
+<script>
+    $(document).ready(function(){
+        const url = new URL(window.location.href);
+        const urlParams = url.searchParams;
+
+        const user_idx = urlParams.get('user_idx');
+        const trainer_idx = urlParams.get('trainer_idx');
+
+        let data = {
+            'userIdx' : user_idx,
+            'date' : $("input[name=record_date]").val()
+        };
+
+        // 개인운동/기록 조회
+        $.ajax({
+            url : "http://43.200.31.249:80/api/trainer/select-pt-content",
+            type : "POST",
+            cache: false,
+            async: false,
+            data:JSON.stringify(data),
+            headers:{
+                "token":token
+            },
+            contentType: "application/json",
+            success:function(response){
+                console.log(response);
+
+                if(response.result === true && response.data.length > 0){
+                    // 운동 있으면
+                    $("div.record_box").append("<ul class='record_list exercise_list'></ul>");
+
+                    for(let exercise of response.data){
+                        let exKg = exercise.exercise_details.split(",")[0];
+                        let exKm = exercise.exercise_details.split(",")[1];
+                        let exTime = exercise.exercise_details.split(",")[2];
+                        let exCount = exercise.exercise_details.split(",")[3];
+                        let exSet = exercise.exercise_details.split(",")[4];
+
+                        let exRecordString = (exKg !== "0" ? exKg + "kg " : "") + (exKm !== "0" ? exKm + "km " : "") + (exTime !== "0" ? "× " + exTime + "분 " : "") + (exCount !== "0" ? "× " + exCount + "회 " : "") + (exSet !== "0" ? "× " + exSet + "세트" : "");
+
+                        $("ul.record_list").append(
+                            "<li>" +
+                                "<div class='record_list_top'>" +
+                                    "<dl>" +
+                                        "<dt>" + "가슴" + "</dt>" +
+                                        "<dd><b>" + exercise.exercise_name + "</b></dd>" +
+                                    "</dl>" +
+                                "</div>" +
+                                "<div class='record_list_bottom'>" +
+                                    exRecordString +
+                                "</div>" +
+                            "</li>"
+                        );
+                    }
+                }else{
+                    // 운동 없으면
+                    $("div.record_box").append("<div class='no_exercise'>기록된 개인운동이 없습니다.</div>");
+                }
+
+            },
+            error:function(error){
+                console.log(error);
+            },
+        });
+
+        // 날짜 변경
+        $("input[name=record_date]").change(function(){
+            data.date = $(this).val();
+
+            // 개인운동/기록 조회
+            $.ajax({
+                url : "http://43.200.31.249:80/api/trainer/select-pt-content",
+                type : "POST",
+                cache: false,
+                async: false,
+                data:JSON.stringify(data),
+                headers:{
+                    "token":token
+                },
+                contentType: "application/json",
+                success:function(response){
+                    console.log(response);
+
+                    $("div.record_box ul.record_list").remove();
+                    $("div.record_box div.no_exercise").remove();
+
+                    if(response.result === true && response.data.length > 0){
+                        // 운동 있으면
+                        $("div.record_box").append("<ul class='record_list exercise_list'></ul>");
+
+                        for(let exercise of response.data){
+                            let exKg = exercise.exercise_details.split(",")[0];
+                            let exKm = exercise.exercise_details.split(",")[1];
+                            let exTime = exercise.exercise_details.split(",")[2];
+                            let exCount = exercise.exercise_details.split(",")[3];
+                            let exSet = exercise.exercise_details.split(",")[4];
+
+                            let exRecordString = (exKg !== "0" ? exKg + "kg " : "") + (exKm !== "0" ? exKm + "km " : "") + (exTime !== "0" ? "× " + exTime + "분 " : "") + (exCount !== "0" ? "× " + exCount + "회 " : "") + (exSet !== "0" ? "× " + exSet + "세트" : "");
+
+                            $("ul.record_list").append(
+                                "<li>" +
+                                "<div class='record_list_top'>" +
+                                "<dl>" +
+                                "<dt>" + "가슴" + "</dt>" +
+                                "<dd><b>" + exercise.exercise_name + "</b></dd>" +
+                                "</dl>" +
+                                "</div>" +
+                                "<div class='record_list_bottom'>" +
+                                exRecordString +
+                                "</div>" +
+                                "</li>"
+                            );
+                        }
+                    }else{
+                        // 운동 없으면
+                        $("div.record_box").append("<div class='no_exercise'>기록된 개인운동이 없습니다.</div>");
+                    }
+
+                },
+                error:function(error){
+                    console.log(error);
+                },
+            });
+        });
+
+
+    });
+</script>

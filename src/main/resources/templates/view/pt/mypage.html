@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+<div id="app" class="mypage">
+    <th:block th:replace="/fragments/pt/header :: header"></th:block>
+
+    <div class="container">
+        <section class="mypage_box">
+            <div class="inner">
+                <h3>마이페이지<a href="/pt/edit_myinfo"><button class="btn_myinfo">기본정보 수정</button></a></h3>
+                <div class="user_count">
+                    <img src="/img/pt/icon_wordballoons.png">
+                    연결된 회원
+                    <span><b>0</b>명</span>
+                </div>
+                <div class="my_photo">
+                    <img src="">
+                </div><!--.my_photo-->
+                <div class="my_info">
+                    <dl><dt></dt><dd></dd></dl>
+<!--                    <p>bbl.com/coach/1234</p>-->
+                </div><!--.my_info-->
+                <div class="profile_state">
+                    <dl>
+                        <dt>현재 상태</dt>
+                        <dd>센터 승인대기중</dd>
+                    </dl>
+                    <a href="/pt/coach_profile"><button class="btn_edit">코치 프로필 수정하기</button></a>
+                </div><!--.profile_state-->
+            </div><!--.inner-->
+        </section><!--.mypage_box-->
+        <ul class="mypage_menu">
+            <li class="member"><a href="/pt/manage_member_schedule">회원/일정 관리</a></li>
+            <li class="schedule"><a href="/pt/manage_adjust">1회체험 정산 관리</a></li>
+<!--            <li class="calculate"><a href="">제휴 및 광고 문의</a></li>-->
+            <li class="notice"><a href="/pt/notice">공지사항</a></li>
+            <li class="terms"><a href="/pt/terms">약관 및 정책</a></li>
+        </ul><!--.mypage_menu-->
+    </div><!--.container-->
+</div><!--.menu-->
+
+<script>
+    $(document).ready(function(){
+        // 트레이너 정보 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                // console.log(response);
+                if(response.result === true){
+                    $("div.my_info dl dt").text(response.infos.nick_name);
+                    $("div.my_info dl dd").text(response.infos.store_name);
+                }else{
+                    $("div.my_info b").text("정보없음");
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 센터 승인여부 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/approve-center?notice=센터승인",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(centerResponse){
+                console.log(centerResponse);
+                if(centerResponse.data.flag === '2'){
+                    // 프로필 게시 여부 조회
+                    $.ajax({
+                        url :  "http://43.200.31.249:80/api/trainer/approve-center?notice=프로필",
+                        type : "post",
+                        cache: false,
+                        async: false,
+                        headers:{
+                            "token":token
+                        },
+                        success:function(profileResponse){
+                            console.log(profileResponse);
+                            if(profileResponse.data.flag === '2') {
+                                $("div.profile_state dl dd").text("게시중");
+                            }else{
+                                $("div.profile_state dl dd").text("게시안함");
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 회원수 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/user-count",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                $("div.user_count b").text(response.infos.count);
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 사진 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-detail-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.infos.imageList.length > 0){
+                    $("div.my_photo img").prop("src", response.infos.imageList[0].image_path);
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>

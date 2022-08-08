@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="set_buy_info">
+        <header>
+            <button class="btn_back" onclick="location.href='/pt/coach_profile'">뒤로가기</button>
+            <h2>구매정보</h2>
+        </header>
+        <div class="container">
+            <section class="info_section but_info">
+                <div class="inner">
+                    <p>코치님의 레슨을 구매할때 필요한 정보를 입력해주세요.</p>
+                    <ol>
+                        <li>환불 조건이나 정책에 관해서 자세히 써주세요.</li>
+                        <li>문의방법이나 문의번호를 입력해주세요.</li>
+                        <li>그 외 구매자가 체험권을 사용할때 필요한 정보를 입력해주세요.</li>
+                    </ol>
+                </div>
+            </section><!--.photo_info-->
+            <section class="buy_info_section">
+                <div class="inner">
+                    <h3>구매정보 <button class="btn_add">+ 항목추가</button></h3>
+                    <ul class="category_list">
+                        <li>
+                            <span>1</span>
+                            <textarea name="notice"></textarea>
+                            <button class="btn_delete" onclick="delete_buy_info(this)">- 삭제</button>
+                        </li>
+                    </ul>
+                </div>
+            </section><!--.training_price-->
+
+            <div class="bottom_button_box">
+                <button class="btn_save">저장하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script th:inline="javascript">
+        function delete_buy_info(btn){
+            $.fn.delete_buy_info(btn);
+        }
+
+        $(document).ready(function(){
+            // 구매정보 항목 추가
+            $("button.btn_add").click(function (){
+                let cloneLi = $("ul.category_list > li").last().clone();
+                cloneLi.find("span").text($("ul.category_list > li").length + 1);
+                cloneLi.find("textarea").val("");
+                cloneLi.appendTo($("ul.category_list"));
+            });
+
+            // 구매정보 항목 삭제
+            $.fn.delete_buy_info = function(btn){
+                $(btn).parent().remove();
+            }
+
+            let apiMethod = "buy-information";
+
+            // 구매 정보 조회
+            $.ajax({
+                url : "http://43.200.31.249:80/api/trainer/buy-information-select",
+                type : "POST",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                contentType: "application/json",
+                success:function(response){
+                    console.log(response);
+                    if(response.data.length > 0){
+                        apiMethod = "buy-information-update";
+                        for(let i = 1; i <= response.data.length; i++){
+                            if(i !== 1){
+                                let cloneLi = $("ul.category_list li:last-child").clone(true);
+                                $(cloneLi).find("span").text(i);
+                                $("ul.category_list").append(cloneLi);
+                            }
+                            $("ul.category_list li:last-child textarea").val(response.data[i-1].notice);
+                        }
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                },
+            });
+
+            // 구매 정보 저장
+            $("button.btn_save").click(function(){
+                let noticeArr = [];
+                let nullCheck = true;
+
+                $("textarea[name=notice]").each(function(index, item){
+                    if($(item).val().trim() === ""){
+                        nullCheck = false;
+                        return false;
+                    }
+
+                    let pushArr = {
+                        "idx":0,
+                        "notice":$(item).val().trim()
+                    };
+                    noticeArr.push(pushArr);
+                });
+
+                if(!nullCheck){
+                    alert("빈 값을 채워주세요.");
+                }else{
+                    /*<![CDATA[*/
+                    const token = /*[[${session.token}]]*/ '';
+                    /*]]>*/
+
+                    $.ajax({
+                        url :  "http://43.200.31.249:80/api/trainer/" + apiMethod,
+                        type : "post",
+                        cache: false,
+                        async: false,
+                        headers:{
+                            "token":token
+                        },
+                        data:JSON.stringify(noticeArr),
+                        contentType:'application/json',
+                        success:function(response){
+                            console.log(response);
+                            if(response.result === true){
+                                alert("구매 정보가 저장되었습니다.");
+                                location.reload(true);
+                            }else{
+                                alert("구매 정보를 저장하는데 실패하였습니다.");
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                            alert("구매 정보를 저장하는데 실패하였습니다.");
+                        }
+                    });
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

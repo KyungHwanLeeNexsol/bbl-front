@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="regist_ex_schedule">
+        <div class="modal_wrap">
+            <div class="calendar_modal modal">
+                <button class="btn_close_modal">닫기</button>
+                <div class="modal_inner">
+                    <h3><p>날짜를 선택해주세요.</p></h3>
+                    <div class="calendar_box">
+                        <div class="year-month">
+                            <button class="btn_prev_month">이전달</button>
+                            <span>2022년 03월</span>
+                            <button class="btn_next_month">다음달</button>
+                        </div><!--.current_date-->
+                        <div class="days">
+                            <div class="day">일</div>
+                            <div class="day">월</div>
+                            <div class="day">화</div>
+                            <div class="day">수</div>
+                            <div class="day">목</div>
+                            <div class="day">금</div>
+                            <div class="day">토</div>
+                        </div><!--.days-->
+                        <div class="real_calendar"></div>
+                    </div><!--.calendar_box-->
+                    <button class="btn_success">완료</button>
+                </div><!--.modal_inner-->
+            </div><!--.calendar_modal-->
+
+            <div class="time_modal modal">
+                <button class="btn_close_modal">닫기</button>
+                <div class="modal_inner">
+                    <h3>
+                        <p>시각을 선택해주세요.</p>
+                        <span class="ampm"></span>
+                        <span class="hours"></span>
+                        <span class="minutes"></span>
+                    </h3>
+                    <div class="ampm">
+                        <input type="radio" name="ampm" value="am" id="am"><label for="am">오전</label>
+                        <input type="radio" name="ampm" value="pm" id="pm"><label for="pm">오후</label>
+                    </div><!--.time_btns-->
+                    <div class="time_input">
+                        <input type="number" name="hours" max='12' min='01'>시
+                        <input type="number" name="minutes">분
+                    </div>
+                    <button class="btn_success">완료</button>
+                </div><!--.modal_inner-->
+            </div><!--.time_modal-->
+        </div><!--.modal-wrap-->
+
+        <header>
+            <button class="btn_back" onclick="location.href='/pt/manage_member_schedule'">뒤로가기</button>
+            <h2>운동일정 등록</h2>
+        </header>
+        <div class="container">
+            <section class="ex_section ex_schedule_section">
+                <div class="inner">
+                    <dl>
+                        <dt>회원명</dt>
+                        <dd class="userList">
+                            <select name="userIdx" required>
+                                <option value="" disabled selected hidden>회원 선택</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>구매 상품</dt>
+                        <dd class="buyList">
+                            <select name="productIdx" required>
+                                <option value="" disabled selected hidden>상품 선택</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>일정 날짜</dt>
+                        <dd>
+                            <input type="text" name="lessionDate" class="input_calendar" readonly placeholder="날짜를 선택해주세요.">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>운동 시각</dt>
+                        <dd class="dd_ex_time">
+                            <input type="text" name="start_time" class="input_time" readonly placeholder="시각을 선택해주세요.">
+                            ~
+                            <input type="text" name="end_time" class="input_time" readonly placeholder="시각을 선택해주세요.">
+                        </dd>
+                    </dl>
+                </div><!--.inner-->
+            </section>
+
+            <div class="bottom_button_box">
+                <button class="btn_save">일정 승인요청 보내기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            const url = new URL(window.location.href);
+            const urlParams = url.searchParams;
+            const user_idx = urlParams.get('user_idx');
+
+            // 회원 조회
+            $.ajax({
+                url : "http://43.200.31.249:80/api/trainer/userlist",
+                type : "POST",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                contentType: "application/json",
+                success:function(response){
+                    $("select[name=userIdx] option").not(":eq(0)").remove();
+
+                    let userArr = [];
+                    if(response.infos.length > 0){
+                        for(let user of response.infos){
+                            userArr.push({
+                                "userIdx" : user.user_idx,
+                                "userName" : user.user_name
+                            });
+                        }
+                        const userUniqueArr = userArr.filter((user, idx, arr)=>{
+                            return arr.findIndex((item) => item.user_idx === user.user_idx) === idx
+                        });
+                        console.log(userUniqueArr);
+
+                        for(let user of userUniqueArr){
+                            $("select[name=userIdx]").append("<option value='" + user.userIdx + "'>" + user.userName + "</option>");
+                        }
+
+                        if(user_idx !== null){
+                            $("select[name=userIdx]").val(user_idx).prop("selected", true);
+
+                            let data = {
+                                "productCategory": 1,
+                                "userIdx": user_idx
+                            }
+
+                            // 선택한 회원의 구매상품 조회
+                            $.ajax({
+                                url : "http://43.200.31.249:80/api/trainer/transaction-select",
+                                type : "POST",
+                                cache: false,
+                                async: false,
+                                contentType: "application/json",
+                                data:JSON.stringify(data),
+                                headers:{
+                                    "token":token
+                                },
+                                success:function(response){
+                                    console.log(response);
+                                    $("select[name=productIdx] option").not(":eq(0)").remove();
+
+                                    if(response.data.length > 0){
+                                        for(let product of response.data){
+                                            $("select[name=productIdx]").append("<option value='" + product.product_idx + "'>" + product.name + "</option>")
+                                        }
+                                    }else{
+                                        alert("선택한 회원의 구매 상품이 없습니다.");
+                                    }
+                                },
+                                error:function(error){
+                                    console.log(error);
+                                },
+                            });
+                        }
+                    }else{
+                        $("dd.userList").append("<div class='no_user'>등록된 회원이 없습니다.</div>");
+                        $("dd.userList select").css("display", "none");
+                    }
+                },
+
+                error:function(error){
+                    console.log(error);
+                },
+            });
+
+            $("select[name=userIdx]").change(function(){
+                let data = {
+                    "productCategory": 1,
+                    "userIdx": $(this).val()
+                }
+
+                // 선택한 회원의 구매상품 조회
+                $.ajax({
+                    url : "http://43.200.31.249:80/api/trainer/transaction-select",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    contentType: "application/json",
+                    data:JSON.stringify(data),
+                    headers:{
+                        "token":token
+                    },
+                    success:function(response){
+                        console.log(response);
+                        $("select[name=productIdx] option").not(":eq(0)").remove();
+
+                        if(response.data.length > 0){
+                            for(let product of response.data){
+                                $("select[name=productIdx]").append("<option value='" + product.product_idx + "'>" + product.name + "</option>")
+                            }
+                        }else{
+                            alert("선택한 회원의 구매 상품이 없습니다.");
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                    },
+                });
+            });
+
+            calendarInit();
+
+            $("input[name=lessionDate]").click(function(){
+                $("div.modal_wrap").css("display","flex");
+                $("div.modal_wrap div.calendar_modal").css("display","block");
+                $("input[name=lessionDate]").val("");
+            });
+
+            $("div.modal button.btn_close_modal").click(function(){
+                $("div.modal_wrap").css("display","none");
+                $("div.modal_wrap .modal").css("display","none");
+            });
+
+            $("div.calendar_modal button.btn_close_modal").click(function(){
+                $("div.calendar_modal h3 p").removeClass("active");
+                $("div.calendar_modal h3 p").text("날짜를 선택해주세요.");
+                calendarInit();
+            });
+
+            $("input.input_time").click(function(){
+                $("div.modal_wrap").css("display","flex");
+
+                $("div.time_modal h3 p").css("display","block");
+                $("div.time_modal h3 span").text("");
+                $("div.time_modal input").prop("checked", false);
+                $("div.time_modal input[type=number]").val("");
+
+                if($(this).attr("name") === "start_time"){
+                    $("div.time_modal").removeClass("endInput");
+                    $("div.time_modal").addClass("startInput");
+                    $("input[name=start_time]").val("");
+                }else{
+                    $("div.time_modal").removeClass("startInput");
+                    $("div.time_modal").addClass("endInput");
+                    $("input[name=end_time]").val("");
+                }
+
+                $("div.modal_wrap div.time_modal").css("display","block");
+            });
+
+            $("div.time_modal div.ampm input").on("change",function(){
+                $("div.time_modal h3 span.ampm").text("");
+
+                if($(this).val() === "am"){
+                    $("div.time_modal h3 span.ampm").text("오전");
+                }else{
+                    $("div.time_modal h3 span.ampm").text("오후");
+                }
+
+                $("div.time_modal h3 p").css("display", "none");
+            });
+
+            $("div.time_modal input[type=number]").keyup(function(){
+                if($(this).val() !== ""){
+                    $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+                    $(this).val($(this).val().length > 2 ? $(this).val().slice(0, -1) : $(this).val());
+
+                    $("div.time_modal h3 p").css("display","none");
+                    if($(this).attr("name") === "hours") {
+                        $(this).val(Number($(this).val()) > 12 ? $(this).val().slice(0, -1) : $(this).val());
+                        $("div.time_modal h3 span.hours").text($(this).val() + "시");
+                    }else{
+                        $(this).val(Number($(this).val()) > 59 ? $(this).val().slice(0, -1) : $(this).val());
+                        $("div.time_modal h3 span.minutes").text($(this).val() + "분");
+                    }
+                }
+            });
+
+            $("div.time_modal button.btn_success").on("click",function(){
+                if($("div.time_modal input[name=ampm]:checked").length === 0){
+                    alert("시간대를 선택해주세요.");
+                    return false;
+                }
+
+                if($("div.time_modal input[name=hours]").val() === "" || $("div.time_modal input[name=minutes]").val() === ""){
+                    alert("운동시각을 입력해주세요.");
+                    return false;
+                }
+
+                let timeString = $("div.time_modal h3 span.ampm").text() + " " + $("div.time_modal h3 span.hours").text() + " " + $("div.time_modal h3 span.minutes").text();
+
+                if($(this).parent().parent().hasClass("startInput")){
+                    $("input[name=start_time]").val(timeString);
+                }else{
+                    $("input[name=end_time]").val(timeString);
+                }
+
+                $("div.modal_wrap").css("display","none");
+                $("div.modal_wrap .modal").css("display","none");
+            });
+
+            $("div.time_input input").on("keydown",function(event){
+                return event.key >= 0 && event.key <= 9 || event.keyCode === 8;
+            });
+
+            $("div.time_input input[name=hours]").on("keyup", function(){
+                $(this).val(Number($(this).val()) > 12 ? $(this).val().substring(0,1) : $(this).val());
+            });
+
+            $("div.time_input input[name=minutes]").on("keyup", function(){
+                $(this).val(Number($(this).val()) > 59 ? $(this).val().substring(0,1) : $(this).val());
+            });
+
+            $("div.bottom_button_box button.btn_save").click(function(){
+                if($("select[name=userIdx]").val() === null){
+                    alert("회원을 선택해주세요.");
+                    return false;
+                }
+
+                if($("select[name=productIdx]").val() === null){
+                    alert("구매상품을 선택해주세요.");
+                    return false;
+                }
+
+                let inputCheck = true;
+
+                $("section.ex_section input").each(function(index, item){
+                    if($(item).val() === ""){
+                        inputCheck = false;
+                        return false;
+                    }
+                });
+
+                if(!inputCheck){
+                    alert("날짜 및 시각을 선택해주세요.");
+                    return false;
+                }
+
+                const url = new URL(window.location.href);
+                const urlParams = url.searchParams;
+
+                const trainerIdx = urlParams.get('trainerIdx');
+
+                // 일정 승인요청 보내기
+                let data = {
+                    "idx":"0",
+                    "confirmed": "0",
+                    "endAmPm": $("input[name=end_time]").val().substring(0, 2) === "오전" ? "0" : "1",
+                    "lessionDate": $("input[name=lessionDate]").val().replace(". ","-").replace(". ","-"),
+                    "lessonEndMinute": Number($("input[name=end_time]").val().substring(7,9).replace(/[^0-9]/g, "")),
+                    "lessonEndTime": Number($("input[name=end_time]").val().substring(3,5).replace(/[^0-9]/g, "")),
+                    "lessonStartMinute": Number($("input[name=start_time]").val().substring(7,9).replace(/[^0-9]/g, "")),
+                    "lessonStartTime": Number($("input[name=start_time]").val().substring(3,5).replace(/[^0-9]/g, "")),
+                    "startAmPm": $("input[name=start_time]").val().substring(0, 2) === "오전" ? "0" : "1",
+                    "transactionIdx": 1,
+                    "productIdx": $("select[name=productIdx]").val(),
+                    "userIdx": $("select[name=userIdx]").val()
+                };
+
+                $.ajax({
+                    url : "http://43.200.31.249:80/api/trainer/pt-schedule",
+                    // url : "http://localhost:80/api/trainer/pt-schedule",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    data:JSON.stringify(data),
+                    headers:{
+                        "token":token
+                    },
+                    contentType: "application/json",
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true){
+                            alert("일정을 승인요청 하였습니다.");
+                            location.reload(true);
+                        }else{
+                            alert("일정을 승인요청하는데 실패하였습니다.");
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                    },
+                });
+            });
+
+        });
+
+        function calendarInit() {
+            let date = new Date(); // 현재 날짜(로컬 기준) 가져오기
+            let utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000); // uct 표준시 도출
+            let kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
+            let today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
+            let dayArr = ["일","월","화","수","목","금","토"];
+
+            let thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // 현재 달
+            let currentYear = thisMonth.getFullYear(); // 현재년도
+            let currentMonth = thisMonth.getMonth() + 1; // 현재달
+            let currentDate = thisMonth.getDate(); // 현재날짜
+            let currentDay = dayArr[thisMonth.getDay()]; // 현재요일
+
+            // 정수의 난수 구하기
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+            }
+
+            function renderCalender(newDate) {
+                currentYear = newDate.getFullYear(); // 현재년도
+                currentMonth = newDate.getMonth() + 1; // 현재달
+                currentDate = newDate.getDate(); // 현재날짜
+                currentDay = dayArr[newDate.getDay()]; // 현재요일
+
+                $("div.year-month > span").text(currentYear + "년 " + currentMonth + "월");
+
+                // 이전 달의 마지막 날 날짜와 요일 구하기
+                let startDay = new Date(currentYear, currentMonth - 1, 0);
+                let prevDate = startDay.getDate();
+                let prevDay = startDay.getDay();
+
+                // 이번 달의 마지막날 날짜와 요일 구하기
+                let endDay = new Date(currentYear, currentMonth, 0);
+                let nextDate = endDay.getDate();
+                let nextDay = endDay.getDay();
+
+                let calendar = $("div.real_calendar");
+                calendar.html("");
+
+                // 지난달 날짜 렌더링
+                for (let i = prevDate - prevDay; i <= (prevDay !== 6 ? prevDate : 0); i++) {
+                    calendar.html(calendar.html() + '<div class="date_box prev_date"></div>');
+                }
+
+                // 이번달 날짜 렌더링
+                for (let i = 1; i <= nextDate; i++) {
+                    calendar.html(calendar.html() + '<div class="date_box current_date' + (i === date.getDate() ? " today" : "") + '">' + '<span class="' + (i === 1 ? "first " : "") + 'date ' + i + '">' + i + '</span><div class="date_schedule"></div>' + '</div>');
+                }
+
+                // 다음달 날짜 렌더링
+                for (let i = 1; i <= (nextDay === 6 ? 0 : 6 - nextDay); i++) {
+                    calendar.html(calendar.html() + '<div class="date_box next_date"></div>');
+                }
+
+                $("div.date_box").click(function(){
+                    if($(this).hasClass("current_date")){
+                        $("div.current_date").removeClass("active");
+                        $(this).addClass("active");
+                        currentDate = Number($(this).find("span").text());
+                        currentDay = dayArr[new Date(currentYear, currentMonth - 1, $(this).find("span").text()).getDay()];
+                        $("div.calendar_modal h3 p").text(currentYear + "년 " + currentMonth + "월 " + currentDate + "일 (" + currentDay + ")");
+                        $("div.calendar_modal h3 p").addClass("active");
+                    }
+                });
+            }
+
+            renderCalender(thisMonth);
+
+            $("button.btn_prev_month").on('click', function () {
+                thisMonth = new Date(currentYear, currentMonth - 2, currentDate);
+                renderCalender(thisMonth);
+                $("div.calendar_modal h3 p").removeClass("active");
+                $("div.calendar_modal h3 p").text("날짜를 선택해주세요.");
+            });
+
+            $("button.btn_next_month").on('click', function () {
+                thisMonth = new Date(currentYear, currentMonth, currentDate);
+                renderCalender(thisMonth);
+                $("div.calendar_modal h3 p").removeClass("active");
+                $("div.calendar_modal h3 p").text("날짜를 선택해주세요.");
+            });
+
+            $("div.calendar_modal button.btn_success").click(function(){
+                if($("div.calendar_modal h3 p").hasClass("active")) {
+                    $("div.modal_wrap").css("display", "none");
+                    $("div.modal_wrap .modal").css("display", "none");
+                    let selectDate = currentYear + ". " + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + ". " + (currentDate < 10 ? "0" + currentDate : currentDate);
+                    $("input[name=lessionDate]").val(selectDate);
+                }else{
+                    alert("날짜를 선택해주세요.");
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

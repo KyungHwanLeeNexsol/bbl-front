@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbl.mapper.MapperUser">
+
+    <!--
+    회원가입 유무 체크-->
+    <select id="checkResister" resultType="boolean">
+        select if(count(u_id), true, false )
+        from bbl.users
+        where u_id = #{u_id}
+    </select>
+
+    <!--
+    SNB로그인 -->
+    <select id="SNSlogin">
+
+    </select>
+
+    <!--
+    이메일 로그인 -->
+    <select id="">
+
+    </select>
+
+    <!--
+    -->
+
+
+
+
+
+
+
+
+
+    <!--
+    테스트
+    -->
+    <insert id="insertTest">
+        insert into bbl.users(u_id)
+        values(#{str})
+    </insert>
+</mapper>

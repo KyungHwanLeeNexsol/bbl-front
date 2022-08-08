@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="menu">
+        <header>
+            <div class="my_info">
+                <b></b>님
+            </div><!--.my_info-->
+            <button class="btn_close" onclick="history.back()">닫기</button><!--.btn_close-->
+        </header>
+        <div class="inner">
+            <div class="profile_state">
+                <dl>
+                    <dt>현재 상태</dt>
+                    <dd>게시중</dd>
+                </dl>
+                <button class="btn_edit" onclick="location.href='/pt/coach_profile'">코치 프로필 수정하기</button>
+            </div><!--.profile_state-->
+
+            <ul>
+                <li onclick="location.href='/pt/mypage'">마이페이지</li>
+                <li onclick="location.href='/pt/manage_member_schedule'">회원/일정 관리</li>
+                <li onclick="location.href='/pt/manage_adjust'">정산 관리</li>
+                <li onclick="location.href='/pt/settings'">설정</li>
+            </ul>
+
+            <button class="btn_logout">로그아웃</button>
+        </div><!--.inner-->
+    </div><!--.menu-->
+
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            /*<![CDATA[*/
+            const token = /*[[${session.token}]]*/ '';
+            /*]]>*/
+
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/select-information",
+                type : "POST",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.result === true){
+                        $("div.my_info b").text(response.infos.pt_trainer_name);
+                    }else{
+                        $("div.my_info b").text("정보없음");
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            // 로그아웃
+            $("button.btn_logout").click(function(){
+                location.href="/api/logout";
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+<div id="app" class="edit_myinfo">
+    <div class="modal_wrap">
+        <div class="modal">
+            <div class="modal_inner">
+                <span>이메일 변경</span>
+                <input type="text" name="email" placeholder="이메일을 입력해주세요.">
+            </div><!--.modal_inner-->
+            <div class="modal_btns">
+                <button class="btn_cancel">취소</button>
+                <button class="btn_change">변경</button>
+            </div>
+        </div><!--modal-->
+    </div><!--.modal-wrap-->
+    <header>
+        <button class="btn_back" onclick="history.back()">뒤로가기</button>
+        <h2>기본정보 수정</h2>
+    </header>
+    <div class="container">
+        <section class="section_info1">
+            <div class="my_photo">
+                <img src="">
+            </div><!--.my_photo-->
+            <div class="my_info">
+                <dl><dt></dt><dd>--</dd></dl>
+<!--                <p>bbl.com/coach/1234</p>-->
+            </div><!--.my_info-->
+        </section><!--.mypage_box-->
+        <section class="section_info2">
+            <dl>
+                <dt>코치 예명</dt>
+                <dd class="nick_name"></dd>
+            </dl>
+            <dl>
+                <dt>이름 (실명)</dt>
+                <dd class="pt_trainer_name"></dd>
+            </dl>
+            <dl onclick="location.href='/pt/change_phone'">
+                <dt>휴대폰 번호</dt>
+                <dd class="phone_number"></dd>
+            </dl>
+        </section><!--.section_info2-->
+        <section class="section_info3">
+            <dl>
+                <dt>아이디</dt>
+                <dd class="id"></dd>
+            </dl>
+
+            <dl onclick="location.href='/pt/change_password'">
+                <dt>비밀번호 재설정</dt>
+                <dd></dd>
+            </dl>
+
+            <dl class="dl_email">
+                <dt>이메일</dt>
+                <dd class="email"></dd>
+            </dl>
+            <dl class="dl_center">
+                <dt>소속 센터 변경</dt>
+                <dd class="center waiting">승인대기중</dd>
+            </dl>
+        </section><!--.section_info3-->
+        <section class="section_info4">
+            <a href="/api/logout">
+                <dl>
+                    <dt>로그아웃</dt>
+                    <dd></dd>
+                </dl>
+            </a>
+        </section><!--.section_info4-->
+    </div><!--.container-->
+</div><!--.edit_myinfo-->
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-information",
+            type : "post",
+            headers:{
+                "token":token
+            },
+            cache: false,
+            async: false,
+            success:function(infoResponse){
+                console.log(infoResponse);
+
+                $("div.my_info dl dt").text(infoResponse.infos.nick_name);
+                $("dd.nick_name").text(infoResponse.infos.nick_name);
+                $("dd.pt_trainer_name").text(infoResponse.infos.pt_trainer_name);
+                $("dd.phone_number").text(infoResponse.infos.phone_number);
+                $("dd.id").text(infoResponse.infos.id);
+                $("dd.email").text(infoResponse.infos.email);
+                $("input[name=email]").val(infoResponse.infos.email);
+
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/approve-center?notice=센터승인",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(approveResponse){
+                console.log(approveResponse);
+
+                if(approveResponse.data.flag === "2"){
+                    $("div.my_info dl dd").text(approveResponse.infos.store_name);
+                    $("dd.center").removeClass("waiting");
+                    $("dd.center").text(approveResponse.infos.store_name);
+                }
+
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        $("dl.dl_email").click(function(){
+            $("div.modal_wrap").css("display", "flex");
+            $("div.modal").css("display", "block");
+        });
+
+        $("div.modal button.btn_cancel").click(function(){
+            $("div.modal_wrap").css("display", "none");
+            $("div.modal input").val("");
+        });
+
+        $("div.modal button.btn_change").click(function(){
+            if($("input[name=email]").val() === ""){
+                alert("이메일을 입력해주세요.");
+            }else{
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/change-email?email="+$("input[name=email]").val(),
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    // contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+                    headers:{
+                        "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8;",
+                        "token":token,
+                    },
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === "이메일 변경 완료") {
+                            alert("이메일이 변경되었습니다.");
+                            location.reload();
+                        }else{
+                            alert("이메일 변경 실패");
+                            location.reload();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                        alert("이메일 변경 실패");
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+        // 센터변경
+        $("dl.dl_center").click(function(){
+            if($(this).find("dd").hasClass("waiting")){
+                alert("센터 승인대기중일때는 소속 센터를 변경할 수 없습니다.");
+            }else{
+                location.href="/pt/change_center";
+            }
+        });
+
+        // 사진 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-detail-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.infos.imageList.length > 0){
+                    $("div.my_photo img").prop("src", response.infos.imageList[0].image_path);
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

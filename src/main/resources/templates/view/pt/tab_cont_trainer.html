@@ -1,0 +1,229 @@
+<div class="tab_cont_inner">
+    <div class="fee_guide">
+        <h3>
+            요금안내
+            <button class="btn_input_price" onclick="location.href='/pt/set_fee'">가격 입력</button>
+        </h3>
+        <div class="no_fee">이용가격을 입력해주세요.</div>
+    </div><!--.fee_guide-->
+
+    <div class="trainer_intro">
+        <ul class="trainer_photos">
+            <li onclick="location.href='/pt/set_trainer_photo'">
+                <img src="/img/pt/icon_add_photo.png">
+                <span>사진추가</span>
+            </li>
+        </ul><!--.trainer_photos-->
+        <h3>
+            <span class="trainer_nickname">박석현 트레이너</span>
+            <button class="btn_input_intro" onclick="location.href='/pt/set_trainer_info'">소개 입력</button>
+        </h3>
+        <dl>
+            <dt>전문분야</dt>
+            <dd class="specialty">근력향상, 기초체력, 다이어트</dd>
+        </dl>
+        <dl class="license">
+            <dt>자격사항</dt>
+        </dl>
+        <dl>
+            <dt>소개</dt>
+            <dd class="introduction">
+                <textarea disabled onload="setTextareaHeight(this)"></textarea>
+            </dd>
+        </dl>
+    </div><!--.trainer_intro-->
+
+    <div class="buy_info">
+        <h3>구매정보
+            <button class="btn_input_info" onclick="location.href='/pt/set_buy_info'">정보 입력</button>
+        </h3>
+        <ul>
+
+        </ul>
+    </div><!--.buy_info-->
+</div><!--.tab_cont_inner-->
+
+<script>
+    $(document).ready(function(){
+        // 요금 정보 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/fee-information-select",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.infos.length !== 0){
+                    $("div.no_fee").css("display","none");
+
+                    let table_length = response.infos.length / 4;
+
+                    for(let i = 0; i < table_length; i++){
+                        $("div.fee_guide").append(
+                            "<table>"
+                            + "<tr><th colspan='3'></th></tr>"
+                            + "<tr><td></td><td></td><td></td></tr>"
+                            + "<tr><td></td><td></td><td></td></tr>"
+                            + "<tr><td></td><td></td><td></td></tr>"
+                            + "<tr><td></td><td></td><td></td></tr>"
+                            + "</table>"
+                        );
+                    }
+                    $("div.fee_guide table").css("display","table");
+
+                    let i = 1;
+                    let tableCount = 0;
+
+                    for (let fee of response.infos) {
+                        if(i === 1){
+                            $("div.fee_guide table:eq(" + tableCount + ") th").text(fee.title);
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(0)").text(fee.roundList + fee.round);
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(1)").html((fee.round === "개월" ? "월" : "회") + "당 " + "<b>" + Math.round(Number(fee.amount) / Number(fee.roundList)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</b>원");
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(2)").text(fee.amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                            i++;
+                        }else if(i === 4){
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(0)").text(fee.roundList + fee.round);
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(1)").html((fee.round === "개월" ? "월" : "회") + "당 " + "<b>" + Math.round(Number(fee.amount) / Number(fee.roundList)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</b>원");
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(2)").text(fee.amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                            i = 1;
+                            tableCount++;
+                        }else{
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(0)").text(fee.roundList + fee.round);
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(1)").html((fee.round === "개월" ? "월" : "회") + "당 " + "<b>" + Math.round(Number(fee.amount) / Number(fee.roundList)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</b>원");
+                            $("div.fee_guide table:eq(" + tableCount + ") tr:eq("+i+") td:eq(2)").text(fee.amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                            i++;
+                        }
+                    }
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 트레이너 정보 조회(사진 포함)
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                $("h3 span.trainer_nickname").text(response.infos.nick_name + " 트레이너");
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 트레이너 상세정보 조회(사진 포함)
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/select-detail-information",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response.infos.trainerDetailInformation);
+                if(response.infos.imageList.length > 0){
+                    $(response.infos.imageList).each(function(index, item){
+                        $("ul.trainer_photos").append("<li><img src='" + $(item)[0]['image_path'] + "'></li>");
+
+                        if(index === 4){
+                            return false;
+                        }
+                    });
+                }
+                if(response.infos.imageList.length > 5){
+                    $("ul.trainer_photos li:last-child").prepend("<div onclick=\"location.href='/pt/set_trainer_photo'\">더보기</div>");
+                }
+                if(response.infos.trainerDetailInformation !== null){
+                    let specialtyString = "";
+                    for(let specialty of response.infos.trainerDetailInformation.specialty.split(",")){
+                        specialtyString += specialty.replace("#", "") + ", ";
+                    }
+                    $("dd.specialty").text(specialtyString.trim().slice(0, -1));
+                    $("dd.introduction > textarea").text(response.infos.trainerDetailInformation.introduction);
+                    $("dd.introduction > textarea").css("height", $("dd.introduction > textarea").prop('scrollHeight') + "px");
+                }
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 자격사항 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/qualitification-list",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.data !== null){
+                    for(let licenseKey in response.data) {
+                        for (let licenseItem of response.data[licenseKey]) {
+                            let licenseName = "";
+                            switch (licenseKey){
+                                case "근무경력" :
+                                    licenseName = "role";
+                                    break;
+                                case "수상경력" :
+                                    licenseName = "participation";
+                                    break;
+                                case "자격증" :
+                                    licenseName = "license_name";
+                                    break;
+                                case "학력" :
+                                    licenseName = "name";
+                                    break;
+                            }
+
+                            $("dl.license").append("<dd>" + licenseItem[licenseName] + " " + licenseKey + "</dd>");
+                        }
+                    }
+                }
+
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+
+        // 구매 정보 조회
+        $.ajax({
+            url : "http://43.200.31.249:80/api/trainer/buy-information-select",
+            type : "POST",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            contentType: "application/json",
+            success:function(response){
+                console.log(response);
+                if(response.data.length > 0){
+                    for(let buy_info of response.data){
+                        $("div.buy_info ul").append("<li>" + buy_info.notice + "</li>");
+                    }
+                }
+            },
+            error:function(error){
+                console.log(error);
+            },
+        });
+
+
+    });
+</script>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="join">
+        <div id="app" class="search_center">
+            <header>
+                <button type="button" class="btn_close">닫기</button>
+                <input type="text" name="search_center_name" placeholder="센터 명칭 검색">
+                <button type="button" class="btn_delete">지우기</button>
+            </header>
+            <div class="search_result">
+                <div class="inner">
+                    <div class="no_result">
+                        검색 결과가 없습니다.
+                    </div>
+                    <ul>
+<!--                        <li>-->
+<!--                            <input type="hidden" name="centerNum" value="1">-->
+<!--                            <span>바디체인지클럽</span>-->
+<!--                            <p>부산시 해운대구</p>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <input type="hidden" name="centerNum" value="2">-->
+<!--                            <span>킹콩짐</span>-->
+<!--                            <p>부산시 진구</p>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div><!--.search_result-->
+        </div><!--.search_center-->
+
+        <div class="modal_wrap">
+            <div class="join_modal modal">
+                <div class="modal_inner">
+                    <h3>이용자 동의</h3>
+                    <p>번호 인증을 위하여 개인정보 수집 및 이용(필수) 동의가 필요합니다.</p>
+                    <ul>
+                        <li>
+                            <div>
+                                <input type="checkbox" name="all_check" id="all_check"><label for="all_check">전체 동의</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <input type="checkbox" name="terms_service" class="input_depth1 essential" id="terms_service"><label for="terms_service"><span>(필수)</span> BBL 서비스 이용약관 동의</label>
+                            </div>
+                            <a href="">상세보기</a>
+                        </li>
+                        <li>
+                            <div>
+                                <input type="checkbox" name="use_privacy" class="input_depth1 essential" id="use_privacy"><label for="use_privacy"><span>(필수)</span> 개인정보 수집 · 이용 동의</label>
+                            </div>
+                            <a href="">상세보기</a>
+                        </li>
+                        <li>
+                            <div>
+                                <input type="checkbox" name="process_privacy" class="input_depth1 essential" id="process_privacy"><label for="process_privacy"><span>(필수)</span> 개인정보 처리위탁</label>
+                            </div>
+                            <a href="">상세보기</a>
+                        </li>
+                        <li>
+                            <div>
+                                <input type="checkbox" name="notification" class="input_depth1" id="notification"><label for="notification">(선택) 이벤트/서비스 알림 수신 동의</label>
+                            </div>
+                            <a href="">상세보기</a>
+                        </li>
+                        <li class="notification_box">
+                            <input type="checkbox" name="notification_kind" value="push" id="push"><label for="push">푸시 알림</label>
+                            <input type="checkbox" name="notification_kind" value="sms" id="sms"><label for="sms">SMS</label>
+                            <input type="checkbox" name="notification_kind" value="email" id="email"><label for="email">이메일</label>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn_join_agree" disabled>동의하고 센터에 승인요청하기</button>
+                </div>
+            </div><!--.bottom_modal-->
+        </div><!--.modal-wrap-->
+
+        <header>
+            <button class="btn_back">뒤로가기</button>
+            <h2>코치로 회원가입</h2>
+        </header>
+        <div class="inner">
+            <img src="/img/pt/join_step3.png" class="img_join_step">
+
+            <dl>
+                <dt>성별</dt>
+                <dd class="dd_radioBox dd_gender">
+                    <input type="radio" name="gender" value="1" id="male"><label for="male">남성</label>
+                    <input type="radio" name="gender" value="2" id="female"><label for="female">여성</label>
+                </dd>
+            </dl>
+            <dl>
+                <dt>운동 종목</dt>
+                <dd class="dd_radioBox dd_exercise">
+                    <input type="radio" name="programName" value="pt" id="pt"><label for="pt">P.T & 헬스</label>
+                    <input type="radio" name="programName" value="filates" id="filates"><label for="filates">필라테스 & 요가</label>
+                    <input type="radio" name="programName" value="etc" id="etc"><label for="etc">기타</label>
+                </dd>
+            </dl>
+            <dl>
+                <dt>소속 센터</dt>
+                <dd class="dd_search_center">
+                    <input type="hidden" name="affilatedCenter">
+                    <input type="text" name="center_name" placeholder="소속 센터를 검색해주세요." readonly>
+                    <button type="button" class="btn_search_center">검색</button>
+                </dd>
+            </dl>
+
+            <button type="button" class="btn_next">다음</button>
+        </div><!--.inner-->
+    </div><!--.join-->
+
+    <script>
+        function clickCenter(){
+            $.fn.clickSearchCenter();
+        }
+
+        $(document).ready(function(){
+            $("button.btn_back").click(function(){
+                history.back();
+            });
+
+            $(document).click(function(event){
+               if($("div.modal_wrap").css("display") === "block" && event.target === $("div.modal_wrap")[0]){
+                   $("div.modal_wrap").hide();
+                   $("div.modal").css("bottom", "-50%");
+                   $("div.modal input").prop("checked", false);
+               }
+            });
+
+           // 모달창 체크처리
+           $("input[name=all_check]").change(function(){
+                if($(this).prop("checked")){
+                    $("div.join_modal input").prop("checked", true);
+                }else{
+                    $("div.join_modal input").prop("checked", false);
+                }
+
+               if($("input.essential").length === $("input.essential:checked").length) {
+                   $("button.btn_join_agree").prop("disabled", false);
+                   $("button.btn_join_agree").addClass("active");
+               }else{
+                   $("button.btn_join_agree").prop("disabled", true);
+                   $("button.btn_join_agree").removeClass("active");
+               }
+           });
+
+           $("input.input_depth1").change(function(){
+               if($("input.input_depth1").length === $("input.input_depth1:checked").length){
+                   $("input[name=all_check]").prop("checked", true);
+               }else{
+                   $("input[name=all_check]").prop("checked", false);
+               }
+           });
+
+           $("input[name=notification]").change(function(){
+               if($(this).prop("checked")){
+                   $("li.notification_box input").prop("checked", true);
+               }else{
+                   $("li.notification_box input").prop("checked", false);
+               }
+           });
+
+           $("li.notification_box input").change(function(){
+               if($("li.notification_box input:checked").length === 0){
+                   $("input[name=notification]").prop("checked", false);
+                   $("input[name=all_check]").prop("checked", false);
+               }else{
+                   $("input[name=notification]").prop("checked", true);
+                   if($("input.input_depth1").length === $("input.input_depth1:checked").length){
+                       $("input[name=all_check]").prop("checked", true);
+                   }
+               }
+           });
+
+
+           $("input.essential").change(function(){
+              if($("input.essential").length === $("input.essential:checked").length) {
+                  $("button.btn_join_agree").prop("disabled", false);
+                  $("button.btn_join_agree").addClass("active");
+              }else{
+                  $("button.btn_join_agree").prop("disabled", true);
+                  $("button.btn_join_agree").removeClass("active");
+              }
+           });
+
+           // 소속 센터 검색
+            $("dd.dd_search_center").click(function(){
+                $("div.search_center").css("bottom", "0");
+                $("div.search_center ul li").remove();
+                $("input[name=search_center_name]").val("");
+                $("div.no_result").css("display","block");
+            });
+
+            // 센터 검색창 닫기
+            $("div.search_center button.btn_close").click(function(){
+                $("div.search_center").css("bottom", "-100%");
+                $("div.search_center input").val("");
+            });
+
+            // 센터 명칭 검색
+                $("input[name=search_center_name]").keypress(function(event){
+                    if(event.keyCode === 13){
+                    // 엔터키 눌렀을때
+                    $.ajax({
+                        url :  "http://43.200.31.249:80/api/trainer/store-list?storeName="+$("input[name=search_center_name]").val(),
+                        type : "POST",
+                        cache: false,
+                        async: false,
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+                        // headers:{
+                        //     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8;",
+                        //     "token":token,
+                        // },
+                        success:function(response){
+                            // console.log(response.infos);
+                            if(response.infos.length === 0){
+                                $("div.no_result").css("display","block");
+                                $("div.search_result ul li").remove();
+                            }else{
+                                $("div.no_result").css("display","none");
+                                $("div.search_result ul li").remove();
+                                for(let store of response.infos){
+                                    console.log(store);
+                                    let addTag = "" +
+                                        "<li onclick='clickCenter()'>"
+                                        + "<input type='hidden' name='centerNum' value='" + store.store_idx + "'>"
+                                        + "<span>" + store.store_name + "</span>"
+                                        + "<p>" + store.address + "</p>"
+                                        + "</li>";
+                                    $("div.search_result ul").prepend(addTag);
+                                }
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+
+            // 검색된 센터 클릭시
+            $.fn.clickSearchCenter = function(){
+                $("div.search_result ul > li").click(function(){
+                    $("input[name=center_name]").val($(this).find("span").text());
+                    $("input[name=affilatedCenter]").val($(this).find("input").val());
+                    $("div.search_center").css("bottom", "-100%");
+
+                    if(gender.is(":checked") && programName.is(":checked") && affilatedCenter.val() !== ""){
+                        $("button.btn_next").addClass("active");
+                    }
+                });
+            }
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get('id');
+            const password = urlParams.get('password');
+            const ptTrainerName = urlParams.get('ptTrainerName');
+            const nickName = urlParams.get('nickName');
+            const phoneNumber = urlParams.get('phoneNumber');
+           const gender = $("input[name=gender]");
+           const programName = $("input[name=programName]");
+           const affilatedCenter = $("input[name=affilatedCenter]");
+
+
+           $("input").change(function(){
+                if(gender.is(":checked") && programName.is(":checked") && affilatedCenter.val() !== ""){
+                    $("button.btn_next").addClass("active");
+                }
+           });
+
+           // 다음버튼 클릭
+           $("button.btn_next").click(function(){
+               if($(this).hasClass("active")){
+                  $(".modal_wrap").show();
+                   $(".modal").css("display", "block");
+                  setTimeout(function(){
+                      $(".modal").css("bottom", 0);
+                  }, 50);
+               }
+           });
+
+           $("button.btn_join_agree").click(function(){
+                if($(this).hasClass("active")){
+                    const data = {
+                        "affilatedCenter": affilatedCenter.val(),
+                        "approvalstatus": 1,
+                        "brithDay": "20220101",
+                        "certType": 1,
+                        "elDas": false,
+                        "gender":gender.val(),
+                        "email":"",
+                        "id": id,
+                        "idx" : 0,
+                        "nickName": nickName,
+                        "notifications": "N",
+                        "password": password,
+                        "phoneNumber": phoneNumber,
+                        "programName": programName.val(),
+                        "ptTrainerName": ptTrainerName
+                    };
+
+                    console.log(data);
+
+                    $.ajax({
+                        url :  "http://43.200.31.249:80/api/trainer/register",
+                        type : "POST",
+                        cache: false,
+                        async: false,
+                        contentType: "application/json",
+                        data:JSON.stringify(data),
+                        success:function(response){
+                            console.log(response);
+                            if(response.result === true){
+                                location.href="/pt/join_success";
+                            }else{
+                                alert("회원가입 실패");
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                            alert("회원가입 실패");
+                        }
+                    });
+
+                    // fetch("http://43.200.31.249:80/api/trainer/register", {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Content-Type": "application/json",
+                    //     },
+                    //     body:JSON.stringify(data),
+                    // })
+                    // .then(function(response){
+                    //     console.log(response);
+                    //     if(response.ok === true){
+                    //         alert("회원가입 완료");
+                    //         // location.href="/pt/login";
+                    //     }else{
+                    //         alert("회원가입 실패");
+                    //     }
+                    // })
+                    // .catch((error) => {
+                    //     console.error('실패:' + error);
+                    // });
+                }
+           });
+        });
+    </script>
+</body>
+
+</html>

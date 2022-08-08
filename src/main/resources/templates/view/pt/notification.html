@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="notification">
+        <header>
+            <button class="btn_back" onclick="history.back()">뒤로가기</button>
+            <h2>알림</h2>
+            <button type="button" class="btn_set_notification" onclick="location.href='settings'">설정</button>
+        </header>
+        <div class="container">
+            <div class="notification_menu">
+                <button type="button" class="btn_exercise active">활동</button>
+                <button type="button" class="btn_member">회원</button>
+            </div><!--.notification_menu-->
+
+            <div class="no_notification">
+                알림 내역이 없어요.
+            </div><!--.no_notification-->
+
+            <ul class="notification_list">
+                <li>
+                    <span class="notification_icon gift"></span>
+                    <dl>
+                        <dt>BBL<div class="notification_time">1분전</div></dt>
+                        <dd>[광고] 5,000 포인트가 적립되었습니다.</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon notice"></span>
+                    <dl>
+                        <dt>BBL<div class="notification_time">1분전</div></dt>
+                        <dd>[이벤트] PT 1회 체험하고 커피 받아가세요!</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon gift read"></span>
+                    <dl>
+                        <dt>BBL<div class="notification_time">1분전</div></dt>
+                        <dd>[광고] 5,000 포인트가 적립되었습니다.</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon notice read"></span>
+                    <dl>
+                        <dt>BBL<div class="notification_time">1분전</div></dt>
+                        <dd>[이벤트] PT 1회 체험하고 커피 받아가세요!</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon schedule"></span>
+                    <dl>
+                        <dt>일정 승인완료<div class="notification_time">1분전</div></dt>
+                        <dd>일정 승인이 완료되었습니다.</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon schedule read"></span>
+                    <dl>
+                        <dt>일정 승인완료<div class="notification_time">1분전</div></dt>
+                        <dd>일정 승인이 완료되었습니다.</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon hand"></span>
+                    <dl>
+                        <dt>운동 종료신청<div class="notification_time">1분전</div></dt>
+                        <dd>[홍길동] 회원님이 운동종료 신청하셨습니다.</dd>
+                    </dl>
+                </li>
+                <li>
+                    <span class="notification_icon hand read"></span>
+                    <dl>
+                        <dt>운동 종료신청<div class="notification_time">1분전</div></dt>
+                        <dd>[홍길동] 회원님이 운동종료 신청하셨습니다.</dd>
+                    </dl>
+                </li>
+            </ul>
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.notification_menu > button").click(function(){
+                $("div.notification_menu > button").removeClass("active");
+                $(this).addClass("active");
+               if($(this).hasClass("btn_exercise")){
+
+               }
+            });
+        });
+    </script>
+</body>
+
+</html>

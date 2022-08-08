@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+<!--헤더-->
+<th:block th:replace="/fragments/pt/header :: header"></th:block>
+<!--메인비주얼-->
+<th:block th:replace="/fragments/pt/mainVisual :: mainVisual"></th:block>
+
+    <div class="container coach_profile">
+        <section class="center_info center_agree_waiting">
+            <div class="inner">
+                <h3>센터 승인대기중</h3>
+                <div class="star_score">
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <span>(0.0)</span>
+                </div><!--.star_score-->
+                <p>센터의 승인을 기다리는 중입니다.</p>
+            </div>
+        </section><!--.center_agree_waiting-->
+
+        <section class="center_info center_agree_success">
+            <div class="inner">
+                <h3>바디체인지 클럽</h3>
+                <div class="star_score">
+                    <ul>
+                        <li class="filled"></li>
+                        <li class="filled"></li>
+                        <li class="filled"></li>
+                        <li class="filled"></li>
+                        <li class="filled"></li>
+                    </ul>
+                    <span>(5.0)</span>
+                </div><!--.star_score-->
+                <p>부산광역시 부산진구 동천로 4, 지오플레이스 B123 전포역 도보 10분</p>
+                <button type="button" class="btn_address_copy">주소복사</button>
+                <ul class="center_images">
+                    <li><img src="/img/pt/main_visual01.png"></li>
+                    <li><img src="/img/pt/main_visual01.png"></li>
+                    <li><img src="/img/pt/main_visual01.png"></li>
+                    <li><img src="/img/pt/main_visual01.png"></li>
+                </ul><!--.center_images-->
+            </div><!--.inner-->
+        </section><!--.center_info-->
+
+        <section class="one_time">
+            <div class="inner">
+                <div class="one_time_box">
+                    <dl class="first_fee">
+                        <dt>1회 체험권</dt>
+                        <dd>요금안내를 먼저 입력해주세요.</dd>
+                    </dl><!--.no_one_time-->
+
+                    <dl class="no_one_time">
+                        <dt>1회 체험권</dt>
+                        <dd>1회 체험을 제공하지 않아요.</dd>
+                    </dl><!--.no_one_time-->
+
+                    <dl class="offer_one_time">
+                        <dt>1회 특가로 체험해보세요!</dt>
+                        <dd>
+                            <div><p>28%</p> <span>40,000원</span></div>
+                            <b>"25,000원"</b>
+                        </dd>
+                    </dl>
+
+                    <button class="btn_one_time">1회 체험권 등록</button>
+                </div><!--.one_time_box-->
+            </div><!--inner-->
+        </section><!--.one_time-->
+
+        <section class="tabmenu_section">
+            <ul class="tab_menu coach_tabmenu">
+                <li class="active" data-page="tab_cont_trainer">트레이너</li>
+                <li data-page="tab_cont_center">센터</li>
+                <li data-page="tab_cont_review">후기</li>
+            </ul><!--.coach_tabmenu-->
+
+            <div class="tab_cont_wrap">
+
+            </div><!--.tab_cont-->
+        </section><!--.tabmenu_section-->
+    </div><!--.profile-->
+
+    <script>
+        $(document).ready(function(){
+            let oneTime = "first_fee";
+
+            $("div.tab_cont_wrap").load("/pt/tab_cont_trainer");
+
+            $("ul.tab_menu > li").click(function (){
+               $("ul.tab_menu > li").removeClass("active");
+               $(this).addClass("active");
+
+               $("div.tab_cont_wrap").load("/pt/" + $(this).data("page"));
+            });
+
+            // 주소복사 클릭
+            $("button.btn_address_copy").click(function(){
+                window.navigator.clipboard.writeText($("section.center_agree_success p").text()).then(() => {
+                    alert("주소가 복사되었습니다.");
+                });
+            });
+
+            // 센터 승인 여부
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/approve-center?notice=센터승인",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(approveResponse){
+                    console.log(approveResponse);
+
+                    if(approveResponse.data.flag === "1"){
+                        $("div.agree_waiting_text").css("display", "flex");
+                    }else if(approveResponse.data.flag === "2"){
+                        $("div.agree_waiting_text").css("display", "none");
+                        $("section.center_agree_waiting").css("display","none");
+                        $("section.center_agree_success").css("display","block");
+
+                        // 센터 정보 조회
+                        $.ajax({
+                            url :  "http://43.200.31.249:80/api/store/getInfoDetail?storeIdx=" + approveResponse.data.storeIdx,
+                            type : "post",
+                            cache: false,
+                            async: false,
+                            success:function(centerResponse){
+                                $("section.center_agree_success h3").text(centerResponse.data.store_name);
+                                $("section.center_agree_success p").text(centerResponse.data.address);
+                            },
+                            error:function(error){
+                                console.log(error);
+                            }
+                        });
+                    }
+
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            $("button.btn_one_time").click(function(){
+                if($(this).hasClass("active")){
+                    location.href="/pt/set_one_time";
+                }else{
+                    alert("요금안내를 먼저 입력해주세요.");
+                }
+            });
+
+            // 요금 정보 조회
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/fee-information-select",
+                type : "post",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.infos.length !== 0){
+                        oneTime = "no_one_time";
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+
+            // 1회 체험가 조회
+            $.ajax({
+                url : "http://43.200.31.249:80/api/trainer/oneDayAmount",
+                type : "POST",
+                cache: false,
+                async: false,
+                headers:{
+                    "token":token
+                },
+                contentType: "application/json",
+                success:function(response){
+                    console.log(response);
+                    if(response.data !== null){
+                        oneTime = "offer_one_time";
+                        $("div.one_time_box dl dd div p").text(response.data.discount + "%");
+                        $("div.one_time_box dl dd div span").text(response.data.discount_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                        $("div.one_time_box dl dd b").text(response.data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                },
+                complete:function(){
+                    if(oneTime === "no_one_time"){
+                        $("div.one_time_box dl").css("display","none");
+                        $("div.one_time_box dl.no_one_time").css("display","block");
+                        $("button.btn_one_time").addClass("active");
+                    }else if(oneTime === "offer_one_time"){
+                        $("div.one_time_box dl").css("display","none");
+                        $("div.one_time_box dl.offer_one_time").css("display","block");
+                        $("button.btn_one_time").addClass("active");
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

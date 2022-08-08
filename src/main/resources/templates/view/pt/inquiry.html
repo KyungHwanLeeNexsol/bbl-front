@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="inquiry">
+        <header>
+            <button class="btn_back" onclick="history.back();">뒤로가기</button>
+            <h2>문의하기</h2>
+        </header>
+        <div class="container">
+            <div class="inner">
+                <form>
+                    <dl>
+                        <dt>제목</dt>
+                        <dd><input type="text" name="qna_title" placeholder="제목을 입력해주세요."></dd>
+                    </dl>
+                    <dl>
+                        <dt>내용 작성</dt>
+                        <dd>
+                            <textarea name="후기 내용을 작성해주세요." placeholder="문의내용을 작성해주세요."></textarea>
+                        </dd>
+                    </dl>
+                </form>
+            </div>
+
+            <div class="bottom_button_box">
+                <button class="btn_save">문의하기</button>
+            </div><!--.bottom_button_box-->
+        </div><!--.container-->
+    </div><!--.join-->
+
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+</body>
+
+</html>

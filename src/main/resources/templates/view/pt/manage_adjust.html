@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="manage_adjust">
+        <div class="modal_wrap">
+            <div class="modal add_modal">
+                <button class="btn_close_modal">닫기</button>
+                <div class="modal_inner">
+                    <h3>운동/일정 추가</h3>
+                    <button type="button" class="btn_add_schedule">일정 추가</button>
+                    <button type="button" class="btn_regist_exercise">운동 등록</button>
+                </div><!--.modal_inner-->
+            </div><!--add_modal-->
+
+        </div><!--.modal-wrap-->
+
+        <th:block th:replace="/fragments/pt/header :: header"></th:block>
+        <div class="container">
+            <section class="manage_adjust_section">
+                <div class="inner">
+                    <h3>1회 체험 정산관리</h3>
+                    <div class="adjust_info">
+                        <span>정산 정보 설정</span>
+                        <button class="btn_set_adjust" onclick="location.href='/pt/set_adjust'">설정 안됨</button>
+                    </div><!--.adjust_info-->
+                </div>
+            </section><!--.manage_adjust_section-->
+
+            <section class="adjust_history_section">
+                <div class="inner">
+                    <h3>월별 매출 정산 내역 <button class="btn_show_rule">정산 정책 보기</button></h3>
+                    <div class="history_box">
+                        <div class="non_history">
+                            <p class="non_history">매출 정산 내역이 없어요. <br>
+                                코치 프로필을 만들고 추가 수익을 만들어보세요.</p>
+                            <a href="/pt/coach_profile"><button class="btn_create_profile">내 코치 프로필 만들기</button></a>
+                        </div><!--.non_history-->
+
+                        <select name="history_date">
+                            <option value="" selected hidden disabled>날짜 전체</option>
+                            <option value="2022-04">2022년 04월</option>
+                            <option value="2022-03">2022년 03월</option>
+                        </select>
+                        <div class="adjust_price">총 금액<b>845,000원</ b></div>
+                        <ul class="history_user_list">
+                            <li>
+                                <span>2022년 04월 08일 (금)</span>
+                                <dl>
+                                    <dt><img src="/img/pt/img_thumbnail.png"></dt>
+                                    <dd>
+                                        홍길동 회원님
+                                        <button class="btn_confirm_pay">결제확인</button>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt><img src="/img/pt/img_thumbnail.png"></dt>
+                                    <dd>
+                                        김수미 회원님
+                                        <p>결제완료</p>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </ul><!--.history_user_list-->
+                    </div><!--.history_box-->
+                </div>
+            </section><!--.adjust_history_section-->
+        </div><!--.conatainer-->
+    </div><!--.manage_adjust-->
+
+    <script>
+        $(document).ready(function(){
+            $("div.manage_cont").load("/pt/manage_member");
+
+            $("div.manage_tab > button").click(function(){
+               $(this).siblings().removeClass("active");
+               $(this).addClass("active");
+
+               if($(this).hasClass("btn_member")){
+                   $("div.manage_cont").load("/pt/manage_member");
+                   $("div.add_schedule_tab").css("display","none");
+               }else if($(this).hasClass("btn_schedule")){
+                   $("div.manage_cont").load("/pt/manage_schedule");
+                   $("div.add_schedule_tab").css("display","block");
+               }
+            });
+
+            $("button.btn_add_expand").click(function (){
+                let addScheduleTab = $("div.add_schedule_tab");
+                if(addScheduleTab.hasClass("active")){
+                    addScheduleTab.removeClass("slide");
+                    setTimeout(function(){
+                        addScheduleTab.removeClass("active");
+                    },200);
+                }else{
+                    addScheduleTab.addClass("active");
+                    setTimeout(function(){
+                        addScheduleTab.addClass("slide");
+                    },100);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

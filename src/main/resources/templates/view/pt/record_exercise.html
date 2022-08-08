@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/fragments/pt/head :: head"></th:block>
+
+<body>
+    <div id="app" class="record_exercise">
+        <header>
+            <button class="btn_back" onclick="history.back()">뒤로가기</button>
+            <h2>개인운동/기록</h2>
+        </header>
+        <div class="container">
+            <section class="record_top">
+                <div class="inner">
+                    <p><b>홍길동</b>님의 기록입니다.</p>
+                    <input type="date" name="record_date" >
+                </div>
+            </section><!--.record_top-->
+            <section class="record_cont">
+                <ul class="record_tab">
+                    <li data-page="record_individual" class="active">개인운동</li>
+<!--                    <li data-page="record_inbody">인바디</li>-->
+<!--                    <li data-page="record_calorie">칼로리</li>-->
+                </ul><!--.record_tab-->
+                <div class="inner">
+
+                </div><!--.inner-->
+            </section><!--.record_cont-->
+        </div><!--.container-->
+    </div><!--.record_exercise-->
+
+    <script>
+        $(document).ready(function(){
+            let date = new Date();
+            let currentDate = date.toISOString().slice(0,10);
+            $("input[name=record_date]").val(currentDate);
+
+            $("section.record_cont .inner").load("/pt/record_individual");
+
+            $("ul.record_tab > li").click(function(){
+                $("ul.record_tab > li").removeClass("active");
+                $(this).addClass("active");
+                $("section.record_cont .inner").load("/pt/" + $(this).data("page"));
+            });
+
+            const url = new URL(window.location.href);
+            const urlParams = url.searchParams;
+
+            const user_name = urlParams.get('user_name');
+
+
+            $("section.record_top b").text(user_name);
+
+
+
+        });
+    </script>
+</body>
+
+</html>

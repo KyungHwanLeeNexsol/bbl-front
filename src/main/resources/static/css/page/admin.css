@@ -1,0 +1,92 @@
+/* admin */
+
+/* login 페이지*/
+.login{
+    height:100%;
+    position: relative;
+    background:#f3f3f3;
+}
+.login h1{
+    padding-top: 150px;
+    text-align:center;
+    font-size:70px;
+}
+.login .login-box{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    text-align:center;
+    background:#fff;
+    padding:30px 30px;
+}
+.login .login-box p{
+    font-size:30px;
+    margin-bottom:30px;
+}
+.login .login-box dl{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:30px;
+}
+.login .login-box dl dt{
+    width:80px;
+    text-align:left;
+    font-weight:300;
+}
+.login .login-box input{
+    border:1px solid #ddd;
+    padding:10px 10px;
+}
+.login .login-box button{
+    width:100%;
+    padding:10px 0;
+    background:dodgerblue;
+    color:#fff;
+}
+
+/* 사이드메뉴 */
+#sidemenu{
+    width:12vw;
+    color:#fff;
+    box-sizing: border-box;
+    background:#313037;
+}
+#sidemenu h3{
+    font-size:18px;
+    font-weight:400;
+    padding:15px 10px;
+    background:#121212;
+}
+#sidemenu ul.mainMenu{
+    background:#313037;
+}
+#sidemenu ul.mainMenu > li{}
+#sidemenu ul.mainMenu > li > span{
+    display:block;
+    padding:15px 10px;
+    cursor:pointer;
+}
+#sidemenu ul.subMenu{
+    display:none;
+    background:#f9f9f9;
+}
+#sidemenu ul.subMenu > li{
+    color:#121212;
+    font-size:12px;
+    padding:10px 10px;
+    border-bottom:1px solid #ccc;
+    cursor:pointer;
+}
+#sidemenu ul.mainMenu > li.active > span{
+    color:dodgerblue;
+}
+#sidemenu ul.mainMenu > li.active ul.subMenu{
+    display:block;
+}
+/* main 페이지*/
+#main{
+    height:100%;
+    display:flex;
+}

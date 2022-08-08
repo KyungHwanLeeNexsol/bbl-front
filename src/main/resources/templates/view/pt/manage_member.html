@@ -1,0 +1,135 @@
+<div class="no_member">
+    아직 회원 등록된 회원이 없어요.<br>
+    코치 프로필을 만들고 새로운 회원들을 만나보세요.
+</div>
+
+<ul class="member_list">
+    <li>
+        <div class="member_left">
+            <img src="">
+            <span class=""></span>
+        </div><!--.member_left-->
+        <div class="member_right">
+            <dl class="phone">
+                <dt>번호</dt>
+                <dd></dd>
+            </dl>
+            <dl class="age">
+                <dt>나이</dt>
+                <dd>세</dd>
+            </dl>
+            <div class="member_btns">
+                <button type="button" class="btn_record" onclick="location.href='/pt/record_exercise'">개인운동/기록</button>
+                <button type="button" class="btn_add">운동/일정 추가</button>
+            </div><!--.member_btns-->
+        </div><!--.member_right-->
+    </li>
+</ul><!--.member_list-->
+
+<script>
+    $(document).ready(function(){
+        // 회원 조회
+        $.ajax({
+            url : "http://43.200.31.249:80/api/trainer/userlist",
+            type : "POST",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            contentType: "application/json",
+            success:function(response){
+                console.log(response);
+                if(response.infos.length > 0){
+                    $("div.no_member").css("display","none");
+                    $("ul.member_list").css("display","block");
+
+                    let userUniqueArr = "";
+                    if(response.infos.length > 0) {
+                        let userArr = [];
+                        for (let user of response.infos) {
+                            userArr.push({
+                                "userIdx": user.user_idx,
+                                "userName": user.user_name,
+                                "gender" : user.gender === 1 ? "male" : "female",
+                                "phone" : phoneFomatter(user.consumer_telephone),
+                                "age" : new Date().getFullYear() - Number(user.birth_day.substring(0, 4)) + 1 + "세",
+                            });
+                        }
+                        userUniqueArr = userArr.filter((user, idx, arr) => {
+                            return arr.findIndex((item) => item.user_idx === user.user_idx) === idx
+                        });
+                    }
+
+                    console.log(userUniqueArr);
+
+                    for(let i = 0; i < userUniqueArr.length; i++){
+                        let randomNumber = Math.floor(Math.random() * 9) + 1;
+                        if(i !== 0){
+                            $("ul.member_list").append($("ul.member_list > li:last-child").clone(true));
+                        }
+                        $("ul.member_list > li:last-child img").attr("src", "/img/pt/user_img" + randomNumber + ".png");
+                        $("ul.member_list > li:last-child div.member_left span").addClass(userUniqueArr[i].gender);
+                        $("ul.member_list > li:last-child div.member_left span").text(userUniqueArr[i].userName);
+                        $("ul.member_list > li:last-child dl.phone dd").text(userUniqueArr[i].phone);
+                        $("ul.member_list > li:last-child dl.age dd").text(userUniqueArr[i].age);
+                        $("ul.member_list > li:last-child button.btn_record").attr("onclick", "location.href='/pt/record_exercise?user_idx=" + userUniqueArr[i].userIdx + "&user_name=" + userUniqueArr[i].userName + "'");
+                        $("ul.member_list > li:last-child button.btn_add").attr("data-userIdx", userUniqueArr[i].userIdx);
+                    }
+                }
+            },
+            error:function(error){
+                console.log(error);
+            },
+        });
+
+        $("button.btn_add").click(function(){
+            $("div.modal_wrap").css("display","flex");
+
+            $("div.modal_wrap button.btn_add_schedule").attr("onclick", "location.href='/pt/regist_ex_schedule?user_idx=" + $(this).data("useridx") + "'");
+            $("div.modal_wrap button.btn_regist_exercise").attr("data-userIdx", $(this).data("useridx"));
+
+            $("div.add_modal").css("display","block");
+        });
+
+        $("button.btn_regist_exercise").click(function(){
+            let userIdx = $(this).data("useridx");
+
+            // 운동등록 클릭시 해당 회원의 일정이 있는지
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/confirm-select-Schedule",
+                type : "post",
+                cache: false,
+                async: false,
+                data:JSON.stringify({"userIdx" : userIdx}),
+                contentType:"application/json",
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.result === true && response.data.length > 0){
+                        location.href="/pt/regist_ex?user_idx=" + userIdx;
+                    }else{
+                        $("div.modal_wrap").css("display","flex");
+                        $("div.add_modal").css("display","none");
+                        $("div.no_schedule").css("display","block");
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+        });
+
+        $("button.btn_close_modal").click(function(){
+            $("div.modal_wrap").css("display","none");
+            $("div.add_modal").css("display","none");
+        });
+
+        $("button.btn_confirm").click(function(){
+            $("div.modal_wrap").css("display","none");
+            $("div.no_schedule").css("display","none");
+        });
+    });
+</script>

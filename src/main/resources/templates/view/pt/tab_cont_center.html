@@ -1,0 +1,107 @@
+<div class="tab_cont_inner">
+    <div class="center_guide">
+        <h3>
+            이용정보
+        </h3>
+        <ul>
+            <li class="parking">주차 1시간 무료</li>
+            <li class="uniform">운동복 월 2,000원</li>
+            <li class="locker">사물함 월 5,000원</li>
+        </ul>
+    </div><!--.center_guide-->
+    <div class="center_time">
+        <h3>
+            운영시간
+        </h3>
+        <dl>
+            <dt>평일</dt>
+            <dd>09:00 ~ 22:00</dd>
+        </dl>
+        <dl>
+            <dt>토요일</dt>
+            <dd>09:00 ~ 18:00</dd>
+        </dl>
+        <dl>
+            <dt>휴무일</dt>
+            <dd>매월 둘째, 넷째 주 일요일</dd>
+        </dl>
+    </div><!--.center_time-->
+    <div class="center_info">
+        <h3>센터소개</h3>
+        <p>
+            바디체인지클럽 부산 점포점 입니다.<br>
+            <br>
+            해머 스트렝스, 매트릭스 기구와 터치 스크린 트레드밀, 최신식 기구 구비 등등<br>
+            <br>
+            해머 스트렝스, 매트릭스 기구와 터치 스크린 트레드밀, 최신식 기구 구비 등등해머 스트렝스, 매트릭스 기구와 터치 스크린 트레드밀, 최신식 기구 구비 등등<br>
+            <br>
+            프로그램<br>
+            -퍼스널 트레이닝<br>
+            -헬스<br>
+            -컨디셔닝<br>
+            -다이어트<br>
+            -체형교정<br>
+            -성장트레이닝<br>
+            <br>
+            주차 3시간 무료 / 프리랜서 대관 가능 / 1일 입장 가능<br>
+            <br>
+            [기타 사항]<br>
+            해머 스트렝스, 매트릭스 기구와 터치 스크린 트레드밀, 최신식 기구 구비 등등해머 스트렝스, 매트릭스 기구와 터치 스크린 트레드밀, 최신식 기구 구비 등등
+        </p>
+    </div><!--.center_info-->
+    <div class="center_location">
+        <h3>주소 및 위치</h3>
+        <b>바디체인지클럽</b>
+        <p>
+            전화번호 : 1566 - 1566<br>
+            부산광역시 부산진구 동천로 4, 지오플레이스 B123<br>
+            전포역 도보 10분
+            <button type="button" class="btn_copy_address">주소복사</button>
+        </p>
+        <div class="center_map" id="map">
+
+        </div><!--.center_map-->
+    </div><!--.center_location-->
+</div><!--.tab_cont_inner-->
+
+<script>
+    $(function(){
+        $("div.tab_cont_pager > span").click(function(){
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+
+            let pageClass = $(this).data("page");
+            $("div.tab_cont_inner").load("/pt/" + pageClass);
+        })
+    });
+</script>
+
+<script>
+    let latitude =  35.150163607389665 // 임시 위도
+    let longitude =  129.06571715815707 // 임시 경도
+    let center = "바디체인지클럽";
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+            level: 2 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var content = '<div class="customoverlay">' +
+        '<span class="title">'+center+'</span>' +
+        '</div>';
+
+    // 커스텀 오버레이가 표시될 위치입니다
+    var position = new kakao.maps.LatLng(latitude, longitude);
+
+    // 커스텀 오버레이를 생성합니다
+    var customOverlay = new kakao.maps.CustomOverlay({
+        map: map,
+        position: position,
+        content: content,
+        yAnchor: 1
+    });
+</script>

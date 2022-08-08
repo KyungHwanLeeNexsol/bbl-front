@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="sidemenu">
+    <div id="sidemenu">
+        <h3>BBL 관리자페이지</h3>
+        <ul class="mainMenu">
+            <li>
+                <span>회원 관리</span>
+                <ul class="subMenu">
+                    <li>회원 조회</li>
+                    <li>입점업체 조회</li>
+                    <li>입점업체 승인</li>
+                </ul>
+            </li>
+            <li>
+                <span>상품 관리</span>
+                <ul class="subMenu">
+                    <li>상품 현황 조회</li>
+                    <li>종료 상품 현황 조회</li>
+                </ul>
+            </li>
+            <li>
+                <span>구매 관리</span>
+                <ul class="subMenu">
+                    <li>상품 거래 내역 조회</li>
+                    <li>구매 고객 관리</li>
+                </ul>
+            </li>
+            <li>
+                <span>고객 관리</span>
+                <ul class="subMenu">
+                    <li>게시글(후기)</li>
+                    <li>QA&</li>
+                </ul>
+            </li>
+        </ul>
+    </div><!--.sidemenu-->
+</th:block>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="head">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <!-- mobile metas -->
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <title>BBL</title>
+            <link rel="shortcut icon" href="/img/common/favicon.ico">
+            <link rel="stylesheet" href="/css/common/common.css" />
+            <link rel="stylesheet" href="/css/page/pt.css" />
+
+            <script type="text/javascript" src="/js/jquery.js"></script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                const token = /*[[${session.token}]]*/ '';
+                /*]]>*/
+            </script>
+
+            <script type="text/javascript" src="/js/pt.js"></script>
+            <script type="text/javascript" src="/js/common.js"></script>
+
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5ee0e6d741ac82efe67477f791846a0f"></script>
+        </head>
+    </th:block>
+</html>
