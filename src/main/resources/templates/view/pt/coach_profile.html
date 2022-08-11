@@ -10,6 +10,7 @@
 <th:block th:replace="/fragments/pt/mainVisual :: mainVisual"></th:block>
 
     <div class="container coach_profile">
+        <input type="hidden" name="storeIdx">
         <section class="center_info center_agree_waiting">
             <div class="inner">
                 <h3>센터 승인대기중</h3>
@@ -43,10 +44,7 @@
                 <p>부산광역시 부산진구 동천로 4, 지오플레이스 B123 전포역 도보 10분</p>
                 <button type="button" class="btn_address_copy">주소복사</button>
                 <ul class="center_images">
-                    <li><img src="/img/pt/main_visual01.png"></li>
-                    <li><img src="/img/pt/main_visual01.png"></li>
-                    <li><img src="/img/pt/main_visual01.png"></li>
-                    <li><img src="/img/pt/main_visual01.png"></li>
+
                 </ul><!--.center_images-->
             </div><!--.inner-->
         </section><!--.center_info-->
@@ -92,6 +90,7 @@
 
     <script>
         $(document).ready(function(){
+            let storeIdx = "";
             let oneTime = "first_fee";
 
             $("div.tab_cont_wrap").load("/pt/tab_cont_trainer");
@@ -120,8 +119,7 @@
                     "token":token
                 },
                 success:function(approveResponse){
-                    console.log(approveResponse);
-
+                    $("input[name=storeIdx]").val(approveResponse.data.storeIdx);
                     if(approveResponse.data.flag === "1"){
                         $("div.agree_waiting_text").css("display", "flex");
                     }else if(approveResponse.data.flag === "2"){
@@ -136,8 +134,22 @@
                             cache: false,
                             async: false,
                             success:function(centerResponse){
-                                $("section.center_agree_success h3").text(centerResponse.data.store_name);
-                                $("section.center_agree_success p").text(centerResponse.data.address);
+                                console.log(centerResponse);
+
+                                if(centerResponse.result === true){
+                                    $("section.center_agree_success h3").text(centerResponse.data.store_name);
+                                    $("section.center_agree_success p").text(centerResponse.data.address);
+
+                                    if(centerResponse.image.length > 0){
+                                        for(let image of centerResponse.image){
+                                            if(image.main_image_yn === 1){
+                                                $("div#mainVisual").append("<img src='" + image.image_path + "'>");
+                                            }
+                                            $("ul.center_images").append("<li><img src='" + image.image_path + "'></li>");
+                                        }
+                                    }
+                                }
+
                             },
                             error:function(error){
                                 console.log(error);

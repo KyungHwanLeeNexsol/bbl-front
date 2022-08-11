@@ -4,27 +4,16 @@
             이용정보
         </h3>
         <ul>
-            <li class="parking">주차 1시간 무료</li>
-            <li class="uniform">운동복 월 2,000원</li>
-            <li class="locker">사물함 월 5,000원</li>
+            <li class="parking"></li>
+            <li class="uniform"></li>
+            <li class="locker"></li>
         </ul>
     </div><!--.center_guide-->
     <div class="center_time">
         <h3>
             운영시간
         </h3>
-        <dl>
-            <dt>평일</dt>
-            <dd>09:00 ~ 22:00</dd>
-        </dl>
-        <dl>
-            <dt>토요일</dt>
-            <dd>09:00 ~ 18:00</dd>
-        </dl>
-        <dl>
-            <dt>휴무일</dt>
-            <dd>매월 둘째, 넷째 주 일요일</dd>
-        </dl>
+
     </div><!--.center_time-->
     <div class="center_info">
         <h3>센터소개</h3>
@@ -76,32 +65,89 @@
     });
 </script>
 
+
 <script>
     let latitude =  35.150163607389665 // 임시 위도
     let longitude =  129.06571715815707 // 임시 경도
-    let center = "바디체인지클럽";
+    let center = "";
 
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-            level: 2 // 지도의 확대 레벨
-        };
+    $(document).ready(function(){
 
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+        // 센터 정보 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/store/getInfoDetail?storeIdx=" + $("input[name=storeIdx]").val(),
+            type : "post",
+            cache: false,
+            async: false,
+            success:function(centerInfo){
+                console.log(centerInfo);
+                if(centerInfo.result === true){
+                    $("div.center_guide ul li.parking").text(centerInfo.data.use_guide.split(";")[0]);
+                    $("div.center_guide ul li.uniform").text(centerInfo.data.use_guide.split(";")[1]);
+                    $("div.center_guide ul li.locker").text(centerInfo.data.use_guide.split(";")[2]);
 
-    // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    var content = '<div class="customoverlay">' +
-        '<span class="title">'+center+'</span>' +
-        '</div>';
-
-    // 커스텀 오버레이가 표시될 위치입니다
-    var position = new kakao.maps.LatLng(latitude, longitude);
-
-    // 커스텀 오버레이를 생성합니다
-    var customOverlay = new kakao.maps.CustomOverlay({
-        map: map,
-        position: position,
-        content: content,
-        yAnchor: 1
+                    for(let time of centerInfo.bizHour){
+                        $("div.center_time").append("<dl><dt>" + time.title + "</dt><dd>" + time.open_time + " ~ " + time.close_time + "</dd></dl>");
+                    }
+                    $("div.center_time").append("<dl><dt>휴무일</dt><dd>" + centerInfo.data.closure + "</dd></dl>");
+                    $("div.center_info p").html(centerInfo.data.introduction);
+                    $("div.center_location b").text(centerInfo.data.store_name);
+                    $("div.center_location p").html("" +
+                        "<p>전화번호 : " + centerInfo.data.main_telephone + "" +
+                            "<br>" +
+                            centerInfo.data.address +
+                        "</p>");
+                    center = centerInfo.data.store_name;
+                    createMap(centerInfo.data.address);
+                }else{
+                    alert("센터정보를 불러오지 못했습니다.");
+                }
+            },
+            error:function(error){
+                console.log(error);
+                alert("센터정보를 불러오지 못했습니다.");
+            }
+        });
     });
+
+
+    function createMap(address){
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(address, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new kakao.maps.LatLng(result[0].y, result[0].x), // 지도의 중심좌표
+                        level: 2 // 지도의 확대 레벨
+                    };
+
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                var content = '<div class="customoverlay">' +
+                    '<span class="title">'+center+'</span>' +
+                    '</div>';
+
+                // 커스텀 오버레이가 표시될 위치입니다
+                var position = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 커스텀 오버레이를 생성합니다
+                var customOverlay = new kakao.maps.CustomOverlay({
+                    map: map,
+                    position: position,
+                    content: content,
+                    yAnchor: 1
+                });
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                // map.setCenter(coords);
+            }
+        });
+    }
+
+
 </script>

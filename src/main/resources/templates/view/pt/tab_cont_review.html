@@ -1,23 +1,24 @@
 <div class="tab_cont_inner">
-    <div class="review_score">
-        <h3>
-            평점 및 후기
-        </h3>
-        <dl>
-            <dt>평점 (0.0)</dt>
-            <dd>후기 0개</dd>
-        </dl>
-        <ul>
-            <li class="filled"></li>
-            <li class="filled"></li>
-            <li class="filled"></li>
-            <li class="filled"></li>
-            <li class="filled"></li>
-        </ul>
-        <button>후기 요청하기 &#62;</button>
-    </div><!--.review_score-->
+<!--    <div class="review_score">-->
+<!--        <h3>-->
+<!--            평점 및 후기-->
+<!--        </h3>-->
+<!--        <dl>-->
+<!--            <dt>평점 (0.0)</dt>-->
+<!--            <dd>후기 0개</dd>-->
+<!--        </dl>-->
+<!--        <ul>-->
+<!--            <li class="filled"></li>-->
+<!--            <li class="filled"></li>-->
+<!--            <li class="filled"></li>-->
+<!--            <li class="filled"></li>-->
+<!--            <li class="filled"></li>-->
+<!--        </ul>-->
+<!--        <button>후기 요청하기 &#62;</button>-->
+<!--    </div>&lt;!&ndash;.review_score&ndash;&gt;-->
 
     <div class="review_section">
+        <h3>후기</h3>
         <button class="btn_orderby">최신순</button>
         <ul class="review_list">
             <li>
@@ -64,5 +65,29 @@
 </div><!--.tab_cont_inner-->
 
 <script>
+    $(document).ready(function (){
+        // 후기 조회
+        $.ajax({
+            url :  "http://43.200.31.249:80/api/trainer/getUserNoteDetail",
+            type : "post",
+            cache: false,
+            async: false,
+            headers:{
+                "token":token
+            },
+            success:function(response){
+                console.log(response);
+                if(response.data.userNote.length > 0){
+                    for(let review of response.data.userNote){
 
+                    }
+                }
+            },
+            error:function(error){
+                console.log(error);
+
+            }
+        });
+
+    });
 </script>
