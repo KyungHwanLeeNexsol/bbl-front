@@ -70,6 +70,7 @@
                         $("h3").text(response.data.title);
                         $("span.write_date").text((response.data.regDate).substring(2, 10));
                         $("div.article_content").text(response.data.content);
+
                     }
                 },
                 error:function(error){
