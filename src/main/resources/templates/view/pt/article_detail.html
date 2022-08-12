@@ -21,7 +21,7 @@
             <div class="inner">
                 <h3>글 제목입니다.</h3>
                 <span class="write_date">2022. 04. 15</span>
-                <div>[코치님 대상 공지]<br>
+                <div class="article_content">[코치님 대상 공지]<br>
                     <br>
 안녕하세요, 운동닥터입니다.<br>
                     <br>
@@ -46,8 +46,39 @@
 
     <script>
         $(document).ready(function(){
+            const url = location.search;
+            const urlParams = new URLSearchParams(url);
+            const category = urlParams.get('category');
+            const idx = urlParams.get('idx');
+
+            if(category === "notice"){
+                $("header h2").text("BBL 공지사항");
+            }
+
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/admin/getNoticeDetail?noticeIdx=" + idx,
+                type : "post",
+                cache: false,
+                async: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.result === true){
+                        $("h3").text(response.data.title);
+                        $("span.write_date").text((response.data.regDate).substring(2, 10));
+                        $("div.article_content").text(response.data.content);
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
 
         });
+
     </script>
 </body>
 

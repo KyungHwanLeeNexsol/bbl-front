@@ -9,32 +9,9 @@
             <h2>문의 및 답변</h2>
         </header>
         <div class="container">
+            <div class="no_qna">문의내역이 없습니다.</div><!--.no_qna-->
             <ul class="qna_list">
-                <li>
-                    <span class="qna_writer">박석현 트레이너</span>
-                    <div class="qna_info">
-                        <p>1회 체험 제공을 어떻게 하면 되나요?</p>
-                        <span class="qna_date">22.04.15</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="qna_writer">박석현 트레이너</span>
-                    <div class="qna_info">
-                        <p>1회 체험 제공을 어떻게 하면 되나요?</p>
-                        <span class="qna_date">22.04.15</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="qna_writer">박석현 트레이너</span>
-                    <div class="qna_info">
-                        <p>센터이름을 바꿀 수 있나요?</p>
-                        <span class="qna_date">22.02.11</span>
-                    </div>
-                    <div class="qna_answer">
-                        <p>[답변] 센터이름을 바꿀 수 있나요?</p>
-                        <span class="qna_date">22.02.11</span>
-                    </div>
-                </li>
+
             </ul><!--.qna_list-->
 
             <button type="button" class="btn_question" onclick="location.href='/pt/inquiry';">문의하기</button>
@@ -43,8 +20,42 @@
 
     <script>
         $(document).ready(function(){
-            $("button.btn_question").click(function(){
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/trainer/getInquiries",
+                type : "post",
+                cache: false,
+                async: false,
+                contentType:"application/json",
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.result === true && response.infos.length > 0){
+                        $("div.no_qna").css("display","none");
 
+                        for(let qna of response.infos){
+
+                            $("ul.qna_list").append("<li>" +
+                                "<span class='qna_writer'>" + qna.pt_trainer_name + "트레이너</span>" +
+                                "<div class='qna_info'>" +
+                                "<p>" + qna.title + "</p>" +
+                                "<span class='qna_date'>" + millisecondsToDate(qna.regDate) +"</span>" +
+                                "</div>" +
+                                "</li>");
+
+                            if(qna.answers_content !== undefined){
+                                $("ul.qna_list li:last-child").append("<div class='qna_answer'>" +
+                                    "<p>[답변] " + qna.answers_content + "</p>" +
+                                    "<span class='qna_date'>" + millisecondsToDate(qna.answers_date)+ "</span>" +
+                                    "</div>");
+                            }
+                        }
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
             });
         });
     </script>

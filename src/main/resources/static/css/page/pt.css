@@ -3419,6 +3419,11 @@ div.settings div.settings_menu ul > li input:checked + label:before{
 
 /* 문의 및 답변 */
 div.qna{}
+div.qna div.no_qna{
+    text-align: center;
+    padding:50px 0;
+    color:#ccc;
+}
 div.qna ul.qna_list{}
 div.qna ul.qna_list > li{
     padding:10px 0 0 ;
@@ -3503,6 +3508,11 @@ div.notice{}
 div.notice h3{
     font-size:18px;
     padding:20px 3%;
+}
+div.notice div.no_notice{
+    padding:50px 0;
+    text-align: center;
+    color:#ccc;
 }
 div.notice ul{}
 div.notice ul li{

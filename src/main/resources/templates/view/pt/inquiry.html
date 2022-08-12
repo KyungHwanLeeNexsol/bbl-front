@@ -33,7 +33,47 @@
     <script>
         $(document).ready(function(){
             $("button.btn_save").click(function(){
+                if(!$("input").val()){
+                    alert("제목을 입력해주세요.");
+                    return false;
+                }
 
+                if(!$("textarea").val()){
+                    alert("내용을 입력해주세요.");
+                    return false;
+                }
+
+                const data = {
+                    "content" : $("textarea").val(),
+                    "title" : $("input").val()
+                };
+
+                console.log(data);
+
+                $.ajax({
+                    url :  "http://43.200.31.249:80/api/trainer/writeInquiries",
+                    type : "POST",
+                    cache: false,
+                    async: false,
+                    headers:{
+                        "token":token
+                    },
+                    contentType: "application/json",
+                    data:JSON.stringify(data),
+                    success:function(response){
+                        console.log(response);
+                        if(response.result === true){
+                            alert("문의글을 작성하였습니다.");
+                            location.href="/pt/qna";
+                        }else{
+                            alert("문의하기 실패");
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                        alert("문의하기 실패");
+                    }
+                });
             });
         });
     </script>

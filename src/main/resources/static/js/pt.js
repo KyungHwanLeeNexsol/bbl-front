@@ -37,6 +37,14 @@ function phoneFomatter(num,type){
     return formatNum;
 }
 
+function millisecondsToDate(milliseconds){
+    let date = new Date(milliseconds);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+    let day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+    return year + "." + month + "." + day;
+}
+
 
 $(document).ready(function(){
     let nowPage = window.location.pathname;

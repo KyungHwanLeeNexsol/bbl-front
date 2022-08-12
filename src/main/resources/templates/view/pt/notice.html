@@ -18,25 +18,9 @@
         </header>
 
         <div class="container">
+            <div class="no_notice">공지사항이 없습니다.</div>
             <ul>
-                <li>
-                    <a href="#">
-                        <p>[공지] 1회체험 취소절차 변경</p>
-                        <span>22.04.15</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <p>[운영시간] 2022년 3월 대체공휴일 관련 BBL ㅇㄴ러ㅣㅏ</p>
-                        <span>22.03.28</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <p>[운영시간] 고객센터 서버 점검 안내</p>
-                        <span>22.02.11</span>
-                    </a>
-                </li>
+
             </ul>
         </div><!--.conatainer-->
 
@@ -44,7 +28,34 @@
 
     <script>
         $(document).ready(function(){
+            $.ajax({
+                url :  "http://43.200.31.249:80/api/admin/getNotices?category=3",
+                type : "post",
+                cache: false,
+                async: false,
+                contentType:"application/json",
+                headers:{
+                    "token":token
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.data.length > 0){
+                        $("div.no_notice").css("display","none");
 
+                        for(let notice of (response.data).reverse()){
+                            $("div.notice ul").append("<li>" +
+                                "<a href='/pt/article_detail?category=notice&idx=" + notice.idx + "'>" +
+                                "<p>" + notice.title + "</p>" +
+                                "<span>" + notice.regDate.substring(2, 10) + "</span>" +
+                                "</a>" +
+                                "</li>");
+                        }
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
         });
     </script>
 </body>
